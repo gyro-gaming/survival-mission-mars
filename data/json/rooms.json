@@ -2,6 +2,7 @@
   "locations": [
     {
       "name": "Docking Station",
+      "image": "coming soon!",
       "directions": {
         "east": "Green House",
         "south": "Hydro"
@@ -17,6 +18,7 @@
     },
     {
       "name": "Hydro",
+      "image": "coming soon!",
       "directions": {
         "north": "Docking Station",
         "east": "Reactor"
@@ -32,6 +34,7 @@
     },
     {
       "name": "Reactor",
+      "image": "coming soon!",
       "directions": {
         "west": "Hydro",
         "south": "Solar Plant"
@@ -47,6 +50,7 @@
     },
     {
       "name": "Solar Plant",
+      "image": "coming soon!",
       "directions": {
         "north": "Reactor"
       },
@@ -61,6 +65,7 @@
     },
     {
       "name": "Green House",
+      "image": "coming soon!",
       "directions": {
         "west": "Docking Station",
         "east": "Kitchen"
@@ -76,6 +81,7 @@
     },
     {
       "name": "Kitchen",
+      "image": "coming soon!",
       "directions": {
         "west": "Green House",
         "south": "Gym"
@@ -91,6 +97,7 @@
     },
     {
       "name": "Gym",
+      "image": "coming soon!",
       "directions": {
         "north": "Kitchen",
         "east": "SQ"
@@ -106,6 +113,7 @@
     },
     {
       "name": "SQ",
+      "image": "coming soon!",
       "directions": {
         "west": "Gym"
       },
