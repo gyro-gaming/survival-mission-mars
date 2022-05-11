@@ -1,6 +1,5 @@
 package com.mars.util;
 
-import com.mars.Engine;
 import com.mars.display.Display;
 import com.mars.objects.Inventory;
 import com.mars.objects.Item;

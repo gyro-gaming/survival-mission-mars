@@ -18,6 +18,5 @@ public class TextParser {
         cleanInput = cleanInput.toLowerCase(); //make string all lowercase
         cmdInput = Arrays.asList(cleanInput.split(" ")); //split into two on the space " "
         return cmdInput; //return the list of verb, noun
-
     }
 }
