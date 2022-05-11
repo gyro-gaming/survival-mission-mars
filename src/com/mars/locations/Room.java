@@ -1,110 +1,93 @@
-package com.mars.objects;
+package com.mars.locations;
 
-import com.mars.puzzle.HydroPuzzle;
-import com.mars.puzzle.GhPuzzle;
-import com.mars.puzzle.Puzzle;
-import com.mars.puzzle.ReactorPuzzle;
-import com.mars.puzzle.SolarPuzzle;
 
-import java.util.ArrayList;
+import com.mars.items.PuzzleItem;
+import com.mars.objects.NPC;
+
 import java.util.List;
 import java.util.Map;
 
-public class Location {
+public class Room extends Base {
     private String name;
-    private Map<String, String> directions;
+    private String image;
     private String description;
-    private List<Item> items;
-    private boolean oxygen;
-    private boolean puzzle;
-    private Puzzle locationPuzzle;
+    private Map<String, String> directions;
+    private NPC npc;
+    private List<PuzzleItem> items;
 
+    public Room() {}
 
-    private String asciiArt;
-
-    public Location(String name, Map<String, String> directions, String description, List<Item> items, boolean oxygen, String asciiArt, boolean puzzle) {
+    public Room(String name, String image, String description, Map<String, String> directions, NPC npc, List<PuzzleItem> items) {
         setName(name);
         setDirections(directions);
         setDescription(description);
         setItems(items);
-        setOxygen(oxygen);
-        setAsciiArt(asciiArt);
-        setPuzzle(puzzle);
-        createPuzzle();
-    }
-
-    public String getName() {
-        return name;
+        setNpc(npc);
+        setItems(items);
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public Map<String, String> getDirections() {
-        return directions;
+    public String getName() {
+        return name;
     }
 
-    public void setDirections(Map<String, String> directions) {
-        this.directions = directions;
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public List<Item> getItems() {
-        return items;
+    public void setDirections(Map<String, String> directions) {
+        this.directions = directions;
     }
 
-    // removing item from location, but enabling description to port along with it
-    public Item removeItem(String itemName) {
-        int nameIndex = getItemIndex(itemName);
-        return items.remove(nameIndex);
-    }
-    // adding a dropped item into the room where dropped, while retaining item properties
-    public void addItem(Item addDropped) {
-        items.add(addDropped);
+    public Map<String, String> getDirections() {
+        return directions;
     }
 
-    public String getItemName(String name){
-        int index = getItemIndex(name);
-        return items.get(index).getName();
+    public void setNpc(NPC npc) {
+        this.npc = npc;
     }
 
-    public String getItemDescription(String name){
-        int index = getItemIndex(name);
-
-        return items.get(index).getDescription();
+    public NPC getNPC() {
+        return npc;
     }
 
-    private int getItemIndex(String itemName){
-        int index = 0;
-        int counter = 0;
-        for(Item item: items){
-            if (item.getName().equals(itemName)){
-                index = counter;
-            }
-            counter++;
-        }
-        return index;
-    }
-
-    public List<String>  getItemNames(){
-        List<String> names = new ArrayList<>();
-        for(Item item : items){
-            names.add(item.getName());
-        }
-        return names;
-    }
-
-    public void setItems(List<Item> items) {
+    public void setItems(List<PuzzleItem> items) {
         this.items = items;
     }
 
+    public List<PuzzleItem> getItems() {
+        return items;
+    }
+
+    public PuzzleItem removeItem(String name) {
+        // TODO logic to find item in list and remove it
+        return new PuzzleItem();
+    }
+
+    public void addItem(PuzzleItem addDropped) {
+        items.add(addDropped);
+    }
+
+
+
+
+
+    /*
     public boolean getOxygen() {
         return oxygen;
     }
@@ -130,17 +113,17 @@ public class Location {
         return locationPuzzle;
     }
 
-    //method to instantiate a puzzle, only if location has a puzzle, else do nothing
+    //method to instantiate a puzzle, only if Location has a puzzle, else do nothing
     public void createPuzzle() {
         if (getPuzzle()) {
             if (this.getName().equals("Solar Plant")) {
-                locationPuzzle = new SolarPuzzle();
+                locationPuzzle = new SolarPuzzleRoom();
             } else if (this.getName().equals("Reactor")) {
-                locationPuzzle = new ReactorPuzzle();
+                locationPuzzle = new ReactorPuzzleRoom();
             } else if (this.getName().equals("Hydro")) {
-                locationPuzzle = new HydroPuzzle();
+                locationPuzzle = new HydroPuzzleRoom();
             } else if (this.getName().equals("Green House")) {
-                locationPuzzle = new GhPuzzle();
+                locationPuzzle = new GhPuzzleRoom();
             }
         }
     }
@@ -158,4 +141,5 @@ public class Location {
     public boolean isSolved(){
         return locationPuzzle.isSolved();
     }
+     */
 }

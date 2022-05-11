@@ -1,9 +1,5 @@
 package com.mars.objects;
 
-import com.mars.stats.Stats;
-
-import java.util.HashMap;
-
 public class Player {
     private String name;
     private Inventory inventory = new Inventory();
