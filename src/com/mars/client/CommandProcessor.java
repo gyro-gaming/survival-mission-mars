@@ -131,8 +131,8 @@ public class CommandProcessor {
     }
     public String forGet(List<String> command){
         try{
-            System.out.println(currentLocation.getItems());
             // 'get' functionality enabled to allow user to acquire items, add to inventory
+
             if(currentLocation.getItems().contains(command.get(1)) && player.getInventory().getInventory().size() <= 3) {                                               // checking if second parsed word is valid inside currentLocation
                 String carry = command.get(1); // if so, then assigning it a variable named 'carry'
                 // adding to inventory
@@ -154,7 +154,6 @@ public class CommandProcessor {
     }
     public String forLook(List<String> command){
         try {
-            System.out.println(command.get(1));
             if(currentLocation.getItems().contains(command.get(1))) {                                                       // checking if second parsed word is valid inside currentLocation
                 System.out.println("Upon examination you find " + currentLocation.getItems());          // output to user showing description of item, if valid in location
             }
