@@ -1,4 +1,4 @@
-package com.mars.stats;
+package com.mars.objects;
 
 import java.util.HashMap;
 

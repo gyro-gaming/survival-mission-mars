@@ -1,4 +1,4 @@
-package com.mars.stats;
+package com.mars.objects;
     public class Health {
         //fields
         Integer health = 100; //meant to be understood as a %, hard coded for now

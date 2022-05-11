@@ -1,4 +1,4 @@
-package com.mars.stats;
+package com.mars.objects;
 public class BoneDensity {
 
     //fields
