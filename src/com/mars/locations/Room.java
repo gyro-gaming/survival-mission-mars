@@ -1,6 +1,7 @@
 package com.mars.locations;
 
 
+import com.mars.items.Item;
 import com.mars.items.PuzzleItem;
 import com.mars.objects.NPC;
 
@@ -13,11 +14,11 @@ public class Room extends Base {
     private String description;
     private Map<String, String> directions;
     private NPC npc;
-    private List<PuzzleItem> items;
+    private List<Item> items;
 
     public Room() {}
 
-    public Room(String name, String image, String description, Map<String, String> directions, NPC npc, List<PuzzleItem> items) {
+    public Room(String name, String image, String description, Map<String, String> directions, NPC npc, List<Item> items) {
         setName(name);
         setDirections(directions);
         setDescription(description);
@@ -66,20 +67,20 @@ public class Room extends Base {
         return npc;
     }
 
-    public void setItems(List<PuzzleItem> items) {
+    public void setItems(List<Item> items) {
         this.items = items;
     }
 
-    public List<PuzzleItem> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public PuzzleItem removeItem(String name) {
+    public Item removeItem(String name) {
         // TODO logic to find item in list and remove it
         return new PuzzleItem();
     }
 
-    public void addItem(PuzzleItem addDropped) {
+    public void addItem(Item addDropped) {
         items.add(addDropped);
     }
 

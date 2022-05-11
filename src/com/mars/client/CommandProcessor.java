@@ -1,16 +1,12 @@
 package com.mars.client;
+
 import com.mars.items.Item;
 import com.mars.items.PuzzleItem;
-import com.mars.locations.Location;
 import com.mars.locations.Room;
 import com.mars.objects.Inventory;
-//import com.mars.objects.Item;
-//import com.mars.objects.Location;
 import com.mars.objects.Stats;
-import com.mars.util.Task;
 import com.mars.util.TextParser;
-import com.mars.util.TimeCalc;
-import org.json.simple.JSONObject;
+
 
 import java.util.*;
 
