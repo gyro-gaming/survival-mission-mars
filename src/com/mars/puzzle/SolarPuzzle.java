@@ -51,7 +51,6 @@ public class SolarPuzzle implements Puzzle{
     @Override
     public void runPuzzle(){
         //solarChallenge specific logic
-
         solarPuzzle();
     }
 
