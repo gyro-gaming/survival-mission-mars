@@ -1,4 +1,4 @@
-package com.mars.display;
+package com.mars;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +27,7 @@ public class SplashScreen {
     }
     public SplashScreen() {
 
-        backgroundImage = new ImageIcon("resources/images/mars1.png");
+        backgroundImage = new ImageIcon("data/images/mars1.png");
         myLabel = new JLabel(backgroundImage);
         myLabel.setSize(800, 600);
         window = new JFrame("Generation Alpha");
@@ -42,7 +42,7 @@ public class SplashScreen {
         titleNamePanel = new JPanel();
         titleNamePanel.setBounds(150, 100, 500, 100);
         titleNamePanel.setBackground(Color.black);
-        titleNameLabel = new JLabel("Generation Alpha");
+        titleNameLabel = new JLabel("Mission to Mars");
         titleNameLabel.setForeground(Color.white);
         titleNameLabel.setFont(titleFont);
 

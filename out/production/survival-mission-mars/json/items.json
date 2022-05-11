@@ -2,39 +2,65 @@
   "items": [
     {
       "name": "meal ready to eat",
+      "image": "coming soon!",
       "description": "single use meal kit",
       "location": "",
-      "use": "Food"
+      "type": "food",
+      "modifier": "25"
     },
     {
       "name": "batteries",
+      "image": "coming soon!",
       "description": "power supply for hand held units",
       "location": "Recreation Area",
-      "use": "GPS unit"
+      "type": "sub",
+      "use": "GPS unit",
+      "needs": "none"
     },
     {
       "name": "gps unit",
+      "image": "coming soon!",
       "description": "handheld battery operated unit to determine location and direction\nthis device will not work without a power supply",
       "location": "Docking Station",
-      "use": "Solar Array"
+      "type": "puzzle",
+      "use": "Solar Array",
+      "needs": "batteries"
     },
     {
       "name": "cable",
+      "image": "coming soon!",
       "description": "3 foot cable with a male and female ends",
       "location": "Docking Station",
-      "use": "Solar Array"
+      "type": "puzzle",
+      "use": "Solar Array",
+      "needs": "none"
     },
     {
       "name": "dosimeter",
+      "image": "coming soon!",
       "description": "pen-sized device to check radiation levels",
       "location": "Kitchen",
-      "use": "Reactor"
+      "type": "puzzle",
+      "use": "Reactor",
+      "needs": "none"
     },
     {
       "name": "key",
+      "image": "coming soon!",
       "description": "something to lock or secure with",
       "location": "Environmental Control Room",
-      "use": "Reactor"
+      "type": "puzzle",
+      "use": "Reactor",
+      "needs": "none"
+    },
+    {
+      "name": "checklist",
+      "image": "coming soon!",
+      "description": "checklist for an unknown item",
+      "location": "Environmental Control Room",
+      "type": "puzzle",
+      "use": "Reactor",
+      "needs": "none"
     }
   ]
 }
