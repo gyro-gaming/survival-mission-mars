@@ -6,7 +6,7 @@ public class Inventory {
     private static Inventory single_instance = null;
     private List<Item> inventory;
 
-    private Inventory(){
+    Inventory(){
         inventory = new ArrayList<>();
     }
     public static Inventory getInstance(){

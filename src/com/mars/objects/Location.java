@@ -20,7 +20,6 @@ public class Location {
     private Puzzle locationPuzzle;
 
 
-
     private String asciiArt;
 
     public Location(String name, Map<String, String> directions, String description, List<Item> items, boolean oxygen, String asciiArt, boolean puzzle) {

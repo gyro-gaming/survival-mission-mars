@@ -12,8 +12,6 @@ public class TimeCalc {
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             String timeStamp = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss").format(Calendar.getInstance().getTime());
 
-
-
             // Try Block
             try {
                 Date d1 = sdf.parse(timeStamp);

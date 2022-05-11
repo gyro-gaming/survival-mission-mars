@@ -84,6 +84,8 @@ public class Display {
             System.out.println("Current Player Stats: ");
             System.out.println("Bone Density: " + (stats.get("Bone Density")).toString() + "%");
             System.out.println("Health: " + (stats.get("Health")).toString() + "%");
+            System.out.println("Oxygen Level: " + (stats.get("Oxygen Level")).toString() + "%");
+            System.out.println("Stamina: "+ (stats.get("Stamina")).toString() + "%");
 
             //to display location related info
             List<String> allItems = new ArrayList<>();
