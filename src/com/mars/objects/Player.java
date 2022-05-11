@@ -1,7 +1,10 @@
 package com.mars.objects;
 
+import com.mars.locations.Room;
+
 public class Player {
     private String name;
+    private Room location;
     private Inventory inventory = new Inventory();
     private Stats stat = new Stats();
 
@@ -11,6 +14,14 @@ public class Player {
         this.name = name;
         this.inventory = inventory;
         this.stat = stat;
+    }
+
+    public Room getLocation() {
+        return location;
+    }
+
+    public void setLocation(Room location) {
+        this.location = location;
     }
 
     public String getName() {

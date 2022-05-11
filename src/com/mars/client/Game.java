@@ -21,7 +21,7 @@ public class Game {
     private Player player;
 
 
-    private Game() {}
+    Game() {}
 
     public static Game getInstance() {
         instance.setPlayer(new Player());
