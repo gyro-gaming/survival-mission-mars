@@ -1,17 +1,66 @@
 {
   "items": [
     {
-      "itemId": 1,
-      "itemName": "mealkit",
-      "itemDescription": "single use meal kit",
-      "originLocation": "Docking Station",
-      "consumable": "true"
+      "name": "meal ready to eat",
+      "image": "coming soon!",
+      "description": "single use meal kit",
+      "location": "",
+      "type": "food",
+      "modifier": "25"
     },
     {
-      "itemId": 2,
-      "itemName": "random_item",
-      "itemDescription": "here for the hardcode",
-      "originLocation": "Docking Station"
+      "name": "batteries",
+      "image": "coming soon!",
+      "description": "power supply for hand held units",
+      "location": "Recreation Area",
+      "type": "sub",
+      "use": "GPS unit",
+      "needs": "none"
+    },
+    {
+      "name": "gps unit",
+      "image": "coming soon!",
+      "description": "handheld battery operated unit to determine location and direction\nthis device will not work without a power supply",
+      "location": "Docking Station",
+      "type": "puzzle",
+      "use": "Solar Array",
+      "needs": "batteries"
+    },
+    {
+      "name": "cable",
+      "image": "coming soon!",
+      "description": "3 foot cable with a male and female ends",
+      "location": "Docking Station",
+      "type": "puzzle",
+      "use": "Solar Array",
+      "needs": "none"
+    },
+    {
+      "name": "dosimeter",
+      "image": "coming soon!",
+      "description": "pen-sized device to check radiation levels",
+      "location": "Kitchen",
+      "type": "puzzle",
+      "use": "Reactor",
+      "needs": "none"
+    },
+    {
+      "name": "key",
+      "image": "coming soon!",
+      "description": "something to lock or secure with",
+      "location": "Environmental Control Room",
+      "type": "puzzle",
+      "use": "Reactor",
+      "needs": "none"
+    },
+    {
+      "name": "checklist",
+      "image": "coming soon!",
+      "description": "checklist for an unknown item",
+      "location": "Environmental Control Room",
+      "type": "puzzle",
+      "use": "Reactor",
+      "needs": "none"
     }
   ]
 }

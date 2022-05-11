@@ -1,8 +1,6 @@
-package com.mars.display;
+package com.mars.client;
 
 import com.mars.objects.Inventory;
-import com.mars.objects.Location;
-import com.mars.stats.Stats;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -50,7 +48,7 @@ public class Display {
         }
         return userInput;
     }
-    public void displayText(String filePath){
+    public static void displayText(String filePath){
 
         InputStream textInput = getFileFromResourceAsStream(filePath);
 
@@ -76,7 +74,7 @@ public class Display {
 //            System.out.println("Sorry, file not found");
 //        }
     }
-
+/*
         public void displayCurrentStatus(Location location, Stats playerStats){
             //to display player health related stats
             HashMap<String, Integer> stats = playerStats.getStats();
@@ -117,6 +115,7 @@ public class Display {
             System.out.println("You see a door to the " + entry.getKey());
         }
     }
+*/
 
     public void displayPlayerInventory(){
         System.out.println(String.join(", ", inventory.getInventory()));

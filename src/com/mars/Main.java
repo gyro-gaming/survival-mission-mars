@@ -1,6 +1,5 @@
-package com.mars.client;
+package com.mars;
 
-import com.mars.Engine;
 import com.mars.util.CommandProcessor;
 
 class Main {

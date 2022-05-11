@@ -1,10 +1,12 @@
 package com.mars.objects;
 
+import com.mars.items.PuzzleItem;
+
 import java.util.*;
 
 public class Inventory {
     private static Inventory single_instance = null;
-    private List<Item> inventory;
+    private List<PuzzleItem> inventory;
 
     Inventory(){
         inventory = new ArrayList<>();
@@ -15,14 +17,14 @@ public class Inventory {
         }
         return single_instance;
     }
-    public void add(Item item){
+    public void add(PuzzleItem item){
         inventory.add(item);
     }
 
     // looking at item and returning description that followed to inventory from location
     public List<String> lookItem() {
         List<String> names = new ArrayList<>();
-        for(Item item : inventory) {
+        for(PuzzleItem item : inventory) {
             names.add(item.getName());
         }
         return names;
@@ -39,7 +41,7 @@ public class Inventory {
     private int getItemIndex(String itemName){
         int index = 0;
         int counter = 0;
-        for(Item item: inventory){
+        for(PuzzleItem item: inventory){
             if (item.getName().equals(itemName)){
                 index = counter;
             }
@@ -48,18 +50,18 @@ public class Inventory {
         return index;
     }
     // dropping item and acquiring the correct item index to remove from inventory
-    public Item drop(String item){
+    public PuzzleItem drop(String item){
         int dropIndex = getItemIndex(item);
         return inventory.remove(dropIndex);
     }
 
 
-    public void use(Item item){
+    public void use(PuzzleItem item){
         System.out.println("You used " + item.getName());
     }
     public List<String> getInventory() {
         List<String> holder = new ArrayList<>();
-        for (Item item : inventory) {
+        for (PuzzleItem item : inventory) {
             holder.add(item.getName());
         }
         return holder;

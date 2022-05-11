@@ -8,7 +8,6 @@ import java.util.Date;
 // time calculation method
 public class TimeCalc {
         public static void findDifference (String dieTime){
-
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             String timeStamp = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss").format(Calendar.getInstance().getTime());
 
@@ -29,7 +28,4 @@ public class TimeCalc {
                 e.printStackTrace();
             }
         }
-
-
-
 }

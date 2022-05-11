@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "name": "meal ready to eat",
+      "description": "single use meal kit",
+      "location": "",
+      "use": "Food"
+    },
+    {
+      "name": "batteries",
+      "description": "power supply for hand held units",
+      "location": "Recreation Area",
+      "use": "GPS unit"
+    },
+    {
+      "name": "gps unit",
+      "description": "handheld battery operated unit to determine location and direction\nthis device will not work without a power supply",
+      "location": "Docking Station",
+      "use": "Solar Array"
+    },
+    {
+      "name": "cable",
+      "description": "3 foot cable with a male and female ends",
+      "location": "Docking Station",
+      "use": "Solar Array"
+    },
+    {
+      "name": "dosimeter",
+      "description": "pen-sized device to check radiation levels",
+      "location": "Kitchen",
+      "use": "Reactor"
+    },
+    {
+      "name": "key",
+      "description": "something to lock or secure with",
+      "location": "Environmental Control Room",
+      "use": "Reactor"
+    }
+  ]
+}
