@@ -16,6 +16,7 @@ import java.util.Map;
 public class Game {
     private static List<Item> items;
     private static List<Room> rooms;
+    private static Map<String, Boolean> solved;
     private static Game instance = new Game();
     private Player player;
 
@@ -23,6 +24,10 @@ public class Game {
     private Game() {}
 
     public static Game getInstance() {
+        instance.setPlayer(new Player());
+        instance.setRooms();
+        instance.setItems();
+        instance.setSolved(new HashMap<>());
         return instance;
     }
 
@@ -48,6 +53,14 @@ public class Game {
 
     public static List<Item> getItems() {
         return items;
+    }
+
+    public void setSolved(Map<String, Boolean> solved) {
+        this.solved = solved;
+    }
+
+    public static Map<String, Boolean> getSolved() {
+        return solved;
     }
 
     // TODO method logic
@@ -79,11 +92,27 @@ public class Game {
         for (Map<String, Object> location : locations) {
             Room room = new Room();
             room.setName(location.get("name").toString());
-            room.setImage(location.get("image").toString());
+
+            try {
+                room.setImage(location.get("image").toString());
+            } catch (Exception e) {
+
+            }
+
             room.setDescription(location.get("description").toString());
             room.setDirections(convertJsonDirections((Map<String, Object>) location.get("directions")));
-            room.setNpc(getNpcHelper(location.get("npc").toString()));
-            room.setItems(getItemsListForRooms((List) location.get("items")));
+
+            try {
+                room.setNpc(getNpcHelper(location.get("npc").toString()));
+            } catch (Exception e) {
+
+            }
+
+            try {
+                room.setItems(getItemsListForRooms((List) location.get("items")));
+            } catch (Exception e) {
+
+            }
             rooms.add(room);
         }
         return rooms;
@@ -103,7 +132,7 @@ public class Game {
                 Room room = new Room();
                 room.setName(item.get("location").toString());
                 puzzleItem.setLocation(room);
-                puzzleItem.setPuzzle(item.get("puzzle").toString());
+                puzzleItem.setPuzzle(item.get("use").toString());
                 puzzleItem.setNeeds(item.get("needs").toString());
                 itemsList.add(puzzleItem);
             } else if (item.get("type").toString().equalsIgnoreCase("oxygen")) {

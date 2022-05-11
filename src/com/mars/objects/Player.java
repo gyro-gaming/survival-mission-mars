@@ -5,6 +5,8 @@ public class Player {
     private Inventory inventory = new Inventory();
     private Stats stat = new Stats();
 
+    public Player() {}
+
     public Player(String name, Inventory inventory, Stats stat) {
         this.name = name;
         this.inventory = inventory;

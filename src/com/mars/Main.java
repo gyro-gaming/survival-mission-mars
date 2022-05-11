@@ -1,5 +1,5 @@
 package com.mars;
-
+/*
 import com.mars.client.CommandProcessor;
 
 class Main {
@@ -8,3 +8,4 @@ class Main {
         processor.runApp();
     }
 }
+*/

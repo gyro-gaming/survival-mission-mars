@@ -5,13 +5,14 @@ import com.mars.client.Game;
 import com.mars.items.PuzzleItem;
 
 import java.util.HashMap;
+import java.util.Map;
 
 class ChallengeRoomImpl extends ChallengeRoom {
     private boolean isSolved = false;
-    private HashMap<String, Boolean> solved;
+    private Map<String, Boolean> solved = new HashMap<>();
     private static ChallengeRoomImpl instance = new ChallengeRoomImpl();
 
-    private ChallengeRoomImpl() {
+    ChallengeRoomImpl() {
     }
 
     public static ChallengeRoomImpl getInstance() {
@@ -20,11 +21,12 @@ class ChallengeRoomImpl extends ChallengeRoom {
 
     @Override
     public void showIntro(String path) {
-        Display.displayText(path);
+        // Display.displayText(path);
     }
 
     @Override
     public void runPuzzle(Game game, String option) {
+        System.out.println(solved);
         if (solved.containsKey(option) && solved.get(option)) {
             System.out.println("This challenge has been solved");
             return;
@@ -34,12 +36,7 @@ class ChallengeRoomImpl extends ChallengeRoom {
                 PuzzleItem compass;
                 PuzzleItem cable;
                 showIntro("path"); // need to get path from Room object based on option
-                // must have compass and cable in inventory
-                //if (game.getPlayer().getInventory().contains(compass) && game.getPlayer().getInventory().contains(cable)) {
-                    setIsSolved(Puzzles.solarPuzzle());
-                //} else {
-                    System.out.println("You do not have the proper items to complete this task.");
-                //}
+                setIsSolved(Puzzles.solarPuzzle());
                 break;
             case "Reactor":
                 showIntro("path"); // need to get path from Room object based on option
@@ -62,6 +59,7 @@ class ChallengeRoomImpl extends ChallengeRoom {
                 return;
         }
         solved.put(option, isSolved);
+        game.setSolved(solved);
     }
 
     @Override

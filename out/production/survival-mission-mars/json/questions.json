@@ -1,5 +1,19 @@
 {
-  "questions": [
-
+  "results": [
+    {
+      "results": [
+        {
+          "category": "Art",
+          "type": "multiple",
+          "difficulty": "easy",
+          "question": "Who painted the Sistine Chapel?",
+          "correct_answer": "Michelangelo",
+          "incorrect_answers": [
+            "Michelangelo",
+            "Leonardo da Vinci",
+            "Pablo Picasso",
+            "Raphael"
+          ]
+        }
   ]
 }
