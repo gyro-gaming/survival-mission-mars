@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class TimeCalcTest {
+public class GameTimerTest {
 
     @Before
     public void setUp() throws Exception {
