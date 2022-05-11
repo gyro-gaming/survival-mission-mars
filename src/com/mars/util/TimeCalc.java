@@ -16,7 +16,7 @@ public class TimeCalc {
                 Date d1 = sdf.parse(timeStamp);
                 Date d2 = sdf.parse(dieTime);
                 long difference_In_Time = d2.getTime() - d1.getTime();
-                long difference_In_Hours = (difference_In_Time / (1000 * 60 * 60)) % 24;
+                long difference_In_Hours = (difference_In_Time / (1000 * 60 * 60)) % 12;
                 long difference_In_Minutes = (difference_In_Time / (1000 * 60)) % 60;
                 long difference_In_Seconds = (difference_In_Time / 1000) % 60;
                 System.out.println("Time remaining: " + difference_In_Hours + " hrs, " +

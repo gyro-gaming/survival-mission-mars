@@ -102,7 +102,7 @@ public class CommandProcessor {
         // this is the game clock / countdown timer logic
         Timer timer = new Timer();                          // create a timer
         TimerTask task = new Task();                        // create a task -- task.java executes shutdown
-        long delay = 336 * 60000L;       // change when done testing    --  sets the length of delay
+        long delay = 60 * 60000L;       // change when done testing    --  sets the length of delay
         timer.schedule(task, delay);                        // schedules the timer to execute task after delay
         long start = System.currentTimeMillis()/1000;       // marks start time of game, reduces from millisecs to secs
         long markDelay = delay/1000;                        // creates variable for delay, reduces from millisecs to secs
