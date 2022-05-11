@@ -130,7 +130,7 @@ public class CommandProcessor {
 
             Scanner scanner = new Scanner(System.in);
             System.out.print("Enter a command: \n>> ");                            // asking for input from user
-            String userInput = scanner.nextLine();                              // getting input from user
+            String userInput = scanner.nextLine().toLowerCase();                              // getting input from user
             List<String> nextCommand = parser.getCommand(userInput);            // calling upon Parser to begin parse process
             currentLocation = locationMap.get(processCommand(nextCommand, currentLocation, locationMap));    // setting location
             engine.checkPuzzles(currentLocation);
