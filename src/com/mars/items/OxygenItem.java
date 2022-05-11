@@ -2,7 +2,7 @@ package com.mars.items;
 
 import com.mars.locations.Room;
 
-class OxygenItem implements Item {
+public class OxygenItem implements Item {
     private String name;
     private String image;
     private String description;
