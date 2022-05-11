@@ -1,6 +1,8 @@
 package com.mars.client;
 
+import com.mars.items.FoodItem;
 import com.mars.items.Item;
+import com.mars.items.OxygenItem;
 import com.mars.objects.NPC;
 import com.mars.locations.Room;
 import com.mars.items.PuzzleItem;
@@ -12,10 +14,11 @@ import java.util.List;
 import java.util.Map;
 
 public class Game {
-    private List<Item> items;
-    private List<Room> rooms;
-    private Player player;
+    private static List<Item> items;
+    private static List<Room> rooms;
     private static Game instance = new Game();
+    private Player player;
+
 
     private Game() {}
 
@@ -31,6 +34,30 @@ public class Game {
         return player;
     }
 
+    public void setRooms() {
+        this.rooms = getLocationList();
+    }
+
+    public static List<Room> getRooms() {
+        return rooms;
+    }
+
+    public void setItems() {
+        this.items = getThingsList();
+    }
+
+    public static List<Item> getItems() {
+        return items;
+    }
+
+    // TODO method logic
+    public static void save() {}
+
+    // TODO method logic
+    public Game retrieveSave() {
+        return new Game();
+    }
+
     public static void quit() {
         System.exit(0);
     }
@@ -41,10 +68,10 @@ public class Game {
         return getRoomsList(locations);
     }
 
-    private List<Map<String, Object>> getItemList() {
+    private List<Item> getThingsList() {
         Map<String, Object> jsonMap = JsonParser.parseJson("data/json/items.json");
         List<Map<String, Object>> items = (List) jsonMap.get("items");
-        return items;
+        return getItemsList(items);
     }
 
     private List<Room> getRoomsList(List<Map<String, Object>> locations) {
@@ -62,6 +89,48 @@ public class Game {
         return rooms;
     }
 
+    private List<Item> getItemsList(List<Map<String, Object>> items) {
+        List<Item> itemsList = new ArrayList<>();
+        PuzzleItem puzzleItem;
+        OxygenItem oxygenItem;
+        FoodItem foodItem;
+        for (Map<String, Object> item : items) {
+            if (item.get("type").toString().equalsIgnoreCase("puzzle")) {
+                puzzleItem = new PuzzleItem();
+                puzzleItem.setName(item.get("name").toString());
+                puzzleItem.setImage(item.get("image").toString());
+                puzzleItem.setDescription(item.get("description").toString());
+                Room room = new Room();
+                room.setName(item.get("location").toString());
+                puzzleItem.setLocation(room);
+                puzzleItem.setPuzzle(item.get("puzzle").toString());
+                puzzleItem.setNeeds(item.get("needs").toString());
+                itemsList.add(puzzleItem);
+            } else if (item.get("type").toString().equalsIgnoreCase("oxygen")) {
+                oxygenItem = new OxygenItem();
+                oxygenItem.setName(item.get("name").toString());
+                oxygenItem.setImage(item.get("image").toString());
+                oxygenItem.setDescription(item.get("description").toString());
+                Room room = new Room();
+                room.setName(item.get("location").toString());
+                oxygenItem.setLocation(room);
+                oxygenItem.setModifier(Integer.parseInt(item.get("modifier").toString()));
+                itemsList.add(oxygenItem);
+            } else if (item.get("type").toString().equalsIgnoreCase("food")) {
+                foodItem = new FoodItem();
+                foodItem.setName(item.get("name").toString());
+                foodItem.setImage(item.get("image").toString());
+                foodItem.setDescription(item.get("description").toString());
+                Room room = new Room();
+                room.setName(item.get("location").toString());
+                foodItem.setLocation(room);
+                foodItem.setModifier(Integer.parseInt(item.get("modifier").toString()));
+                itemsList.add(foodItem);
+            }
+        }
+        return itemsList;
+    }
+
     private Map<String, String> convertJsonDirections(Map<String, Object> jsonDirections) {
         Map<String, String> directions = new HashMap<>();
         for (Map.Entry<String, Object> entry : jsonDirections.entrySet()) {
@@ -77,15 +146,10 @@ public class Game {
 
     private List<Item> getItemsListForRooms(List<Map<String, Object>> names) {
         List<Item> itemList = new ArrayList<>();
-        List<Map<String, Object>> jsonItems = getItemList();
+        List<Item> jsonItems = getThingsList();
         for (int i = 0; i < names.size(); i++) {
-            for (Map<String, Object> jsonItem : jsonItems) {
-                if (names.get(i).get("name").toString().equalsIgnoreCase(jsonItem.get("name").toString())) {
-                    PuzzleItem item = new PuzzleItem();
-                    item.setName(jsonItem.get("name").toString());
-                    item.setImage(jsonItem.get("image").toString());
-                    item.setDescription(jsonItem.get("description").toString());
-                    item.setLocation(getLocationHelper(getLocationList(), jsonItem.get("location").toString()));
+            for (Item item : jsonItems) {
+                if (names.get(i).get("name").toString().equalsIgnoreCase(item.getName())) {
                     itemList.add(item);
                 }
             }
