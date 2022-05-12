@@ -175,7 +175,6 @@ public class Game {
                 puzzleItem.setLocation(room);
                 puzzleItem.setPuzzle(item.get("use").toString());
                 puzzleItem.setNeeds(item.get("needs").toString());
-                System.out.println(puzzleItem.getLocation().getName());
                 itemsList.add(puzzleItem);
             } else if (item.get("type").toString().equalsIgnoreCase("oxygen")) {
                 oxygenItem = new OxygenItem();
@@ -186,7 +185,6 @@ public class Game {
                 room.setName(item.get("location").toString());
                 oxygenItem.setLocation(room);
                 oxygenItem.setModifier(Integer.parseInt(item.get("modifier").toString()));
-                System.out.println(oxygenItem.getName());
                 itemsList.add(oxygenItem);
             } else if (item.get("type").toString().equalsIgnoreCase("food")) {
                 foodItem = new FoodItem();
@@ -197,7 +195,6 @@ public class Game {
                 room.setName(item.get("location").toString());
                 foodItem.setLocation(room);
                 foodItem.setModifier(Integer.parseInt(item.get("modifier").toString()));
-                System.out.println(foodItem.getName());
                 itemsList.add(foodItem);
             }
         }
