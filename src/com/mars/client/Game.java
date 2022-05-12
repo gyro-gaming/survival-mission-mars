@@ -16,21 +16,28 @@ import java.util.Map;
 public class Game {
     private static List<Item> items;
     private static List<Room> rooms;
+    private static List<Puzzle> puzzles;
     private static Map<String, Boolean> solved;
+    private static Map<String, Integer> stats;
+    private static List<Item> inventory;
     private static Game instance = new Game();
-    private Player player;
+    private static Player player;
 
-
-    Game() {}
-
-    public static Game getInstance() {
-        instance.setPlayer(new Player());
-        instance.setRooms();
-        instance.setItems();
-        instance.setSolved(new HashMap<>());
-        return instance;
+    private Game() {
     }
 
+    public static Game getInstance() {
+        player = Player.getInstance();
+        instance.setPlayer(player);
+        instance.setRooms();
+        instance.setPuzzles(Puzzle.getPuzzleList());
+        instance.setItems();
+        instance.setSolved(new HashMap<>());
+        instance.setStats(player.getStats().getStats());
+        instance.setInventory(player.getInventory().getInventory());
+        return instance;
+    }
+    // getters and setters
     public void setPlayer(Player player) {
         this.player = player;
     }
@@ -55,6 +62,14 @@ public class Game {
         return items;
     }
 
+    public void setPuzzles(List<Puzzle> puzzles) {
+        this.puzzles = puzzles;
+    }
+
+    public static List<Puzzle> getPuzzles() {
+        return puzzles;
+    }
+
     public void setSolved(Map<String, Boolean> solved) {
         this.solved = solved;
     }
@@ -63,8 +78,27 @@ public class Game {
         return solved;
     }
 
+    public static void setStats(Map<String, Integer> stats) {
+        Game.stats = stats;
+    }
+
+    public static Map<String, Integer> getStats() {
+        return stats;
+    }
+
+    public static void setInventory(List<Item> inventory) {
+        Game.inventory = inventory;
+    }
+
+    public static List<Item> getInventory() {
+        return inventory;
+    }
+
+    // end getters and setters
+
     // TODO method logic
-    public static void save() {}
+    public static void save() {
+    }
 
     // TODO method logic
     public Game retrieveSave() {
@@ -109,7 +143,14 @@ public class Game {
             }
 
             try {
-                room.setItems(getItemsListForRooms((List) location.get("items")));
+                List<Map<String, Object>> itemMap = (List<Map<String, Object>>) location.get("items");
+                List<String> items = new ArrayList<>();
+                for (Map<String, Object> item : itemMap) {
+                    for (Map.Entry<String, Object> entry : item.entrySet()) {
+                        items.add(entry.getKey());
+                    }
+                }
+                room.setItems(getItemsListForRooms(items));
             } catch (Exception e) {
 
             }
@@ -170,15 +211,15 @@ public class Game {
 
     // TODO method logic
     private NPC getNpcHelper(String name) {
-        return new NPC();
+        return new NPC(name);
     }
 
-    private List<Item> getItemsListForRooms(List<Map<String, Object>> names) {
+    private List<Item> getItemsListForRooms(List<String> names) {
         List<Item> itemList = new ArrayList<>();
         List<Item> jsonItems = getThingsList();
         for (int i = 0; i < names.size(); i++) {
             for (Item item : jsonItems) {
-                if (names.get(i).get("name").toString().equalsIgnoreCase(item.getName())) {
+                if (names.get(i).equalsIgnoreCase(item.getName())) {
                     itemList.add(item);
                 }
             }

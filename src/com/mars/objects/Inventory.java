@@ -6,21 +6,24 @@ import com.mars.items.PuzzleItem;
 import java.util.*;
 
 public class Inventory {
-    private static Inventory single_instance = null;
     private List<Item> inventory;
+    private static Inventory instance = new Inventory();
 
-    Inventory(){
-        inventory = new ArrayList<>();
+    private Inventory() {}
+
+    public static Inventory getInstance() {
+        instance.setInventory(new ArrayList<>());
+        return instance;
     }
-    public static Inventory getInstance(){
-        if(single_instance == null){
-            single_instance = new Inventory();
-        }
-        return single_instance;
+    // getters and setters
+    public void setInventory(List<Item> inventory) {
+        this.inventory = inventory;
     }
-    public void add(Item item){
-        inventory.add(item);
+
+    public List<Item> getInventory() {
+        return inventory;
     }
+    // end getters and setters
 
     // looking at item and returning description that followed to inventory from location
     public List<String> lookItem() {
@@ -34,7 +37,6 @@ public class Inventory {
     // retrieving properties from item in location, adding item & properties to inventory
     public String getItemDescription(String name){
         int index = getItemIndex(name);
-
         return inventory.get(index).getDescription();
     }
 
@@ -50,21 +52,34 @@ public class Inventory {
         }
         return index;
     }
+
+    public void add(Item item) {
+        inventory.add(item);
+    }
+
     // dropping item and acquiring the correct item index to remove from inventory
     public Item drop(String item){
         int dropIndex = getItemIndex(item);
-        return inventory.remove(dropIndex);
+        Item dropItem = inventory.get(dropIndex);
+        inventory.remove(dropIndex);
+        return dropItem;
     }
-
 
     public void use(PuzzleItem item){
         System.out.println("You used " + item.getName());
     }
-    public List<String> getInventory() {
-        List<String> holder = new ArrayList<>();
-        for (Item item : inventory) {
-            holder.add(item.getName());
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < inventory.size(); i++) {
+            if (i == inventory.size() - 1) {
+                sb.append(inventory.get(i).getName());
+            } else {
+                sb.append(inventory.get(i).getName() + ", ");
+            }
         }
-        return holder;
+        sb.append("]");
+        return sb.toString();
     }
 }
