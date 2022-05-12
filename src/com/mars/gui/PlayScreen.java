@@ -1,4 +1,4 @@
-package com.mars;
+package com.mars.gui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,11 +19,8 @@ public class PlayScreen extends JFrame {
     private JLabel muteLabel;
     Font normalFont = new Font("Times New Roman", Font.ITALIC, 30);
 
-    public static void main(String[] args) {
-        PlayScreen screen = new PlayScreen();
-    }
-
     public PlayScreen() {
+        mainPanel = new JPanel();
         setContentPane(mainPanel);
         setTitle("Survival Mars Mission");
         setSize(800, 600);

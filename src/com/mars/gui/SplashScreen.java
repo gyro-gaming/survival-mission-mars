@@ -1,10 +1,9 @@
-package com.mars;
+package com.mars.gui;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import com.mars.PlayScreen;
 
 public class SplashScreen {
 
@@ -88,5 +87,4 @@ public class SplashScreen {
             PlayScreen();
         }
     }
-
 }
