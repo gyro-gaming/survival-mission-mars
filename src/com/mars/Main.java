@@ -1,10 +1,9 @@
 package com.mars;
 
-import com.mars.client.CommandProcessor;
+import com.mars.SplashScreen;
 
 class Main {
-    public static void main(String[] args)  {
-        CommandProcessor processor = new CommandProcessor();
-        processor.runApp();
+    public static void main(String[] args) {
+        new SplashScreen();
     }
 }

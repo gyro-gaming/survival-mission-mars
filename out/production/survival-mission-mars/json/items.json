@@ -6,6 +6,74 @@
       "description": "a single use meal kit",
       "location": "Docking Station",
       "type": "food",
+      "use": "none",
+      "needs": "none",
+      "modifier": "25"
+    },{
+      "name": "flashlight",
+      "image": "coming soon!",
+      "description": "a tool used to shine bright over things",
+      "location": "Hydro Control Room",
+      "type": "puzzle",
+      "use": "none",
+      "needs": "none",
+      "modifier": "25"
+    },{
+      "name": "alarm_clock",
+      "image": "coming soon!",
+      "description": "simple time keeper to help kep you on track",
+      "location": "Sleep Quarters",
+      "type": "puzzle",
+      "use": "none",
+      "needs": "none",
+      "modifier": "25"
+    },{
+      "name": "freeze_dried_ice_cream",
+      "image": "coming soon!",
+      "description": "the best space food kicking",
+      "location": "Kitchen",
+      "type": "food",
+      "use": "none",
+      "needs": "none",
+      "modifier": "25"
+    },
+    {
+      "name": "air_fryer",
+      "image": "coming soon!",
+      "description": "only the fanciest appliances for NASA's finest",
+      "location": "Kitchen",
+      "type": "food",
+      "use": "none",
+      "needs": "none",
+      "modifier": "25"
+    },
+    {
+      "name": "sleeping_mask",
+      "image": "coming soon!",
+      "description": "for your beauty sleep",
+      "location": "Sleep Quarters",
+      "type": "puzzle",
+      "use": "none",
+      "needs": "none",
+      "modifier": "25"
+    },{
+      "name": "water_level_probe",
+      "image": "coming soon!",
+      "description": "mmm....",
+      "location": "Green House",
+      "type": "oxygen",
+      "use": "none",
+      "needs": "none",
+      "modifier": "25"
+    },
+    {
+      "name": "pH_meter",
+      "image": "coming soon!",
+      "description": "mmm....",
+      "location": "Green House",
+      "type": "oxygen",
+      "use": "",
+      "needs": "none",
       "modifier": "25"
     },
     {
@@ -14,34 +82,39 @@
       "description": " the final addition to your space suit",
       "location": "Docking Station",
       "type": "oxygen",
+      "use": "none",
+      "needs": "none",
       "modifier": "25"
     },
     {
       "name": "batteries",
       "image": "coming soon!",
       "description": "power supply for hand held units",
-      "location": "Recreation Area",
-      "type": "sub",
+      "location": "Hydro Control Room",
+      "type": "puzzle",
       "use": "GPS unit",
-      "needs": "none"
+      "needs": "none",
+      "modifier": "25"
     },
     {
       "name": "gps",
       "image": "coming soon!",
       "description": "handheld battery operated unit to determine location and direction\nthis device will not work without a power supply",
-      "location": "Docking Station",
+      "location": "Environmental Control Room",
       "type": "puzzle",
       "use": "Solar Array",
-      "needs": "batteries"
+      "needs": "batteries",
+      "modifier": "25"
     },
     {
       "name": "cable",
       "image": "coming soon!",
       "description": "3 foot cable with a male and female ends",
-      "location": "Docking Station",
+      "location": "Environmental Control Room",
       "type": "puzzle",
       "use": "Solar Array",
-      "needs": "none"
+      "needs": "none",
+      "modifier": "25"
     },
     {
       "name": "dosimeter",
@@ -50,16 +123,18 @@
       "location": "Kitchen",
       "type": "puzzle",
       "use": "Reactor",
-      "needs": "none"
+      "needs": "none",
+      "modifier": "25"
     },
     {
       "name": "key",
       "image": "coming soon!",
       "description": "something to lock or secure with",
-      "location": "Environmental Control Room",
+      "location": "Sleep Quarters",
       "type": "puzzle",
       "use": "Reactor",
-      "needs": "none"
+      "needs": "none",
+      "modifier": "25"
     },
     {
       "name": "checklist",
@@ -68,7 +143,48 @@
       "location": "Environmental Control Room",
       "type": "puzzle",
       "use": "Reactor",
-      "needs": "none"
+      "needs": "none",
+      "modifier": "25"
+    },
+    {
+      "name": "calculator",
+      "image": "coming soon!",
+      "description": "tool to calculate math faster than lighting",
+      "location": "Solar Array",
+      "type": "puzzle",
+      "use": "none",
+      "needs": "none",
+      "modifier": "25"
+    },
+    {
+      "name": "compass",
+      "image": "coming soon!",
+      "description": "won't tell you direction",
+      "location": "Solar Array",
+      "type": "puzzle",
+      "use": "none",
+      "needs": "none",
+      "modifier": "25"
+    },
+    {
+      "name": "protein_powder",
+      "image": "coming soon!",
+      "description": "great gainz",
+      "location": "Gym",
+      "type": "food",
+      "use": "none",
+      "needs": "none",
+      "modifier": "25"
+    },
+    {
+      "name": "chuck_taylors",
+      "image": "coming soon!",
+      "description": "You're an 'allstar'",
+      "location": "Gym",
+      "type": "puzzle",
+      "use": "none",
+      "needs": "none",
+      "modifier": "25"
     }
   ]
 }
