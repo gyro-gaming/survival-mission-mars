@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 class Puzzle {
-    private List<Puzzle> puzzleList;
+    private static List<Puzzle> puzzleList;
     private String question;
     private String choices;
     private String correctAnswer;
@@ -25,7 +25,7 @@ class Puzzle {
         this.puzzleList = loadPuzzleFromJson();
     }
 
-    public List<Puzzle> getPuzzleList() {
+    public static List<Puzzle> getPuzzleList() {
         return puzzleList;
     }
 
