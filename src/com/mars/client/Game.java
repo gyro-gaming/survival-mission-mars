@@ -120,7 +120,14 @@ public class Game {
             }
 
             try {
-                room.setItems(getItemsListForRooms((List) location.get("items")));
+                List<Map<String, Object>> itemMap = (List<Map<String, Object>>) location.get("items");
+                List<String> items = new ArrayList<>();
+                for (Map<String, Object> item : itemMap) {
+                    for (Map.Entry<String, Object> entry : item.entrySet()) {
+                        items.add(entry.getKey());
+                    }
+                }
+                room.setItems(getItemsListForRooms(items));
             } catch (Exception e) {
 
             }
@@ -184,12 +191,12 @@ public class Game {
         return new NPC(name);
     }
 
-    private List<Item> getItemsListForRooms(List<Map<String, Object>> names) {
+    private List<Item> getItemsListForRooms(List<String> names) {
         List<Item> itemList = new ArrayList<>();
         List<Item> jsonItems = getThingsList();
         for (int i = 0; i < names.size(); i++) {
             for (Item item : jsonItems) {
-                if (names.get(i).get("name").toString().equalsIgnoreCase(item.getName())) {
+                if (names.get(i).equalsIgnoreCase(item.getName())) {
                     itemList.add(item);
                 }
             }

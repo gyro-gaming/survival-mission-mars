@@ -9,10 +9,10 @@
       },
       "description": "Your space craft is docked and you see the remains of an old abandoned outpost.",
       "puzzle": "false",
-      "items": {
-        "meal ready to eat": "single use meal kit",
-        "helmet": "final addition to your space suit"
-      }
+      "items": [
+        "meal ready to eat",
+        "helmet"
+      ]
     },
     {
       "name": "Hydro Control Room",
@@ -23,10 +23,10 @@
       },
       "description": "It appears to be an old hydro station-an essential part of restoring water to the outpost.\n There appears to be a helpful placard on the tank.",
       "puzzle": "true",
-      "items": {
-        "flashlight": "a useful light source",
-        "batteries": "a pack of AA batteries"
-      }
+      "items": [
+        "flashlight",
+        "batteries"
+      ]
     },
     {
       "name": "Kitchen",
@@ -51,10 +51,10 @@
       },
       "description": "A large room full of multiple screens, buttons and levers. The main power source for the outpost.",
       "puzzle": "true",
-      "items": {
-        "seeds": "a small packet of garden vegetable seeds",
-        "deck_of_cards": " a box of playing cards"
-      }
+      "items": [
+        "seeds",
+        "deck_of_cards"
+      ]
     },
     {
       "name": "Green House",
@@ -65,10 +65,10 @@
       },
       "description": "A warm, glass-enclosed room with row after row of grow lights. Soil bags sit in the corner awaiting use.",
       "puzzle": "true",
-      "items": {
-        "water_level_probe": "used for testing moisture levels",
-        "pH_meter": "useful for water or soil pH"
-      }
+      "items": [
+        "water_level_probe",
+        "pH_meter"
+      ]
     },
     {
       "name": "Sleep Quarters",
@@ -80,11 +80,11 @@
       },
       "description": "A quiet, dark, enclosed room. Bunk beds line the walls.",
       "puzzle": "false",
-      "items": {
-        "alarm_clock": "simple time keeper to help kep you on track",
-        "sleeping_mask": "for your beauty sleep",
-        "r_key": "a bit rusty but looks like it may fit in the reactor"
-      }
+      "items": [
+        "alarm_clock",
+        "sleeping_mask",
+        "r_key"
+      ]
     },
     {
       "name": "Solar Array",
@@ -94,10 +94,10 @@
       },
       "description": "a large field of solar panels still intact.",
       "puzzle": "true",
-      "items": {
-        "calculator": "a TI83 graphing calculator",
-        "compass": "not the map kind the math kind"
-      }
+      "items": [
+        "calculator",
+        "compass"
+      ]
     },
     {
       "name": "Environmental Control Room",
@@ -108,10 +108,10 @@
       },
       "description": "A room filled banks of servers and several workstations.",
       "puzzle": "false",
-      "items": {
-        "gps": "handheld gps unit",
-        "cable": "cable"
-      }
+      "items": [
+        "gps",
+        "cable"
+      ]
     },
     {
       "name": "Gym",
@@ -122,10 +122,10 @@
       },
       "description": "Where the gainz happen.",
       "puzzle": "false",
-      "items": {
-        "chuck_taylors": "classic all-American high tops",
-        "protein_powder": "the most important macro nutrient"
-      }
+      "items": [
+        "chuck_taylors",
+        "protein_powder"
+      ]
     }
   ]
 }
