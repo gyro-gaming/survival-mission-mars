@@ -46,7 +46,6 @@ public class Player {
     }
 
     public Stats getStats() {
-        System.out.println(stats.toString());
         return stats;
     }
     // end getters and setters
