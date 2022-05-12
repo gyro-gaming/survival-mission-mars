@@ -14,14 +14,14 @@ public class Stats {
     private Stats() {}
 
     public static Stats getInstance(){
-        instance.setStats(new HashMap<>());
         instance.setHunger(Hunger.getInstance());
         instance.setStamina(Stamina.getInstance());
         instance.setOxygen(Oxygen.getInstance());
+        instance.setStats(new HashMap<>());
         return instance;
     }
     // getters and setters
-    public void setStats(HashMap<String,Integer> stats) {
+    public void setStats(Map<String,Integer> stats) {
         stats.put("Hunger", Hunger.getHunger());
         stats.put("Stamina", Stamina.getStamina());
         stats.put("Oxygen", Oxygen.getOxygen());
