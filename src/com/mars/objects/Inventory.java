@@ -53,9 +53,10 @@ public class Inventory {
     // dropping item and acquiring the correct item index to remove from inventory
     public Item drop(String item){
         int dropIndex = getItemIndex(item);
-        return inventory.remove(dropIndex);
+        Item dropItem = inventory.get(dropIndex);
+        inventory.remove(dropItem);
+        return dropItem;
     }
-
 
     public void use(PuzzleItem item){
         System.out.println("You used " + item.getName());
