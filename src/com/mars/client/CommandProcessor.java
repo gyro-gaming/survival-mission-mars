@@ -1,12 +1,7 @@
 package com.mars.client;
 import com.mars.items.Item;
-import com.mars.items.PuzzleItem;
-import com.mars.locations.Location;
 import com.mars.locations.Room;
-import com.mars.objects.Inventory;
 import com.mars.objects.Player;
-
-import org.json.simple.JSONObject;
 
 import java.util.*;
 
@@ -15,49 +10,61 @@ public class CommandProcessor {
     private String nextLocation = "";
     private int newStamina = 0;
     Player player = Game.getInstance().getPlayer();
-    private List<Room> locationMap;
+    private List<Room> locationMap = Game.getRooms();
+    private List<Item> locationItems = Game.getInstance().getThingsList();
     private Room currentLocation;
+
 
     // method to resolve action command inputs from user
     private void processCommand(List<String> command) {
-        // getting name of currentLocation and assign to nextLocation
-        clearConsole();
-        switch (command.get(0)) {
-            case "go":
-                currentLocation = forGo(command);
-                break;
-            case "eat":
-                if (!currentLocation.equals("Docking Station")) {
-                    System.out.println("You can't eat outside docking station");
-                } else {
+        try {
+            if (command.size() > 1){
+            // getting name of currentLocation and assign to nextLocation
+            clearConsole();
+            switch (command.get(0)) {
+                case "go":
+                    currentLocation = forGo(command);
+                    break;
+                case "eat":
+                    if (!currentLocation.equals("Docking Station")) {
+                        System.out.println("You can't eat outside docking station");
+                    } else {
+                        forUse(command);
+                    }
+                    break;
+                case "quit":
+                    Game.quit();
+                    break;
+                case "help":
+                    System.out.println(" ");
+                    display.displayText("text/help.txt");
+                    break;
+                case "look":
+                    forLook(command);
+                    break;
+                case "get":
+                    forGet(command);
+                    break;
+                case "drop":
+                    forDrop(command);
+                    break;
+                case "use":
                     forUse(command);
-                }
-                break;
-            case "quit":
-                Game.quit();
-                break;
-            case "help":
-                System.out.println(" ");
-                display.displayText("text/help.txt");
-                break;
-            case "look":
-                forLook(command);
-                break;
-            case "get":
-                forGet(command);
-                break;
-            case "drop":
-                forDrop(command);
-                break;
-            case "use":
-                forUse(command);
-                break;
-            default:
-                System.out.println("That is an invalid command. Please try again.");
-                break;
+                    break;
+                default:
+                    System.out.println("That is an invalid command. Please try again.");
+                    break;
+            }
         }
-
-    }
+            else{
+                String command1 = " ";
+                command1 = command.get(0);
+            }
+        }
+        catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("Check your input");
+        }
+        }
     private void setStat() {
         if (!currentLocation.equals("Docking Station") && player.getStat().getStamina() > 0) {
             newStamina = player.getStat().getStamina() - 5;
@@ -86,19 +93,16 @@ public class CommandProcessor {
         }
         Game game = Game.getInstance();
 
-        currentLocation = Game.getRooms().get(0);          // setting game start location on Map
-
+        currentLocation = Game.getRooms().get(0);// setting game start location on Map
         // functions while game is running
         while (isRunning) {
-
             Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter a command: \n>> ");                            // asking for input from user
-            String userInput = scanner.nextLine().toLowerCase();                              // getting input from user
+            System.out.print("Enter a command: \n>> ");                       // asking for input from user
+            String userInput = scanner.nextLine().toLowerCase();              // getting input from user
             List<String> nextCommand = getCommand(userInput);            // calling upon Parser to begin parse process
             processCommand(nextCommand);
             setStat();
         }
-
     }
     public List<String> getCommand(String userInput){
         List<String> cmdInput = new ArrayList<>(); //empty arraylist to store parsed command
@@ -129,35 +133,40 @@ public class CommandProcessor {
         }
         return newRoom;
     }
-    public String forGet(List<String> command){
-        try{
+    public void forGet(List<String> command){
+            String noun = " ";
             // 'get' functionality enabled to allow user to acquire items, add to inventory
-
-            if(currentLocation.getItems().contains(command.get(1)) && player.getInventory().getInventory().size() <= 3) {                                               // checking if second parsed word is valid inside currentLocation
-                String carry = command.get(1); // if so, then assigning it a variable named 'carry'
-                // adding to inventory
-                player.getInventory().getInventory().add(carry);
-                System.out.println("You've retrieved the " + carry + " and added it to your inventory.");     // output to user informing item added to inventory
-                display.displayPlayerInventory();                                                                       // output to user showing full inventory
+            for(Item item : locationItems){
+                noun = command.get(1);
+                if(item.getName().equals(noun) && player.getInventory().getInventory().size() <= 3 && item.getLocation().getName().equals(currentLocation.getName())){
+                    // adding to inventory;
+                    player.getInventory().add(item);
+                    System.out.println(player.getInventory().getInventory());
+                    System.out.println("You've retrieved the " + item.getName() + " and added it to your inventory.");     // output to user informing item added to inventory
+                    System.out.println(player.getInventory().getInventory());
+                    // display.displayPlayerInventory();
+                    break;
+                }
+                else if (item.getName().equals(noun) && player.getInventory().getInventory().size() >= 3 && item.getLocation().getName().equals(currentLocation.getName())){
+                    System.out.println("You can only have 3 items in inventory");
+                    break;
+                }
+                else if (command.get(1).equals(" ")){
+                    System.out.println("What do you want to get");
+                }
+//                else if (!(item.getName().equals(noun) && player.getInventory().getInventory().size() <= 3 && item.getLocation().getName().equals(currentLocation.getName()))) {
+//                    System.out.println("There is nothing here to pick up. Are you seeing things?  Maybe check your sugar levels...");       // output to user reminding them there is nothing to acquire from this room
+//                }
             }
-            else if (player.getInventory().getInventory().size() >= 3){
-                System.out.println("You can only have 3 items in inventory");
-            }
-            else {
-                System.out.println("There is nothing here to pick up. Are you seeing things?  Maybe check your sugar levels...");       // output to user reminding them there is nothing to acquire from this room
-            }
-        }
-        catch (ArrayIndexOutOfBoundsException e){
-            System.out.println("What do you want to get");
-        }
-        return nextLocation;
     }
     public String forLook(List<String> command){
-        try {
-            if(currentLocation.getItems().contains(command.get(1))) {                                                       // checking if second parsed word is valid inside currentLocation
-                System.out.println("Upon examination you find " + currentLocation.getItems());          // output to user showing description of item, if valid in location
+            for (Item i : locationItems){
+                if(i.getName().equals(command.get(1))&& i.getLocation().getName().equals(currentLocation.getName())){
+                    System.out.println("Upon examination you find " + i.getDescription());
+                }
+                break;
             }
-            else if(player.getInventory().lookItem().contains(command.get(1))) {                                                  // if not in currentLocation, check if in inventory
+            if(player.getInventory().lookItem().contains(command.get(1))) {                                                  // if not in currentLocation, check if in inventory
                 System.out.println("Upon examination you find " + player.getInventory().getItemDescription(command.get(1)));      // if item present in inventory, output to user description of item
             }
             else if(command.get(1).equals("room")) {
@@ -165,47 +174,48 @@ public class CommandProcessor {
             }
             else if(command.get(1).equals("inventory")) {
                 if(player.getInventory().getInventory().size() > 0) {
-                    display.displayPlayerInventory();
+                    System.out.println("Inventory: "+player.getInventory().getInventory());;
                 }
                 else {
                     System.out.println("You currently have nothing in your inventory.");
                 }
             }
             else if((command.get(1).equals("oxygen")) || (command.get(1).equals("O2"))) {
-                if(currentLocation.getItems().contains("oxygen")) {
-                    System.out.println("The O2 Sensor indicates the oxygen levels are: SAFE");
-                }
-                else {
-                    System.out.println("The O2 Sensor indicates the oxygen levels are: DANGEROUS");
-                }
+               for(Item item : locationItems) {
+                   if(item.getName().equals("oxygen")&& currentLocation.getName().equals(item.getLocation().getName())){
+                       System.out.println("The O2 Sensor indicates the oxygen levels are: SAFE");
+                   }
+                   else {
+                       System.out.println("The O2 Sensor indicates the oxygen levels are: DANGEROUS");
+                   }
+               }
             }
-            else {
-                System.out.println("There is no item to examine.");                                                     // if nothing to examine, output to user informing as such
+            else if(command.get(1).equals(" ")){
+                System.out.println("Look where");
             }
-        } catch (ArrayIndexOutOfBoundsException e){
-            System.out.println("Look where?");
-        }
+
         return nextLocation;
     }
-    public String forDrop(List<String> command){
-        try {
-            // 'drop' functionality enabled to allow user to drop items from inventory, add to currentLocation
-            if (player.getInventory().lookItem().contains(command.get(1))) {                                           // checking to see if item in inventory
+    public String forDrop(List<String> command) {
+
+        for (Item item : locationItems) {
+            if (player.getInventory().getInventory().contains(command.get(1)) && item.getLocation().getName().equals(currentLocation.getName())) {
                 Item dropping = player.getInventory().drop(command.get(1));                                           // if so, assigning it a variable named 'dropping'
                 player.getInventory().drop(dropping.getName());// adding 'dropping' item to currentLocation
                 System.out.println("You have dropped the " + dropping.getName() + ", it is no longer in your " +        // output to user to inform them of the change
                         "inventory. It has been placed in this location.");
                 display.displayPlayerInventory();
+                System.out.println("Inventory: " + player.getInventory().getInventory());
                 currentLocation.addItem(dropping);
-            } else {
-                System.out.println("There is no item with that name in your inventory. Please try again.");             // output to user to inform them of invalid attempt to drop item
             }
         }
-        catch(ArrayIndexOutOfBoundsException e){
-            System.out.println("Drop what?");
+        // 'drop' functionality enabled to allow user to drop items from inventory, add to currentLocation
+        if (command.get(1).equals(" ")) {
+            System.out.println("Drop what");             // output to user to inform them of invalid attempt to drop item
         }
         return nextLocation;
     }
+
     public String forUse(List<String> command){
         try{
             // TODO: what about consumable items? (mealkit) ...or Items that actuate something else? (key -> reactor)

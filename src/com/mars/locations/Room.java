@@ -86,6 +86,18 @@ public class Room extends Base {
 
 
 
+    @Override
+    public String toString() {
+        return "Room{" +
+                "name='" + name + '\'' +
+                ", image='" + image + '\'' +
+                ", description='" + description + '\'' +
+                ", directions=" + directions +
+                ", npc=" + npc +
+                ", items=" + items +
+                '}';
+    }
+
 
 
     /*

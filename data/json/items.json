@@ -1,11 +1,19 @@
 {
   "items": [
     {
-      "name": "meal ready to eat",
+      "name": "mealkit",
       "image": "coming soon!",
-      "description": "single use meal kit",
-      "location": "",
+      "description": "a single use meal kit",
+      "location": "Docking Station",
       "type": "food",
+      "modifier": "25"
+    },
+    {
+      "name": "helmet",
+      "image": "coming soon!",
+      "description": " the final addition to your space suit",
+      "location": "Docking Station",
+      "type": "oxygen",
       "modifier": "25"
     },
     {

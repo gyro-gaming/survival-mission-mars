@@ -10,8 +10,8 @@
       "description": "Your space craft is docked and you see the remains of an old abandoned outpost.",
       "puzzle": "false",
       "items": {
-        "mealkit": "single use emergency meal",
-        "useless_tool": "a useless old rusty metal tool"
+        "meal ready to eat": "single use meal kit",
+        "helmet": "final addition to your space suit"
       },
       "oxygen": "false",
       "asciiArt": "url"

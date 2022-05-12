@@ -81,7 +81,7 @@ public class Game {
         return getRoomsList(locations);
     }
 
-    private List<Item> getThingsList() {
+    public List<Item> getThingsList() {
         Map<String, Object> jsonMap = JsonParser.parseJson("data/json/items.json");
         List<Map<String, Object>> items = (List) jsonMap.get("items");
         return getItemsList(items);
