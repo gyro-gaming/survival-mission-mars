@@ -31,7 +31,7 @@ public class CommandProcessor {
                     currentLocation = forGo(command);
                     break;
                 case "eat":
-                    if (!currentLocation.equals("Docking Station")) {
+                    if (!currentLocation.getName().equals("Docking Station")) {
                         System.out.println("You can't eat outside docking station");
                     } else {
                         forUse(command);
@@ -67,18 +67,23 @@ public class CommandProcessor {
         }
         }
     private void setStat() {
-        if (!currentLocation.equals("Docking Station") && player.getStat().getStamina() > 0) {
-            newStamina = player.getStat().getStamina() - 5;
-            player.getStat().setOxygenLevel(newStamina);
-            System.out.println("Stamina Level: " + newStamina);
-        } else {
-            System.out.println("Stamina Level: " + player.getStat().getStamina());
-        }
-        if (player.getStat().getStamina() <= 0) {
-            System.out.println("no more STAMINA......YOU DIED AND IS NOW FLOATING IN SPACE....");
-            System.out.println("goodbye");
-            System.exit(0);
-        }
+      try{
+          if (!currentLocation.getName().equals("Docking Station") && player.getStat().getStamina() > 0) {
+              newStamina = player.getStat().getStamina() - 5;
+              player.getStat().setOxygenLevel(newStamina);
+              System.out.println("Stamina Level: " + newStamina);
+          } else {
+              System.out.println("Stamina Level: " + player.getStat().getStamina());
+          }
+          if (player.getStat().getStamina() <= 0) {
+              System.out.println("no more STAMINA......YOU DIED AND IS NOW FLOATING IN SPACE....");
+              System.out.println("goodbye");
+              System.exit(0);
+          }
+      }
+      catch (NullPointerException e){
+          System.out.println("Need to use a verb");
+      }
     }
 
     // method to actually run the application
@@ -153,6 +158,7 @@ public class CommandProcessor {
                 }
                 else if (command.get(1).equals(" ")){
                     System.out.println("What do you want to get");
+                    break;
                 }
             }
     }
