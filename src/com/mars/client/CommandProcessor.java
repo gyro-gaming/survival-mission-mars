@@ -1,8 +1,8 @@
 package com.mars.client;
+
 import com.mars.items.Item;
 import com.mars.locations.ChallengeRoom;
 import com.mars.locations.Room;
-import com.mars.objects.Inventory;
 import com.mars.objects.Player;
 
 import java.util.*;
@@ -13,8 +13,11 @@ public class CommandProcessor {
     private int newStamina = 0;
     private Game game = Game.getInstance();
     private Player player = game.getPlayer();
-    private List<Room> locationMap = Game.getRooms();
+    private List<Room> rooms = Game.getRooms();
     private List<Item> locationItems = Game.getItems();
+    private Map<String, Boolean> solvedPuzzles = Game.getSolved();
+    private Map<String, Integer> stats = game.getStats();
+    private List<Item> inventory = game.getInventory();
     private Room currentLocation;
 
 
@@ -69,15 +72,17 @@ public class CommandProcessor {
         }
         }
     private void setStat() {
+
       try{
-          if (!currentLocation.getName().equals("Docking Station") && player.getStat().getStamina() > 0) {
-              newStamina = player.getStat().getStamina() - 5;
-              player.getStat().setOxygenLevel(newStamina);
+          if (!currentLocation.getName().equals("Docking Station") && stats.get("Stamina") > 0) {
+              newStamina = stats.get("Stamina") - 5;
+              stats.put("Stamina", newStamina);
+              game.setStats(stats);
               System.out.println("Stamina Level: " + newStamina);
           } else {
-              System.out.println("Stamina Level: " + player.getStat().getStamina());
+              System.out.println("Stamina Level: " + stats.get("Stamina"));
           }
-          if (player.getStat().getStamina() <= 0) {
+          if (stats.get("Stamina") <= 0) {
               System.out.println("no more STAMINA......YOU DIED AND IS NOW FLOATING IN SPACE....");
               System.out.println("goodbye");
               System.exit(0);
@@ -101,7 +106,7 @@ public class CommandProcessor {
         }
         Game game = Game.getInstance();
 
-        currentLocation = Game.getRooms().get(0);// setting game start location on Map
+        currentLocation = rooms.get(0);// setting game start location on Map
         // functions while game is running
         while (isRunning) {
             Scanner scanner = new Scanner(System.in);
@@ -143,7 +148,6 @@ public class CommandProcessor {
                 newRoom = r;
             }
         }
-        assert newRoom != null;
         ChallengeRoom.getInstance(game, newRoom.getName().toString(), Game.getSolved(), Game.getPuzzles());
         return newRoom;
     }
@@ -153,7 +157,8 @@ public class CommandProcessor {
               // 'get' functionality enabled to allow user to acquire items, add to inventory
               for(Item item : locationItems){
                   noun = command.get(1);
-                  if(item.getName().equals(noun) && player.getInventory().getInventory().size() < 3 && item.getLocation().getName().equals(currentLocation.getName()) &&!(player.getInventory().lookItem().contains(item.getName()))){
+
+                  if (item.getName().equals(noun) && inventory.size() < 3 && item.getLocation().getName().equals(currentLocation.getName()) &&!(player.getInventory().lookItem().contains(item.getName()))) {
                       // adding to inventory;
                       player.getInventory().add(item);
                       System.out.println("You've retrieved the " + item.getName() + " and added it to your inventory.");     // output to user informing item added to inventory
@@ -161,7 +166,7 @@ public class CommandProcessor {
                       break;
                       // display.displayPlayerInventory();
                   }
-                  else if (item.getName().equals(noun) && player.getInventory().getInventory().size() == 3 && item.getLocation().getName().equals(currentLocation.getName())){
+                  else if (item.getName().equals(noun) && inventory.size() == 3 && item.getLocation().getName().equals(currentLocation.getName())){
                       System.out.println("You can only have 3 items in inventory");
                       break;
                   }
@@ -194,7 +199,7 @@ public class CommandProcessor {
                       break;
                   case "inventory":
                       if (player.getInventory().getInventory().size() > 0) {
-                          System.out.println("Inventory: " + player.getInventory().getInventory());
+                          System.out.println("Inventory: " + player.getInventory().toString());
                           ;
                       } else {
                           System.out.println("You currently have nothing in your inventory.");
@@ -233,7 +238,7 @@ public class CommandProcessor {
                 item.setLocation(currentLocation);
                 System.out.println("You have dropped the " + command.get(1) + ", it is no longer in your " +        // output to user to inform them of the change
                         "inventory. It has been placed in this location.");
-                System.out.println("Inventory: " + player.getInventory().getInventory());
+                System.out.println("Inventory: " + player.getInventory().toString());
                 break;
             }
         }
@@ -276,5 +281,4 @@ public class CommandProcessor {
             System.out.println("can't clear console");
         }
     }
-
 }
