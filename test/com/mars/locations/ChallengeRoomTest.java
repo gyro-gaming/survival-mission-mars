@@ -4,18 +4,18 @@ import com.mars.client.Game;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.util.HashMap;
 
-public class ChallengeRoomImplTest {
-    ChallengeRoomImpl room;
+public class ChallengeRoomTest {
+    ChallengeRoom room;
     Game game;
     String option;
 
     @Before
     public void init() {
-        room = new ChallengeRoomImpl();
         game = Game.getInstance();
         option = "Solar Array";
+        room = ChallengeRoom.getInstance(game, option, new HashMap<>());
     }
 
     @Test
