@@ -16,16 +16,18 @@ import java.util.Map;
 public class Game {
     private static List<Item> items;
     private static List<Room> rooms;
+    private static List<Puzzle> puzzles;
     private static Map<String, Boolean> solved;
     private static Game instance = new Game();
     private Player player;
 
-
-    Game() {}
+    private Game() {
+    }
 
     public static Game getInstance() {
         instance.setPlayer(new Player());
         instance.setRooms();
+        instance.setPuzzles(Puzzle.getPuzzleList());
         instance.setItems();
         instance.setSolved(new HashMap<>());
         return instance;
@@ -55,6 +57,14 @@ public class Game {
         return items;
     }
 
+    public void setPuzzles(List<Puzzle> puzzles) {
+        this.puzzles = puzzles;
+    }
+
+    public static List<Puzzle> getPuzzles() {
+        return puzzles;
+    }
+
     public void setSolved(Map<String, Boolean> solved) {
         this.solved = solved;
     }
@@ -64,7 +74,8 @@ public class Game {
     }
 
     // TODO method logic
-    public static void save() {}
+    public static void save() {
+    }
 
     // TODO method logic
     public Game retrieveSave() {

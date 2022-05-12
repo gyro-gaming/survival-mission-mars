@@ -1,5 +1,6 @@
 package com.mars.client;
 import com.mars.items.Item;
+import com.mars.locations.ChallengeRoom;
 import com.mars.locations.Room;
 import com.mars.objects.Inventory;
 import com.mars.objects.Player;
@@ -10,7 +11,8 @@ public class CommandProcessor {
     private Display display = new Display();
     private String nextLocation = "";
     private int newStamina = 0;
-    Player player = Game.getInstance().getPlayer();
+    private Game game = Game.getInstance();
+    private Player player = game.getPlayer();
     private List<Room> locationMap = Game.getRooms();
     private List<Item> locationItems = Game.getInstance().getThingsList();
     private Room currentLocation;
@@ -119,6 +121,7 @@ public class CommandProcessor {
         return cmdInput; //return the list of verb, noun
     }
     public Room forGo(List<String> command){
+        System.out.println(command.toString());
         try{
             // need a way to grab directions from map
             if(currentLocation.getDirections().containsKey(command.get(1))) {                                           // checking if currentLocation has direction of movement provided by user input as an option
@@ -140,6 +143,7 @@ public class CommandProcessor {
                 newRoom = r;
             }
         }
+        ChallengeRoom.getInstance(game, newRoom.getName().toString(), Game.getSolved(), Game.getPuzzles());
         return newRoom;
     }
     public void forGet(List<String> command){
