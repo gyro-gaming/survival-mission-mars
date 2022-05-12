@@ -139,7 +139,7 @@ public class CommandProcessor {
             // 'get' functionality enabled to allow user to acquire items, add to inventory
             for(Item item : locationItems){
                 noun = command.get(1);
-                if(item.getName().equals(noun) && player.getInventory().getInventory().size() < 3 && item.getLocation().getName().equals(currentLocation.getName())){
+                if(item.getName().equals(noun) && player.getInventory().getInventory().size() < 3 && item.getLocation().getName().equals(currentLocation.getName()) &&!(player.getInventory().lookItem().contains(item.getName()))){
                     // adding to inventory;
                     player.getInventory().add(item);
                     System.out.println("You've retrieved the " + item.getName() + " and added it to your inventory.");     // output to user informing item added to inventory
@@ -154,9 +154,6 @@ public class CommandProcessor {
                 else if (command.get(1).equals(" ")){
                     System.out.println("What do you want to get");
                 }
-//                else if (!(item.getName().equals(noun) && player.getInventory().getInventory().size() <= 3 && item.getLocation().getName().equals(currentLocation.getName()))) {
-//                    System.out.println("There is nothing here to pick up. Are you seeing things?  Maybe check your sugar levels...");       // output to user reminding them there is nothing to acquire from this room
-//                }
             }
     }
     public void forLook(List<String> command){
@@ -171,34 +168,36 @@ public class CommandProcessor {
                 }
 
             }
-            if(command.get(1).equals("room")) {
+        switch (command.get(1)) {
+            case "room":
                 System.out.println("Looking around this room, you see: " + currentLocation.getDescription());
-            }
-            else if(command.get(1).equals("inventory")) {
-                if(player.getInventory().getInventory().size() > 0) {
-                    System.out.println("Inventory: "+player.getInventory().getInventory());;
-                }
-                else {
+                break;
+            case "inventory":
+                if (player.getInventory().getInventory().size() > 0) {
+                    System.out.println("Inventory: " + player.getInventory().getInventory());
+                    ;
+                } else {
                     System.out.println("You currently have nothing in your inventory.");
                 }
-            }
-            else if((command.get(1).equals("oxygen")) || (command.get(1).equals("O2"))) {
+                break;
+            case "oxygen":
+            case "O2":
                 Boolean tempValue = false;
-               for(Item item : locationItems) {
-                   if(item.getName().equals("oxygen")&& currentLocation.getName().equals(item.getLocation().getName())){
-                       tempValue = true;
-                   }
-               }
-               if (tempValue.equals(true)){
-                   System.out.println("The O2 Sensor indicates the oxygen levels are: SAFE");
-               }
-               else{
-                   System.out.println("The O2 Sensor indicates the oxygen levels are: DANGEROUS");
-               }
-            }
-            else if(command.get(1).equals(" ")){
+                for (Item item : locationItems) {
+                    if (item.getName().equals("oxygen") && currentLocation.getName().equals(item.getLocation().getName())) {
+                        tempValue = true;
+                    }
+                }
+                if (tempValue.equals(true)) {
+                    System.out.println("The O2 Sensor indicates the oxygen levels are: SAFE");
+                } else {
+                    System.out.println("The O2 Sensor indicates the oxygen levels are: DANGEROUS");
+                }
+                break;
+            case " ":
                 System.out.println("Look where");
-            }
+                break;
+        }
 
     }
     public void forDrop(List<String> command) {
@@ -248,7 +247,7 @@ public class CommandProcessor {
                 startProcess.waitFor();
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("can't clear console");
         }
     }
 
