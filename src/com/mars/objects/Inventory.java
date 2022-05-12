@@ -54,7 +54,7 @@ public class Inventory {
     public Item drop(String item){
         int dropIndex = getItemIndex(item);
         Item dropItem = inventory.get(dropIndex);
-        inventory.remove(dropItem);
+        inventory.remove(dropIndex);
         return dropItem;
     }
 

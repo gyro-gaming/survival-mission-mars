@@ -139,15 +139,15 @@ public class CommandProcessor {
             // 'get' functionality enabled to allow user to acquire items, add to inventory
             for(Item item : locationItems){
                 noun = command.get(1);
-                if(item.getName().equals(noun) && player.getInventory().getInventory().size() <= 3 && item.getLocation().getName().equals(currentLocation.getName())){
+                if(item.getName().equals(noun) && player.getInventory().getInventory().size() < 3 && item.getLocation().getName().equals(currentLocation.getName())){
                     // adding to inventory;
                     player.getInventory().add(item);
                     System.out.println("You've retrieved the " + item.getName() + " and added it to your inventory.");     // output to user informing item added to inventory
                     System.out.println(player.getInventory().getInventory());
-                    // display.displayPlayerInventory();
                     break;
+                    // display.displayPlayerInventory();
                 }
-                else if (item.getName().equals(noun) && player.getInventory().getInventory().size() >= 3 && item.getLocation().getName().equals(currentLocation.getName())){
+                else if (item.getName().equals(noun) && player.getInventory().getInventory().size() == 3 && item.getLocation().getName().equals(currentLocation.getName())){
                     System.out.println("You can only have 3 items in inventory");
                     break;
                 }
@@ -206,8 +206,7 @@ public class CommandProcessor {
         for (Item item : locationItems) {
             if (player.getInventory().lookItem().contains(command.get(1))) {
                 Item dropping = player.getInventory().drop(command.get(1));// if so, assigning it a variable named 'dropping'
-               // player.getInventory().getInventory().remove(0);
-                System.out.println("You have dropped the " + dropping.getName() + ", it is no longer in your " +        // output to user to inform them of the change
+                System.out.println("You have dropped the " + command.get(1) + ", it is no longer in your " +        // output to user to inform them of the change
                         "inventory. It has been placed in this location.");
                 System.out.println("Inventory: " + player.getInventory().getInventory());
                 break;
