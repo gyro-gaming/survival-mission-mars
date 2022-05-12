@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import com.mars.PlayScreen;
 
 public class SplashScreen {
 
@@ -22,15 +23,13 @@ public class SplashScreen {
     TitleScreenHandler tsHandler = new TitleScreenHandler();
 
 
-    public static void main(String[] args) {
-        new SplashScreen();
-    }
+
     public SplashScreen() {
 
         backgroundImage = new ImageIcon("data/images/mars1.png");
         myLabel = new JLabel(backgroundImage);
         myLabel.setSize(800, 600);
-        window = new JFrame("Generation Alpha");
+        window = new JFrame("Survival Mission Mars");
         window.setSize(800, 600);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setLocationRelativeTo(null);
@@ -42,7 +41,7 @@ public class SplashScreen {
         titleNamePanel = new JPanel();
         titleNamePanel.setBounds(150, 100, 500, 100);
         titleNamePanel.setBackground(Color.black);
-        titleNameLabel = new JLabel("Mission to Mars");
+        titleNameLabel = new JLabel("Survival Mission Mars");
         titleNameLabel.setForeground(Color.white);
         titleNameLabel.setFont(titleFont);
 
@@ -77,15 +76,16 @@ public class SplashScreen {
         container.add(myLabel);
     }
 
-    public void createGameScreen() {
 
+    public void PlayScreen() {
+        new PlayScreen();
     }
 
 
 
     public class TitleScreenHandler implements ActionListener{
         public void actionPerformed(ActionEvent event) {
-            createGameScreen();
+            PlayScreen();
         }
     }
 
