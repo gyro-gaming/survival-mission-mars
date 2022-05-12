@@ -1,8 +1,6 @@
 package com.mars.locations;
 
 import com.mars.client.Game;
-import com.mars.items.PuzzleItem;
-
 import java.util.HashMap;
 import java.util.Map;
 

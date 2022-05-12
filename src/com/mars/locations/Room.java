@@ -1,6 +1,5 @@
 package com.mars.locations;
 
-
 import com.mars.items.Item;
 import com.mars.items.PuzzleItem;
 import com.mars.objects.NPC;

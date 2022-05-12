@@ -170,7 +170,7 @@ public class Game {
 
     // TODO method logic
     private NPC getNpcHelper(String name) {
-        return new NPC();
+        return new NPC(name);
     }
 
     private List<Item> getItemsListForRooms(List<Map<String, Object>> names) {
