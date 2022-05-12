@@ -72,8 +72,8 @@ public class CommandProcessor {
         }
         }
     private void setStat() {
-
       try{
+          stats.put("Stamina", 100);
           if (!currentLocation.getName().equals("Docking Station") && stats.get("Stamina") > 0) {
               newStamina = stats.get("Stamina") - 5;
               stats.put("Stamina", newStamina);
@@ -162,7 +162,7 @@ public class CommandProcessor {
                       // adding to inventory;
                       player.getInventory().add(item);
                       System.out.println("You've retrieved the " + item.getName() + " and added it to your inventory.");     // output to user informing item added to inventory
-                      System.out.println(player.getInventory().getInventory());
+                      System.out.println(player.getInventory().toString());
                       break;
                       // display.displayPlayerInventory();
                   }
