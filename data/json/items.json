@@ -26,7 +26,7 @@
       "needs": "none"
     },
     {
-      "name": "gps unit",
+      "name": "gps",
       "image": "coming soon!",
       "description": "handheld battery operated unit to determine location and direction\nthis device will not work without a power supply",
       "location": "Docking Station",
