@@ -4,7 +4,7 @@
       "name": "mealkit",
       "image": "coming soon!",
       "description": "a single use meal kit",
-      "location": "Docking Station",
+      "location": "Kitchen",
       "type": "food",
       "modifier": "25"
     },
@@ -20,8 +20,8 @@
       "name": "batteries",
       "image": "coming soon!",
       "description": "power supply for hand held units",
-      "location": "Recreation Area",
-      "type": "sub",
+      "location": "Hydro Control Room",
+      "type": "puzzle",
       "use": "GPS unit",
       "needs": "none"
     },
