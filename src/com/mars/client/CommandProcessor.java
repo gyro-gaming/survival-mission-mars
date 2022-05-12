@@ -128,6 +128,9 @@ public class CommandProcessor {
             }
 
         }
+        catch (NullPointerException e ) {
+            System.out.println("Can't go that way");
+        }
         catch (ArrayIndexOutOfBoundsException e){
             System.out.println("Go where?");
         }
@@ -140,70 +143,80 @@ public class CommandProcessor {
         return newRoom;
     }
     public void forGet(List<String> command){
-            String noun = " ";
-            // 'get' functionality enabled to allow user to acquire items, add to inventory
-            for(Item item : locationItems){
-                noun = command.get(1);
-                if(item.getName().equals(noun) && player.getInventory().getInventory().size() < 3 && item.getLocation().getName().equals(currentLocation.getName()) &&!(player.getInventory().lookItem().contains(item.getName()))){
-                    // adding to inventory;
-                    player.getInventory().add(item);
-                    System.out.println("You've retrieved the " + item.getName() + " and added it to your inventory.");     // output to user informing item added to inventory
-                    System.out.println(player.getInventory().getInventory());
-                    break;
-                    // display.displayPlayerInventory();
-                }
-                else if (item.getName().equals(noun) && player.getInventory().getInventory().size() == 3 && item.getLocation().getName().equals(currentLocation.getName())){
-                    System.out.println("You can only have 3 items in inventory");
-                    break;
-                }
-                else if (command.get(1).equals(" ")){
-                    System.out.println("What do you want to get");
-                    break;
-                }
-            }
+          try{
+              String noun = " ";
+              // 'get' functionality enabled to allow user to acquire items, add to inventory
+              for(Item item : locationItems){
+                  noun = command.get(1);
+                  if(item.getName().equals(noun) && player.getInventory().getInventory().size() < 3 && item.getLocation().getName().equals(currentLocation.getName()) &&!(player.getInventory().lookItem().contains(item.getName()))){
+                      // adding to inventory;
+                      player.getInventory().add(item);
+                      System.out.println("You've retrieved the " + item.getName() + " and added it to your inventory.");     // output to user informing item added to inventory
+                      System.out.println(player.getInventory().getInventory());
+                      break;
+                      // display.displayPlayerInventory();
+                  }
+                  else if (item.getName().equals(noun) && player.getInventory().getInventory().size() == 3 && item.getLocation().getName().equals(currentLocation.getName())){
+                      System.out.println("You can only have 3 items in inventory");
+                      break;
+                  }
+                  else if (command.get(1).equals(" ")){
+                      System.out.println("What do you want to get");
+                      break;
+                  }
+              }
+          }
+          catch(NullPointerException e){
+              System.out.println("Get what?");
+          }
     }
     public void forLook(List<String> command){
-            for (Item i : locationItems){
-                if(i.getName().equals(command.get(1))&& i.getLocation().getName().equals(currentLocation.getName())){
-                    System.out.println("Upon examination you find " + i.getDescription());
-                    break;
-                }
-                if(player.getInventory().lookItem().contains(command.get(1))) {                                                  // if not in currentLocation, check if in inventory
-                    System.out.println("Upon examination you find " + player.getInventory().getItemDescription(command.get(1)));
-                    break;// if item present in inventory, output to user description of item
-                }
+          try {
+              for (Item i : locationItems){
+                  if(i.getName().equals(command.get(1)) && i.getLocation().getName().equals(currentLocation.getName())){
+                      System.out.println("Upon examination you find " + i.getDescription());
+                      break;
+                  }
+                  if(player.getInventory().lookItem().contains(command.get(1))) {                                                  // if not in currentLocation, check if in inventory
+                      System.out.println("Upon examination you find " + player.getInventory().getItemDescription(command.get(1)));
+                      break;// if item present in inventory, output to user description of item
+                  }
 
-            }
-        switch (command.get(1)) {
-            case "room":
-                System.out.println("Looking around this room, you see: " + currentLocation.getDescription());
-                break;
-            case "inventory":
-                if (player.getInventory().getInventory().size() > 0) {
-                    System.out.println("Inventory: " + player.getInventory().getInventory());
-                    ;
-                } else {
-                    System.out.println("You currently have nothing in your inventory.");
-                }
-                break;
-            case "oxygen":
-            case "O2":
-                Boolean tempValue = false;
-                for (Item item : locationItems) {
-                    if (item.getName().equals("oxygen") && currentLocation.getName().equals(item.getLocation().getName())) {
-                        tempValue = true;
-                    }
-                }
-                if (tempValue.equals(true)) {
-                    System.out.println("The O2 Sensor indicates the oxygen levels are: SAFE");
-                } else {
-                    System.out.println("The O2 Sensor indicates the oxygen levels are: DANGEROUS");
-                }
-                break;
-            case " ":
-                System.out.println("Look where");
-                break;
-        }
+              }
+              switch (command.get(1)) {
+                  case "room":
+                      System.out.println("Looking around this room, you see: " + currentLocation.getDescription());
+                      break;
+                  case "inventory":
+                      if (player.getInventory().getInventory().size() > 0) {
+                          System.out.println("Inventory: " + player.getInventory().getInventory());
+                          ;
+                      } else {
+                          System.out.println("You currently have nothing in your inventory.");
+                      }
+                      break;
+                  case "oxygen":
+                  case "O2":
+                      Boolean tempValue = false;
+                      for (Item item : locationItems) {
+                          if (item.getName().equals("oxygen") && currentLocation.getName().equals(item.getLocation().getName())) {
+                              tempValue = true;
+                          }
+                      }
+                      if (tempValue.equals(true)) {
+                          System.out.println("The O2 Sensor indicates the oxygen levels are: SAFE");
+                      } else {
+                          System.out.println("The O2 Sensor indicates the oxygen levels are: DANGEROUS");
+                      }
+                      break;
+                  case " ":
+                      System.out.println("Look where");
+                      break;
+              }
+          }
+          catch(NullPointerException e){
+              System.out.println("No item to look");
+          }
 
     }
     public void forDrop(List<String> command) {
@@ -211,6 +224,8 @@ public class CommandProcessor {
         for (Item item : locationItems) {
             if (player.getInventory().lookItem().contains(command.get(1))) {
                 Item dropping = player.getInventory().drop(command.get(1));// if so, assigning it a variable named 'dropping'
+                dropping.setLocation(currentLocation);
+                item.setLocation(currentLocation);
                 System.out.println("You have dropped the " + command.get(1) + ", it is no longer in your " +        // output to user to inform them of the change
                         "inventory. It has been placed in this location.");
                 System.out.println("Inventory: " + player.getInventory().getInventory());
