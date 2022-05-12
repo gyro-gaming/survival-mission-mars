@@ -14,7 +14,7 @@ public class CommandProcessor {
     private Game game = Game.getInstance();
     private Player player = game.getPlayer();
     private List<Room> locationMap = Game.getRooms();
-    private List<Item> locationItems = Game.getInstance().getThingsList();
+    private List<Item> locationItems = Game.getItems();
     private Room currentLocation;
 
 

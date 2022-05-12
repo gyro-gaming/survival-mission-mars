@@ -10,7 +10,7 @@
       "description": "Your space craft is docked and you see the remains of an old abandoned outpost.",
       "puzzle": "false",
       "items": [
-        "meal ready to eat",
+        "mealkit",
         "helmet"
       ]
     },
