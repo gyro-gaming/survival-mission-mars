@@ -18,21 +18,26 @@ public class Game {
     private static List<Room> rooms;
     private static List<Puzzle> puzzles;
     private static Map<String, Boolean> solved;
+    private static Map<String, Integer> stats;
+    private static List<Item> inventory;
     private static Game instance = new Game();
-    private Player player;
+    private static Player player;
 
     private Game() {
     }
 
     public static Game getInstance() {
-        instance.setPlayer(new Player());
+        player = Player.getInstance();
+        instance.setPlayer(player);
         instance.setRooms();
         instance.setPuzzles(Puzzle.getPuzzleList());
         instance.setItems();
         instance.setSolved(new HashMap<>());
+        instance.setStats(player.getStats().getStats());
+        instance.setInventory(player.getInventory().getInventory());
         return instance;
     }
-
+    // getters and setters
     public void setPlayer(Player player) {
         this.player = player;
     }
@@ -72,6 +77,24 @@ public class Game {
     public static Map<String, Boolean> getSolved() {
         return solved;
     }
+
+    public static void setStats(Map<String, Integer> stats) {
+        Game.stats = stats;
+    }
+
+    public static Map<String, Integer> getStats() {
+        return stats;
+    }
+
+    public static void setInventory(List<Item> inventory) {
+        Game.inventory = inventory;
+    }
+
+    public static List<Item> getInventory() {
+        return inventory;
+    }
+
+    // end getters and setters
 
     // TODO method logic
     public static void save() {

@@ -81,7 +81,7 @@ public class Display {
             System.out.println("-----------------------------------------");
             System.out.println("Current Player Stats: ");
             System.out.println("Bone Density: " + (stats.get("Bone Density")).toString() + "%");
-            System.out.println("Health: " + (stats.get("Health")).toString() + "%");
+            System.out.println("Hunger: " + (stats.get("Hunger")).toString() + "%");
             System.out.println("Oxygen Level: " + (stats.get("Oxygen Level")).toString() + "%");
             System.out.println("Stamina: "+ (stats.get("Stamina")).toString() + "%");
 
@@ -118,7 +118,7 @@ public class Display {
 */
 
     public void displayPlayerInventory(){
-        System.out.println(String.join(", ", inventory.getInventory()));
+        System.out.println(inventory.toString());
     }
 
     private static InputStream getFileFromResourceAsStream(String fileName) {

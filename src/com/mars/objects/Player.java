@@ -5,46 +5,48 @@ import com.mars.locations.Room;
 public class Player {
     private String name;
     private Room location;
-    private Inventory inventory = new Inventory();
-    private Stats stat = new Stats();
+    private Inventory inventory;
+    private Stats stats;
+    private static Player instance = new Player();
 
-    public Player() {}
+    private Player() {}
 
-    public Player(String name, Inventory inventory, Stats stat) {
-        this.name = name;
-        this.inventory = inventory;
-        this.stat = stat;
+    public static Player getInstance() {
+        instance.setInventory(Inventory.getInstance());
+        instance.setStats(Stats.getInstance());
+        return instance;
+    }
+    // getters and setters
+    public void setLocation(Room location) {
+        this.location = location;
     }
 
     public Room getLocation() {
         return location;
     }
 
-    public void setLocation(Room location) {
-        this.location = location;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 
     public Inventory getInventory() {
         return inventory;
     }
 
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
+    public void setStats(Stats stats) {
+        this.stats = stats;
     }
 
-    public Stats getStat() {
-        return stat;
+    public Stats getStats() {
+        return stats;
     }
-
-    public void setStat(Stats stat) {
-        this.stat = stat;
-    }
+    // end getters and setters
 }
