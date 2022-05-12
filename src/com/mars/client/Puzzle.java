@@ -1,12 +1,10 @@
-package com.mars.locations;
-
-import com.mars.client.JsonParser;
+package com.mars.client;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-class Puzzle {
+public class Puzzle {
     private static List<Puzzle> puzzleList;
     private String question;
     private String choices;
