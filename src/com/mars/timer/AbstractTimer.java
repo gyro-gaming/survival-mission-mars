@@ -27,8 +27,9 @@ public abstract class AbstractTimer {
         currentTime = System.currentTimeMillis()/1000;
     }
 
-    public void printCurrentTime(){
+    public long printCurrentTime(){
         System.out.println(currentTime);
+        return currentTime;
     }
 
     public void showDifference(){
