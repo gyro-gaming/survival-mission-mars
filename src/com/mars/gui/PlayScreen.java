@@ -46,6 +46,7 @@ public class PlayScreen extends JFrame {
     private JPanel puzzlePanel;
     Font normalFont = new Font("Times New Roman", Font.ITALIC, 30);
     private CommandProcessor processor = new CommandProcessor();
+
     public PlayScreen() {
         setContentPane(mainPanel);
         setTitle("Survival Mission Mars");
@@ -55,17 +56,18 @@ public class PlayScreen extends JFrame {
         setVisible(true);
 
 
-            clockPanel.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    super.mouseEntered(e);
-                    GameTimer gt = new GameTimer();
-                    long timer = (gt.printCurrentTime());
-                    Date date = new Date(timer);
-                    String stringFormCurrentTime = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(timer * 1000);
-                    textField1.setText("Current Time: " + stringFormCurrentTime);
-                }
-            });
+        clockPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                GameTimer gt = new GameTimer();
+                long timer = (gt.printCurrentTime());
+                Date date = new Date(timer);
+                String stringFormCurrentTime = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(timer * 1000);
+                textField1.setText("Current Time: " + stringFormCurrentTime);
+            }
+        });
+
         northButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -76,6 +78,7 @@ public class PlayScreen extends JFrame {
                 textField2.setText(room.getDescription());
             }
         });
+
         southButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -88,6 +91,7 @@ public class PlayScreen extends JFrame {
 
             }
         });
+
         westButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -98,6 +102,7 @@ public class PlayScreen extends JFrame {
                 textField2.setText(room.getDescription());
             }
         });
+
         eastButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -117,8 +122,8 @@ public class PlayScreen extends JFrame {
         });
     }
 
-        private void createUIComponents() {
-            // TODO: place custom component creation code here
-        }
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
     }
+}
 

@@ -1,11 +1,8 @@
 package com.mars.client;
 
-import com.mars.items.FoodItem;
-import com.mars.items.Item;
-import com.mars.items.OxygenItem;
+import com.mars.items.*;
 import com.mars.objects.NPC;
 import com.mars.locations.Room;
-import com.mars.items.PuzzleItem;
 import com.mars.objects.Player;
 
 import java.util.ArrayList;
@@ -163,6 +160,7 @@ public class Game {
         List<Item> itemsList = new ArrayList<>();
         PuzzleItem puzzleItem;
         OxygenItem oxygenItem;
+        SleepItem sleepItem;
         FoodItem foodItem;
         for (Map<String, Object> item : items) {
             if (item.get("type").toString().equalsIgnoreCase("puzzle")) {
@@ -174,7 +172,6 @@ public class Game {
                 room.setName(item.get("location").toString());
                 puzzleItem.setLocation(room);
                 puzzleItem.setPuzzle(item.get("use").toString());
-                puzzleItem.setNeeds(item.get("needs").toString());
                 itemsList.add(puzzleItem);
             } else if (item.get("type").toString().equalsIgnoreCase("oxygen")) {
                 oxygenItem = new OxygenItem();
@@ -196,6 +193,16 @@ public class Game {
                 foodItem.setLocation(room);
                 foodItem.setModifier(Integer.parseInt(item.get("modifier").toString()));
                 itemsList.add(foodItem);
+            } else if (item.get("type").toString().equalsIgnoreCase("sleep")) {
+                sleepItem = new SleepItem();
+                sleepItem.setName(item.get("name").toString());
+                sleepItem.setImage(item.get("image").toString());
+                sleepItem.setDescription(item.get("description").toString());
+                Room room = new Room();
+                room.setName(item.get("location").toString());
+                sleepItem.setLocation(room);
+                sleepItem.setModifier(Integer.parseInt(item.get("modifier").toString()));
+                itemsList.add(sleepItem);
             }
         }
         return itemsList;

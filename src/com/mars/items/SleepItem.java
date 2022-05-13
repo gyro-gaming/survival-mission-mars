@@ -2,12 +2,12 @@ package com.mars.items;
 
 import com.mars.locations.Room;
 
-public class PuzzleItem implements Item {
+public class SleepItem implements Item{
     private String name;
     private String image;
     private String description;
     private Room location;
-    private String puzzle;
+    private int modifier;
 
     @Override
     public void setName(String name) {
@@ -49,13 +49,14 @@ public class PuzzleItem implements Item {
         return location;
     }
 
-    public void setPuzzle(String puzzle) {
-        this.puzzle = puzzle;
+    public void setModifier(int modifier) {
+        this.modifier = modifier;
     }
 
-    public String getPuzzle() {
-        return puzzle;
+    public int getModifier() {
+        return modifier;
     }
+
 
     // TODO write logic
     @Override
