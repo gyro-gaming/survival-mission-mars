@@ -5,6 +5,7 @@ import com.mars.locations.ChallengeRoom;
 import com.mars.locations.Room;
 import com.mars.objects.Player;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -128,6 +129,16 @@ public class CommandProcessor {
             cmdInput.add(cleanInput.nextToken().toLowerCase());
         }
         return cmdInput; //return the list of verb, noun
+    }
+    public Vector<String> forItem(String location){
+        Vector<String> items = new Vector<>();
+        for(Item i : Game.getItems()){
+            if(i.getLocation().getName().equals(location)){
+                items.add(i.getName());
+            }
+        }
+        System.out.println(items.toString());
+        return items;
     }
     public Room forGo(List<String> command){
 

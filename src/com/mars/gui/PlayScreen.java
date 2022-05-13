@@ -76,6 +76,7 @@ public class PlayScreen extends JFrame {
                 Room room = processor.processCommand(nextCommand);
                 roomLabel.setText(room.getName());
                 textField2.setText(room.getDescription());
+                itemsBox.removeAllItems();
             }
         });
 
@@ -87,7 +88,7 @@ public class PlayScreen extends JFrame {
                 Room room = processor.processCommand(nextCommand);
                 roomLabel.setText(room.getName());
                 textField2.setText(room.getDescription());
-
+                itemsBox.removeAllItems();
 
             }
         });
@@ -100,6 +101,7 @@ public class PlayScreen extends JFrame {
                 Room room = processor.processCommand(nextCommand);
                 roomLabel.setText(room.getName());
                 textField2.setText(room.getDescription());
+                itemsBox.removeAllItems();
             }
         });
 
@@ -111,15 +113,23 @@ public class PlayScreen extends JFrame {
                 Room room = processor.processCommand(nextCommand);
                 roomLabel.setText(room.getName());
                 textField2.setText(room.getDescription());
+                itemsBox.removeAllItems();
             }
         });
-        itemsBox.addActionListener(new ActionListener() {
+
+
+        itemsBox.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-
-
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                itemsBox.removeAllItems();
+                Vector<String>items =processor.forItem(roomLabel.getText());
+                for (int i = 0; i < items.size(); i++){
+                    itemsBox.addItem(items.get(i));
+                }
             }
         });
+
     }
 
     private void createUIComponents() {

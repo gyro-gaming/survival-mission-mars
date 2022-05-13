@@ -6,7 +6,8 @@
       "description": "power supply for hand held units",
       "location": "Hydro Control Room",
       "type": "puzzle",
-      "use": "Solar Array"
+      "use": "Solar Array",
+      "modifier" : "0"
     },
     {
       "name": "gps",
@@ -14,7 +15,8 @@
       "description": "handheld battery operated unit to determine location and direction\nthis device will not work without a power supply",
       "location": "Environmental Control Room",
       "type": "puzzle",
-      "use": "Solar Array"
+      "use": "Solar Array",
+      "modifier" : "0"
     },
     {
       "name": "cable",
@@ -22,7 +24,8 @@
       "description": "3 foot cable with a male and female ends",
       "location": "Gym",
       "type": "puzzle",
-      "use": "Solar Array"
+      "use": "Solar Array",
+      "modifier" : "0"
     },
     {
       "name": "key",
@@ -30,7 +33,8 @@
       "description": "something to lock or secure with",
       "location": "Sleep Quarters",
       "type": "puzzle",
-      "use": "Reactor"
+      "use": "Reactor",
+      "modifier" : "0"
     },
     {
       "name": "dosimeter",
@@ -38,7 +42,8 @@
       "description": "pen-sized device to check radiation levels",
       "location": "Kitchen",
       "type": "puzzle",
-      "use": "Reactor"
+      "use": "Reactor",
+      "modifier" : "0"
     },
     {
       "name": "checklist",
@@ -46,7 +51,8 @@
       "description": "checklist for an unknown item",
       "location": "Green House",
       "type": "puzzle",
-      "use": "Reactor"
+      "use": "Reactor",
+      "modifier" : "0"
     },
     {
       "name": "pressure gauge",
@@ -54,7 +60,8 @@
       "description": "an alien looking device with two gauges and several attached hoses",
       "location": "Kitchen",
       "type": "puzzle",
-      "use": "ECR"
+      "use": "ECR",
+      "modifier" : "0"
     },
     {
       "name": "voltage meter",
@@ -62,7 +69,8 @@
       "description": "a handheld device with two attached probes",
       "location": "Green House",
       "type": "puzzle",
-      "use": "ECR"
+      "use": "ECR",
+      "modifier" : "0"
     },
     {
       "name": "tool kit",
@@ -70,7 +78,8 @@
       "description": "checklist for an unknown item",
       "location": "Sleep Quarters",
       "type": "puzzle",
-      "use": "ECR"
+      "use": "ECR",
+      "modifier" : "0"
     },
     {
       "name": "water level probe",
@@ -78,7 +87,8 @@
       "description": "mmm....",
       "location": "Environmental Control Room",
       "type": "puzzle",
-      "use": "Hydro"
+      "use": "Hydro",
+      "modifier" : "0"
     },
     {
       "name": "pH meter",
@@ -86,7 +96,8 @@
       "description": "mmm....",
       "location": "Gym",
       "type": "puzzle",
-      "use": "Hydro"
+      "use": "Hydro",
+      "modifier" : "0"
     },
     {
       "name": "chlorine tablets",
@@ -94,7 +105,8 @@
       "description": "mmm....",
       "location": "Solar Array",
       "type": "puzzle",
-      "use": "Hydro"
+      "use": "Hydro",
+      "modifier" : "0"
     },
     {
       "name": "potato",
@@ -102,7 +114,8 @@
       "description": "mmm....",
       "location": "Docking Station",
       "type": "puzzle",
-      "use": "GreenHouse"
+      "use": "GreenHouse",
+      "modifier" : "0"
     },
     {
       "name": "fertilizer",
@@ -110,7 +123,8 @@
       "description": "mmm....",
       "location": "Reactor",
       "type": "puzzle",
-      "use": "GreenHouse"
+      "use": "GreenHouse",
+      "modifier" : "0"
     },
     {
       "name": "nozzle",
@@ -118,7 +132,8 @@
       "description": "mmm....",
       "location": "Hydro Control Room",
       "type": "puzzle",
-      "use": "GreenHouse"
+      "use": "GreenHouse",
+      "modifier" : "0"
     },
     {
       "name": "flashlight",
@@ -126,7 +141,8 @@
       "description": "a tool used to shine bright over things",
       "location": "Reactor",
       "type": "puzzle",
-      "use": "none"
+      "use": "none",
+      "modifier" : "0"
     },
     {
       "name": "calculator",
@@ -134,7 +150,8 @@
       "description": "tool to calculate math faster than lighting",
       "location": "Solar Array",
       "type": "puzzle",
-      "use": "none"
+      "use": "none",
+      "modifier" : "0"
     },
     {
       "name": "chuck taylors",
@@ -142,7 +159,8 @@
       "description": "You're an 'all*star'",
       "location": "Kitchen",
       "type": "puzzle",
-      "use": "none"
+      "use": "none",
+      "modifier" : "0"
     },
     {
       "name": "compass",
@@ -150,7 +168,8 @@
       "description": "won't tell you direction",
       "location": "Gym",
       "type": "puzzle",
-      "use": "none"
+      "use": "none",
+      "modifier" : "0"
     },
     {
       "name": "mre menu 1",
@@ -158,6 +177,7 @@
       "description": "Chili with Beans",
       "location": "Docking Station",
       "type": "food",
+      "use": "none",
       "modifier": "4"
     },
     {
@@ -166,6 +186,7 @@
       "description": "Shredded Beef in Barbecue Sauce",
       "location": "Hydro Control Room",
       "type": "food",
+      "use": "none",
       "modifier": "2"
     },
     {
@@ -174,6 +195,7 @@
       "description": "Chicken, Egg Noodles, and Vegetables in Sauce",
       "location": "Green House",
       "type": "food",
+      "use": "none",
       "modifier": "1"
     },
     {
@@ -182,6 +204,7 @@
       "description": "Chili and Macaroni",
       "location": "Solar Array",
       "type": "food",
+      "use": "none",
       "modifier": "5"
     },
     {
@@ -190,6 +213,7 @@
       "description": "Cheese Tortellini in Tomato Sauce",
       "location": "Reactor",
       "type": "food",
+      "use": "none",
       "modifier": "4"
     },
     {
@@ -198,6 +222,7 @@
       "description": "the best space food kicking",
       "location": "Sleep Quarters",
       "type": "food",
+      "use": "none",
       "modifier": "1"
     },
     {
@@ -206,6 +231,7 @@
       "description": "mmm....",
       "location": "Reactor",
       "type": "oxygen",
+      "use": "none",
       "modifier": "2"
     },
     {
@@ -214,6 +240,7 @@
       "description": "mmm....",
       "location": "Solar Array",
       "type": "oxygen",
+      "use": "none",
       "modifier": "3"
     },
     {
@@ -222,6 +249,7 @@
       "description": "mmm....",
       "location": "Gym",
       "type": "oxygen",
+      "use": "none",
       "modifier": "5"
     },
     {
@@ -230,6 +258,7 @@
       "description": " the final addition to your space suit",
       "location": "Docking Station",
       "type": "oxygen",
+      "use": "none",
       "modifier": "0"
     },
     {
