@@ -1,5 +1,7 @@
 package com.mars.client;
 
+import com.mars.locations.Location;
+import com.mars.locations.Room;
 import com.mars.objects.Inventory;
 
 import java.io.BufferedReader;
@@ -116,6 +118,17 @@ public class Display {
         }
     }
 */
+    public void displayCurrentStatus(Room location) {
+        List<String> allItems = new ArrayList<>();
+        String locationS = ("You are in " + location.getName());
+        String descriptionS = ("Description: " + location.getDescription());
+        for (Room r : Game.getRooms()){
+            if (r.getName().equals(location.getName())){
+                allItems.add(r.getName());
+            }
+        }
+        String itemS = ("You see the following items in the room: " + allItems);
+    }
 
     public void displayPlayerInventory(){
         System.out.println(inventory.toString());

@@ -22,7 +22,6 @@ public class CommandProcessor {
     private List<Item> inventory = game.getInventory();
     private Room currentLocation = rooms.get(0);
 
-
     // method to resolve action command inputs from user
     public Room processCommand(List<String> command) {
 
@@ -102,7 +101,7 @@ public class CommandProcessor {
 
     // method to actually run the application
     public Room runApp(String userInput) {
-        boolean isRunning = false;                      // establish & setting boolean to default off for game execution
+//        boolean isRunning = true;                      // establish & setting boolean to default off for game execution
 //        String answer = display.playGame();             // Ask if user wants to play a game
 //        if(answer.equals("y")){
 //            isRunning = true;                           // setting boolean on for game execution
@@ -114,6 +113,7 @@ public class CommandProcessor {
 
         // functions while game is running
         while (userInput.length() > 1) {
+
             List<String> nextCommand = getCommand(userInput);            // calling upon Parser to begin parse process
             currentLocation = processCommand(nextCommand);
             return currentLocation;
@@ -153,7 +153,7 @@ public class CommandProcessor {
             }
         }
 
-       // ChallengeRoom.getInstance(game, newRoom.getName().toString(), Game.getSolved(), Game.getPuzzles());
+       ChallengeRoom.getInstance(game, newRoom.getName().toString(), Game.getSolved(), Game.getPuzzles());
         return newRoom;
     }
     public void forGet(List<String> command){

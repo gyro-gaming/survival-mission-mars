@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="15" left="15" bottom="15" right="15"/>
     <constraints>
-      <xy x="20" y="20" width="1012" height="504"/>
+      <xy x="20" y="20" width="1127" height="504"/>
     </constraints>
     <properties>
       <background color="-2859222"/>
@@ -242,7 +242,16 @@
                       <font name="Courier New" size="12" style="3"/>
                       <title-color color="-15066351"/>
                     </border>
-                    <children/>
+                    <children>
+                      <component id="b6ffe" class="javax.swing.JLabel" binding="textField1">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Label"/>
+                        </properties>
+                      </component>
+                    </children>
                   </grid>
                   <grid id="90616" binding="roomPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="1" left="1" bottom="1" right="1"/>
@@ -254,7 +263,16 @@
                       <font name="Courier New" size="12" style="3"/>
                       <title-color color="-15066351"/>
                     </border>
-                    <children/>
+                    <children>
+                      <component id="225cd" class="javax.swing.JLabel" binding="roomLabel">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Label"/>
+                        </properties>
+                      </component>
+                    </children>
                   </grid>
                 </children>
               </grid>
