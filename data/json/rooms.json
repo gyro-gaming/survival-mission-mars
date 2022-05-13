@@ -75,6 +75,8 @@
       "puzzle": "true",
       "items": [
         "checklist",
+        "mre menu 3",
+        "blanket",
         "voltage_meter"
       ]
     },
@@ -90,7 +92,6 @@
       "puzzle": "false",
       "items": [
         "key",
-        "blanket",
         "freeze dried ice cream",
         "tool_kit"
       ]
