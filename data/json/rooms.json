@@ -10,8 +10,10 @@
       "description": "Your space craft is docked and you see the remains of an old abandoned outpost.",
       "puzzle": "false",
       "items": [
-        "mealkit",
-        "helmet"
+        "mre menu 1",
+        "helmet",
+        "potato",
+        "melatonin"
       ]
     },
     {
@@ -24,8 +26,10 @@
       "description": "It appears to be an old hydro station-an essential part of restoring water to the outpost.\n There appears to be a helpful placard on the tank.",
       "puzzle": "true",
       "items": [
-        "flashlight",
-        "batteries"
+        "batteries",
+        "voltage_meter",
+        "sleep mask",
+        "nozzle"
       ]
     },
     {
@@ -38,10 +42,12 @@
       },
       "description": "An uncomplicated room with a mini fridge and a center island for prep space. This is where the snacks happen!",
       "puzzle": "false",
-      "items": {
-        "air_fryer": "only the fanciest appliances for NASA's finest",
-        "freeze_dried_ice_cream": "almost as good as the real thing"
-      }
+      "items": [
+        "dosimeter",
+        "mre menu 13 vegetarian",
+        "pressure_gauge",
+        "chuck taylors"
+      ]
     },
     {
       "name": "Reactor",
@@ -52,8 +58,10 @@
       "description": "A large room full of multiple screens, buttons and levers. The main power source for the outpost.",
       "puzzle": "true",
       "items": [
-        "seeds",
-        "deck_of_cards"
+        "fertilizer",
+        "small oxygen canister",
+        "mre menu 2",
+        "flashlight"
       ]
     },
     {
@@ -66,8 +74,8 @@
       "description": "A warm, glass-enclosed room with row after row of grow lights. Soil bags sit in the corner awaiting use.",
       "puzzle": "true",
       "items": [
-        "water_level_probe",
-        "pH_meter"
+        "checklist",
+        "voltage_meter"
       ]
     },
     {
@@ -81,9 +89,10 @@
       "description": "A quiet, dark, enclosed room. Bunk beds line the walls.",
       "puzzle": "false",
       "items": [
-        "alarm_clock",
-        "sleeping_mask",
-        "r_key"
+        "key",
+        "blanket",
+        "freeze dried ice cream",
+        "tool_kit"
       ]
     },
     {
@@ -95,8 +104,10 @@
       "description": "a large field of solar panels still intact.",
       "puzzle": "true",
       "items": [
-        "calculator",
-        "compass"
+        "chlorine tablets",
+        "mre menu 10",
+        "oxygen canister",
+        "calculator"
       ]
     },
     {
@@ -110,7 +121,9 @@
       "puzzle": "false",
       "items": [
         "gps",
-        "cable"
+        "alarm clock",
+        "mre menu 3",
+        "water_level_probe"
       ]
     },
     {
@@ -123,8 +136,10 @@
       "description": "Where the gainz happen.",
       "puzzle": "false",
       "items": [
-        "chuck_taylors",
-        "protein_powder"
+        "cable",
+        "large oxygen canister",
+        "pH_meter",
+        "compass"
       ]
     }
   ]

@@ -73,24 +73,89 @@ public class ChallengeRoom extends Room {
         this.game = game;
     }
 
-    // TODO need method logic
     public Map<String, Boolean> greenHousePuzzle(Game game, String option, Map<String, Boolean> solved) {
-        System.out.println("Green House Puzzle");
-        return new HashMap<>();
+        List<Item> items = Game.getItems();
+        Item nozzle = null;
+        Item fertilizer = null;
+        Item potato = null;
+        for (Item item : items) {
+            if (item.getName().equals("nozzle")) {
+                nozzle = item;
+            } else if (item.getName().equals("fertilizer")) {
+                fertilizer = item;
+            } else if (item.getName().equals("potato")) {
+                potato = item;
+            }
+        }
+        if (game.getPlayer().getInventory().getInventory().contains(potato) &&
+                game.getPlayer().getInventory().getInventory().contains(fertilizer) &&
+                !solved.get(option + "-a")) {
+            String output1 = "[y/n]?";
+            solved = getQuestions(option + "a", solved);
+        }
+        if (game.getPlayer().getInventory().getInventory().contains(nozzle) &&
+                !solved.get(option + "-b")) {
+            String output3 = "";
+            solved = getQuestions(option + "b", solved);
+        }
+        return solved;
     }
 
-    // TODO need method logic
     public Map<String, Boolean> hydroPuzzle(Game game, String option, Map<String, Boolean> solved) {
-        System.out.println("Hydro Puzzle");
-        return new HashMap<>();
+        List<Item> items = Game.getItems();
+        Item pressureGauge = null;
+        Item voltageMeter = null;
+        Item chlorineTablets = null;
+        for (Item item : items) {
+            if (item.getName().equals("pressure gauge")) {
+                pressureGauge = item;
+            } else if (item.getName().equals("voltage meter")) {
+                voltageMeter = item;
+            } else if (item.getName().equals("chlorine tablets")) {
+                chlorineTablets = item;
+            }
+        }
+        if (game.getPlayer().getInventory().getInventory().contains(pressureGauge) &&
+                game.getPlayer().getInventory().getInventory().contains(voltageMeter) &&
+                !solved.get(option + "-a")) {
+            String output1 = "[y/n]?";
+            solved = getQuestions(option + "a", solved);
+        }
+        if (game.getPlayer().getInventory().getInventory().contains(chlorineTablets) &&
+                !solved.get(option + "-b")) {
+            String output3 = "";
+            solved = getQuestions(option + "b", solved);
+        }
+        return solved;
     }
 
-    // TODO need method logic
     public Map<String, Boolean> environmentalPuzzle(Game game, String option, Map<String, Boolean> solved) {
-        System.out.println("Environmental puzzle");
-        return new HashMap<>();
+        List<Item> items = Game.getItems();
+        Item pressureGauge = null;
+        Item voltageMeter = null;
+        Item toolKit = null;
+        for (Item item : items) {
+            if (item.getName().equals("pressure gauge")) {
+                pressureGauge = item;
+            } else if (item.getName().equals("voltage meter")) {
+                voltageMeter = item;
+            } else if (item.getName().equals("tool kit")) {
+                toolKit = item;
+            }
+        }
+        if (game.getPlayer().getInventory().getInventory().contains(pressureGauge) &&
+                game.getPlayer().getInventory().getInventory().contains(voltageMeter) &&
+                !solved.get(option + "-a")) {
+            String output1 = "[y/n]?";
+            solved = getQuestions(option + "a", solved);
+        }
+        if (game.getPlayer().getInventory().getInventory().contains(toolKit) &&
+                !solved.get(option + "-b")) {
+            String output3 = "";
+            solved = getQuestions(option + "b", solved);
+        }
+        return solved;
     }
-
 
     public Map<String, Boolean> reactorPuzzle(Game game, String option, Map<String, Boolean> solved) {
         List<Item> items = Game.getItems();
@@ -109,12 +174,12 @@ public class ChallengeRoom extends Room {
         if (game.getPlayer().getInventory().getInventory().contains(key) &&
                 game.getPlayer().getInventory().getInventory().contains(dosimeter) &&
                 !solved.get(option + "-a")) {
-            String output1 = "Would you like to attempt to align the panels [y/n]? ";
+            String output1 = "[y/n]?";
             solved = getQuestions(option + "a", solved);
         }
         if (game.getPlayer().getInventory().getInventory().contains(checklist) &&
                 !solved.get(option + "-b")) {
-            String output3 = "You notice that the array is not generating any power, would you like to take a look?";
+            String output3 = "";
             solved = getQuestions(option + "b", solved);
         }
         return solved;

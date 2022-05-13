@@ -70,4 +70,3 @@ public class FoodItem implements Item {
         return "string";
     }
 }
-

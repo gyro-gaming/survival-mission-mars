@@ -1,100 +1,12 @@
 {
   "items": [
     {
-      "name": "mealkit",
-      "image": "coming soon!",
-      "description": "a single use meal kit",
-      "location": "Docking Station",
-      "type": "food",
-      "use": "none",
-      "needs": "none",
-      "modifier": "25"
-    },{
-      "name": "flashlight",
-      "image": "coming soon!",
-      "description": "a tool used to shine bright over things",
-      "location": "Hydro Control Room",
-      "type": "puzzle",
-      "use": "none",
-      "needs": "none",
-      "modifier": "25"
-    },{
-      "name": "alarm_clock",
-      "image": "coming soon!",
-      "description": "simple time keeper to help kep you on track",
-      "location": "Sleep Quarters",
-      "type": "puzzle",
-      "use": "none",
-      "needs": "none",
-      "modifier": "25"
-    },{
-      "name": "freeze_dried_ice_cream",
-      "image": "coming soon!",
-      "description": "the best space food kicking",
-      "location": "Kitchen",
-      "type": "food",
-      "use": "none",
-      "needs": "none",
-      "modifier": "25"
-    },
-    {
-      "name": "air_fryer",
-      "image": "coming soon!",
-      "description": "only the fanciest appliances for NASA's finest",
-      "location": "Kitchen",
-      "type": "food",
-      "use": "none",
-      "needs": "none",
-      "modifier": "25"
-    },
-    {
-      "name": "sleeping_mask",
-      "image": "coming soon!",
-      "description": "for your beauty sleep",
-      "location": "Sleep Quarters",
-      "type": "puzzle",
-      "use": "none",
-      "needs": "none",
-      "modifier": "25"
-    },{
-      "name": "water_level_probe",
-      "image": "coming soon!",
-      "description": "mmm....",
-      "location": "Green House",
-      "type": "oxygen",
-      "use": "none",
-      "needs": "none",
-      "modifier": "25"
-    },
-    {
-      "name": "pH_meter",
-      "image": "coming soon!",
-      "description": "mmm....",
-      "location": "Green House",
-      "type": "oxygen",
-      "use": "",
-      "needs": "none",
-      "modifier": "25"
-    },
-    {
-      "name": "helmet",
-      "image": "coming soon!",
-      "description": " the final addition to your space suit",
-      "location": "Docking Station",
-      "type": "oxygen",
-      "use": "none",
-      "needs": "none",
-      "modifier": "25"
-    },
-    {
       "name": "batteries",
       "image": "coming soon!",
       "description": "power supply for hand held units",
       "location": "Hydro Control Room",
       "type": "puzzle",
-      "use": "GPS unit",
-      "needs": "none",
-      "modifier": "25"
+      "use": "Solar Array"
     },
     {
       "name": "gps",
@@ -102,29 +14,15 @@
       "description": "handheld battery operated unit to determine location and direction\nthis device will not work without a power supply",
       "location": "Environmental Control Room",
       "type": "puzzle",
-      "use": "Solar Array",
-      "needs": "batteries",
-      "modifier": "25"
+      "use": "Solar Array"
     },
     {
       "name": "cable",
       "image": "coming soon!",
       "description": "3 foot cable with a male and female ends",
-      "location": "Environmental Control Room",
+      "location": "Gym",
       "type": "puzzle",
-      "use": "Solar Array",
-      "needs": "none",
-      "modifier": "25"
-    },
-    {
-      "name": "dosimeter",
-      "image": "coming soon!",
-      "description": "pen-sized device to check radiation levels",
-      "location": "Kitchen",
-      "type": "puzzle",
-      "use": "Reactor",
-      "needs": "none",
-      "modifier": "25"
+      "use": "Solar Array"
     },
     {
       "name": "key",
@@ -132,19 +30,103 @@
       "description": "something to lock or secure with",
       "location": "Sleep Quarters",
       "type": "puzzle",
-      "use": "Reactor",
-      "needs": "none",
-      "modifier": "25"
+      "use": "Reactor"
+    },
+    {
+      "name": "dosimeter",
+      "image": "coming soon!",
+      "description": "pen-sized device to check radiation levels",
+      "location": "Kitchen",
+      "type": "puzzle",
+      "use": "Reactor"
     },
     {
       "name": "checklist",
       "image": "coming soon!",
       "description": "checklist for an unknown item",
+      "location": "Green House",
+      "type": "puzzle",
+      "use": "Reactor"
+    },
+    {
+      "name": "pressure gauge",
+      "image": "coming soon!",
+      "description": "an alien looking device with two gauges and several attached hoses",
+      "location": "Kitchen",
+      "type": "puzzle",
+      "use": "ECR"
+    },
+    {
+      "name": "voltage meter",
+      "image": "coming soon!",
+      "description": "a handheld device with two attached probes",
+      "location": "Green House",
+      "type": "puzzle",
+      "use": "ECR"
+    },
+    {
+      "name": "tool kit",
+      "image": "coming soon!",
+      "description": "checklist for an unknown item",
+      "location": "Sleep Quarters",
+      "type": "puzzle",
+      "use": "ECR"
+    },
+    {
+      "name": "water level probe",
+      "image": "coming soon!",
+      "description": "mmm....",
       "location": "Environmental Control Room",
       "type": "puzzle",
-      "use": "Reactor",
-      "needs": "none",
-      "modifier": "25"
+      "use": "Hydro"
+    },
+    {
+      "name": "pH meter",
+      "image": "coming soon!",
+      "description": "mmm....",
+      "location": "Gym",
+      "type": "puzzle",
+      "use": "Hydro"
+    },
+    {
+      "name": "chlorine tablets",
+      "image": "coming soon!",
+      "description": "mmm....",
+      "location": "Solar Array",
+      "type": "puzzle",
+      "use": "Hydro"
+    },
+    {
+      "name": "potato",
+      "image": "coming soon!",
+      "description": "mmm....",
+      "location": "Docking Station",
+      "type": "puzzle",
+      "use": "GreenHouse"
+    },
+    {
+      "name": "fertilizer",
+      "image": "coming soon!",
+      "description": "mmm....",
+      "location": "Reactor",
+      "type": "puzzle",
+      "use": "GreenHouse"
+    },
+    {
+      "name": "nozzle",
+      "image": "coming soon!",
+      "description": "mmm....",
+      "location": "Hydro Control Room",
+      "type": "puzzle",
+      "use": "GreenHouse"
+    },
+    {
+      "name": "flashlight",
+      "image": "coming soon!",
+      "description": "a tool used to shine bright over things",
+      "location": "Reactor",
+      "type": "puzzle",
+      "use": "none"
     },
     {
       "name": "calculator",
@@ -152,39 +134,135 @@
       "description": "tool to calculate math faster than lighting",
       "location": "Solar Array",
       "type": "puzzle",
-      "use": "none",
-      "needs": "none",
-      "modifier": "25"
+      "use": "none"
+    },
+    {
+      "name": "chuck taylors",
+      "image": "coming soon!",
+      "description": "You're an 'all*star'",
+      "location": "Kitchen",
+      "type": "puzzle",
+      "use": "none"
     },
     {
       "name": "compass",
       "image": "coming soon!",
       "description": "won't tell you direction",
-      "location": "Solar Array",
+      "location": "Gym",
       "type": "puzzle",
-      "use": "none",
-      "needs": "none",
-      "modifier": "25"
+      "use": "none"
     },
     {
-      "name": "protein_powder",
+      "name": "mre menu 1",
       "image": "coming soon!",
-      "description": "great gainz",
-      "location": "Gym",
+      "description": "Chili with Beans",
+      "location": "Docking Station",
       "type": "food",
-      "use": "none",
-      "needs": "none",
-      "modifier": "25"
+      "modifier": "4"
     },
     {
-      "name": "chuck_taylors",
+      "name": "mre menu 2",
       "image": "coming soon!",
-      "description": "You're an 'allstar'",
+      "description": "Shredded Beef in Barbecue Sauce",
+      "location": "Reactor",
+      "type": "food",
+      "modifier": "2"
+    },
+    {
+      "name": "mre menu 3",
+      "image": "coming soon!",
+      "description": "Chicken, Egg Noodles, and Vegetables in Sauce",
+      "location": "Reactor",
+      "type": "food",
+      "modifier": "1"
+    },
+    {
+      "name": "mre menu 10",
+      "image": "coming soon!",
+      "description": "Chili and Macaroni",
+      "location": "Solar Array",
+      "type": "food",
+      "modifier": "5"
+    },
+    {
+      "name": "mre menu 13 vegetarian",
+      "image": "coming soon!",
+      "description": "Cheese Tortellini in Tomato Sauce",
+      "location": "Reactor",
+      "type": "food",
+      "modifier": "4"
+    },
+    {
+      "name": "freeze dried ice cream",
+      "image": "coming soon!",
+      "description": "the best space food kicking",
+      "location": "Sleep Quarters",
+      "type": "food",
+      "modifier": "1"
+    },
+    {
+      "name": "small oxygen canister",
+      "image": "coming soon!",
+      "description": "mmm....",
+      "location": "Reactor",
+      "type": "oxygen",
+      "modifier": "2"
+    },
+    {
+      "name": "oxygen canister",
+      "image": "coming soon!",
+      "description": "mmm....",
+      "location": "Solar Array",
+      "type": "oxygen",
+      "modifier": "3"
+    },
+    {
+      "name": "large oxygen canister",
+      "image": "coming soon!",
+      "description": "mmm....",
       "location": "Gym",
-      "type": "puzzle",
-      "use": "none",
-      "needs": "none",
-      "modifier": "25"
+      "type": "oxygen",
+      "modifier": "5"
+    },
+    {
+      "name": "helmet",
+      "image": "coming soon!",
+      "description": " the final addition to your space suit",
+      "location": "Docking Station",
+      "type": "oxygen",
+      "modifier": "0"
+    },
+    {
+      "name": "sleep mask",
+      "image": "coming soon!",
+      "description": "for your beauty sleep",
+      "location": "Hydro Control Room",
+      "type": "sleep",
+      "use": "2"
+    },
+    {
+      "name": "alarm clock",
+      "image": "coming soon!",
+      "description": "simple time keeper to help kep you on track",
+      "location": "Gym",
+      "type": "sleep",
+      "use": "3"
+    },
+    {
+      "name": "blanket",
+      "image": "coming soon!",
+      "description": "to keep you nice an toasty",
+      "location": "Green House",
+      "type": "sleep",
+      "use": "4"
+    },
+    {
+      "name": "melatonin",
+      "image": "coming soon!",
+      "description": "puts you right to sleep",
+      "location": "Docking Station",
+      "type": "sleep",
+      "use": "5"
     }
   ]
 }
