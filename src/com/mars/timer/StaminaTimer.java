@@ -4,10 +4,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class OxygenTimer extends AbstractTimer{
-    private long delay = 10 * 60000L;
+class StaminaTimer extends AbstractTimer {
+    private long delay = 7 * 60000L;
 
-    public void pickUpOxygen() {
+    public void goToSleep() {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
         try {
@@ -18,4 +18,5 @@ public class OxygenTimer extends AbstractTimer{
             e.printStackTrace();
         }
     }
+
 }
