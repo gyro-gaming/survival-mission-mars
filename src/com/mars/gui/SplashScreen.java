@@ -10,26 +10,21 @@ public class SplashScreen {
     JFrame window;
     ImageIcon backgroundImage;
     Container container;
-    JPanel titleNamePanel, startButtonPanel, instructionsButtonPanel, mainTextPanel, choiceButtonPanel, playerPanel;
-    JLabel titleNameLabel, hpLabel, hpLabelNumber, inventoryLabel, inventoryLabelName, myLabel;
+    JPanel titleNamePanel, startButtonPanel, instructionsButtonPanel;
+    JLabel titleNameLabel, myLabel;
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
-    JButton startButton, instructionsButton, choice1, choice2, choice3, choice4;
-    JTextArea mainTextArea;
-    int playerHP;
-    String inventory;
+    JButton startButton, instructionsButton;
 
     TitleScreenHandler tsHandler = new TitleScreenHandler();
-
-
 
     public SplashScreen() {
 
         backgroundImage = new ImageIcon("data/images/mars1.png");
         myLabel = new JLabel(backgroundImage);
-        myLabel.setSize(800, 600);
+        myLabel.setSize(800, 550);
         window = new JFrame("Survival Mission Mars");
-        window.setSize(800, 600);
+        window.setSize(800, 550);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setLocationRelativeTo(null);
         window.getContentPane().setBackground(Color.black);
@@ -38,15 +33,15 @@ public class SplashScreen {
         container = window.getContentPane();
 
         titleNamePanel = new JPanel();
-        titleNamePanel.setBounds(150, 100, 500, 100);
-        titleNamePanel.setBackground(Color.black);
+        titleNamePanel.setBounds(100, 100, 600, 65);
+        titleNamePanel.setBackground(Color.gray);
         titleNameLabel = new JLabel("Survival Mission Mars");
-        titleNameLabel.setForeground(Color.white);
+        titleNameLabel.setForeground(Color.red);
         titleNameLabel.setFont(titleFont);
 
         instructionsButtonPanel = new JPanel();
-        instructionsButtonPanel.setBounds(250, 350, 280, 100);
-        instructionsButtonPanel.setBackground(Color.black);
+        instructionsButtonPanel.setBounds(250, 350, 263, 49);
+        instructionsButtonPanel.setBackground(Color.red);
 
         instructionsButton = new JButton("INSTRUCTIONS");
         instructionsButton.setBackground(Color.black);
@@ -55,8 +50,8 @@ public class SplashScreen {
 //        instructionsButton.addActionListener(tsHandler);
 
         startButtonPanel = new JPanel();
-        startButtonPanel.setBounds(350, 400, 150, 50);
-        startButtonPanel.setBackground(Color.black);
+        startButtonPanel.setBounds(310, 400, 140, 48);
+        startButtonPanel.setBackground(Color.red);
 
         startButton = new JButton("START");
         startButton.setBackground(Color.black);
@@ -75,12 +70,10 @@ public class SplashScreen {
         container.add(myLabel);
     }
 
-
     public void PlayScreen() {
         new PlayScreen();
+        window.setVisible(false);
     }
-
-
 
     public class TitleScreenHandler implements ActionListener{
         public void actionPerformed(ActionEvent event) {
