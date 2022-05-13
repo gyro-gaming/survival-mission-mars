@@ -1,7 +1,12 @@
 package com.mars.gui;
 
+import com.mars.locations.Room;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 public class PlayScreen extends JFrame {
     private JPanel mainPanel, topLeftPanel, bottomLeftPanel, noClockAndMapPanel, mapAndInventoryPanel, healthLevelsPanel, descriptionsPanel, directionPanel, utilitiesPanel, goNorthPanel, goSouthPanel, goWestPanel, goEastPanel, mapPanel, inventoryPanel;
@@ -24,7 +29,7 @@ public class PlayScreen extends JFrame {
     private JRadioButton useButton;
     private JPanel imagePanel;
     Font normalFont = new Font("Times New Roman", Font.ITALIC, 30);
-
+    
     public PlayScreen() {
         setContentPane(mainPanel);
         setTitle("Survival Mission Mars");
@@ -33,6 +38,12 @@ public class PlayScreen extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
 
+    }
+
+
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
     }
 
 }
