@@ -1,7 +1,13 @@
 package com.mars.gui;
 
+import com.mars.client.CommandProcessor;
+import com.mars.locations.Room;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 public class PlayScreen extends JFrame {
     private JPanel mainPanel, topLeftPanel, bottomLeftPanel, noClockAndMapPanel, mapAndClockPanel, healthLevelsPanel, descriptionsPanel, directionPanel, utilitiesPanel, goNorthPanel, goSouthPanel, goWestPanel, goEastPanel, mapPanel, clockPanel, roomPanel;
@@ -18,9 +24,9 @@ public class PlayScreen extends JFrame {
     private JLabel menuLabel;
     private JLabel muteLabel;
     Font normalFont = new Font("Times New Roman", Font.ITALIC, 30);
-
+    CommandProcessor processor = new CommandProcessor();
     public PlayScreen() {
-//         setContentPane(mainPanel);
+        setContentPane(mainPanel);
         setTitle("Survival Mars Mission");
         setSize(800, 600);
         mainPanel.setBackground(Color.gray);
@@ -40,7 +46,7 @@ public class PlayScreen extends JFrame {
 //        bottomLeftPanel = new JPanel();
 //        clockPanel = new JPanel();
 //        mapPanel = new JPanel();
-//        roomPanel = new JPanel();
+      //      roomPanel = new JPanel();
 //        menuControlPanel = new JPanel();
 //        descriptionsPanel = new JPanel();
 //        healthLevelsPanel = new JPanel();
@@ -55,8 +61,9 @@ public class PlayScreen extends JFrame {
 //        o2LevelLabel = new JLabel();
 //        healthLabel = new JLabel();
 //        staminaLabel = new JLabel();
-//        infoTextArea = new JTextArea();
-//        roomLabel = new JLabel();
+//         infoTextArea = new JTextArea();
+           roomLabel.setSize(200, 200);
+
 //        menuDropDownBox = new JComboBox();
 //        volumeSlider = new JSlider();
 //        radioButtonMute = new JRadioButton();
@@ -120,8 +127,49 @@ public class PlayScreen extends JFrame {
 //        mainPanel.add(noClockAndMapPanel);
 //        mainPanel.add(mapAndClockPanel);
 
+        northButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String e1 = "go north";
+                List<String> nextCommand = processor.getCommand(e1);            // calling upon Parser to begin parse process
+                Room room = processor.processCommand(nextCommand);
+                roomLabel.setText(room.getName());
+            }
+        });
+        eastButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Room newRoom = null;
+                String e1 = "go east";
+                List<String> nextCommand = processor.getCommand(e1);            // calling upon Parser to begin parse process
+                Room room = processor.runApp(e1);
+                roomLabel.setText(room.getName());
+
+            }
+        });
+        southButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String e1 = "go south";
+                List<String> nextCommand = processor.getCommand(e1);            // calling upon Parser to begin parse process
+                Room room = processor.processCommand(nextCommand);
+                roomLabel.setText(room.getName());
+            }
+        });
+        westButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    String e1 = "go west";
+                    List<String> nextCommand = processor.getCommand(e1);            // calling upon Parser to begin parse process
+                    Room room = processor.processCommand(nextCommand);
+                    roomLabel.setText(room.getName());
+
+            }
+        });
     }
 
 
-
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+    }
 }

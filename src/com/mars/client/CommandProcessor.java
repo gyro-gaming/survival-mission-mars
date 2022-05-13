@@ -5,7 +5,9 @@ import com.mars.locations.ChallengeRoom;
 import com.mars.locations.Room;
 import com.mars.objects.Player;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class CommandProcessor {
     private Display display = new Display();
@@ -18,60 +20,65 @@ public class CommandProcessor {
     private Map<String, Boolean> solvedPuzzles = Game.getSolved();
     private Map<String, Integer> stats = game.getStats();
     private List<Item> inventory = game.getInventory();
-    private Room currentLocation;
+    private Room currentLocation = rooms.get(0);
 
 
     // method to resolve action command inputs from user
-    private void processCommand(List<String> command) {
+    public Room processCommand(List<String> command) {
+
         try {
-            if (command.size() == 1){
-                String command1 = " ";
-                command.add(1,command1);
-            }
-            if (command.size() > 1){
-            // getting name of currentLocation and assign to nextLocation
-            clearConsole();
-            switch (command.get(0)) {
-                case "go":
-                    currentLocation = forGo(command);
-                    break;
-                case "eat":
-                    if (!currentLocation.getName().equals("Docking Station")) {
-                        System.out.println("You can't eat outside docking station");
-                    } else {
-                        forUse(command);
+                if (command.size() == 1) {
+                    String command1 = " ";
+                    command.add(1, command1);
+                }
+                if (command.size() > 1) {
+                    // getting name of currentLocation and assign to nextLocation
+                    clearConsole();
+                    switch (command.get(0)) {
+                        case "go":
+                            currentLocation = forGo(command);
+                            break;
+                        case "eat":
+                            if (!currentLocation.getName().equals("Docking Station")) {
+                                System.out.println("You can't eat outside docking station");
+                            } else {
+                                forUse(command);
+                            }
+                            break;
+                        case "quit":
+                            Game.quit();
+                            break;
+                        case "help":
+                            System.out.println(" ");
+                            Display.displayText("text/help.txt");
+                            break;
+                        case "look":
+                            forLook(command);
+                            break;
+                        case "get":
+                            forGet(command);
+                            break;
+                        case "drop":
+                            forDrop(command);
+                            break;
+                        case "use":
+                            forUse(command);
+                            break;
+                        default:
+                            System.out.println("That is an invalid command. Please try again.");
+                            break;
                     }
-                    break;
-                case "quit":
-                    Game.quit();
-                    break;
-                case "help":
-                    System.out.println(" ");
-                    Display.displayText("text/help.txt");
-                    break;
-                case "look":
-                    forLook(command);
-                    break;
-                case "get":
-                    forGet(command);
-                    break;
-                case "drop":
-                    forDrop(command);
-                    break;
-                case "use":
-                    forUse(command);
-                    break;
-                default:
-                    System.out.println("That is an invalid command. Please try again.");
-                    break;
+                }
             }
+        catch(ArrayIndexOutOfBoundsException e){
+                System.out.println("Check your input");
+            }
+        catch(NullPointerException e){
+                System.out.println("Can't go that way .... yet");
+            }
+            return currentLocation;
         }
-        }
-        catch (ArrayIndexOutOfBoundsException e){
-            System.out.println("Check your input");
-        }
-        }
-    private void setStat() {
+    public void setStat() {
       try{
           stats.put("Stamina", 100);
           if (!currentLocation.getName().equals("Docking Station") && stats.get("Stamina") > 0) {
@@ -94,28 +101,25 @@ public class CommandProcessor {
     }
 
     // method to actually run the application
-    public void runApp() {
+    public Room runApp(String userInput) {
         boolean isRunning = false;                      // establish & setting boolean to default off for game execution
-        String answer = display.playGame();             // Ask if user wants to play a game
-        if(answer.equals("y")){
-            isRunning = true;                           // setting boolean on for game execution
-        }
-        else{
-            System.out.println("You chose to not play :(");     // message showing user their choice
-            System.exit(0);                              // exiting game load
-        }
-        Game game = Game.getInstance();
+//        String answer = display.playGame();             // Ask if user wants to play a game
+//        if(answer.equals("y")){
+//            isRunning = true;                           // setting boolean on for game execution
+//        }
+//        else{
+//            System.out.println("You chose to not play :(");     // message showing user their choice
+//            System.exit(0);                              // exiting game load
+//        }
 
-        currentLocation = rooms.get(0);// setting game start location on Map
         // functions while game is running
-        while (isRunning) {
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter a command: \n>> ");                       // asking for input from user
-            String userInput = scanner.nextLine().toLowerCase();              // getting input from user
+        while (userInput.length() > 1) {
             List<String> nextCommand = getCommand(userInput);            // calling upon Parser to begin parse process
-            processCommand(nextCommand);
-            setStat();
+            currentLocation = processCommand(nextCommand);
+            return currentLocation;
+           // setStat();
         }
+        return null;
     }
     public List<String> getCommand(String userInput){
         List<String> cmdInput = new ArrayList<>(); //empty arraylist to store parsed command
@@ -126,7 +130,7 @@ public class CommandProcessor {
         return cmdInput; //return the list of verb, noun
     }
     public Room forGo(List<String> command){
-        System.out.println(command.toString());
+
         try{
             // need a way to grab directions from map
             if(currentLocation.getDirections().containsKey(command.get(1))) {                                           // checking if currentLocation has direction of movement provided by user input as an option
@@ -148,7 +152,8 @@ public class CommandProcessor {
                 newRoom = r;
             }
         }
-        ChallengeRoom.getInstance(game, newRoom.getName().toString(), Game.getSolved(), Game.getPuzzles());
+
+       // ChallengeRoom.getInstance(game, newRoom.getName().toString(), Game.getSolved(), Game.getPuzzles());
         return newRoom;
     }
     public void forGet(List<String> command){
