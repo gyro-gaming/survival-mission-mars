@@ -171,12 +171,12 @@ public class CommandProcessor {
        ChallengeRoom.getInstance(game, newRoom.getName().toString(), Game.getSolved(), Game.getPuzzles());
         return newRoom;
     }
-    public void forGet(List<String> command){
+    public void forGet(String noun){
           try{
-              String noun = " ";
+
               // 'get' functionality enabled to allow user to acquire items, add to inventory
               for(Item item : locationItems){
-                  noun = command.get(1);
+
 
                   if (item.getName().equals(noun) && inventory.size() < 3 && item.getLocation().getName().equals(currentLocation.getName()) &&!(player.getInventory().lookItem().contains(item.getName()))) {
                       // adding to inventory;
