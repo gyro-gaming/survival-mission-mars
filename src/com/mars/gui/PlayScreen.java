@@ -44,6 +44,7 @@ public class PlayScreen extends JFrame {
     private JButton puzzleChoiceButton;
     private JTextField textField2;
     private JPanel puzzlePanel;
+    private JButton itemSubmitButton;
     Font normalFont = new Font("Times New Roman", Font.ITALIC, 30);
     private CommandProcessor processor = new CommandProcessor();
 
