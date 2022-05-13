@@ -164,7 +164,7 @@
       "name": "mre menu 2",
       "image": "coming soon!",
       "description": "Shredded Beef in Barbecue Sauce",
-      "location": "Reactor",
+      "location": "Hydro Control Room",
       "type": "food",
       "modifier": "2"
     },
@@ -172,7 +172,7 @@
       "name": "mre menu 3",
       "image": "coming soon!",
       "description": "Chicken, Egg Noodles, and Vegetables in Sauce",
-      "location": "Reactor",
+      "location": "Green House",
       "type": "food",
       "modifier": "1"
     },
@@ -238,7 +238,7 @@
       "description": "for your beauty sleep",
       "location": "Hydro Control Room",
       "type": "sleep",
-      "use": "2"
+      "modifier": "2"
     },
     {
       "name": "alarm clock",
@@ -246,7 +246,7 @@
       "description": "simple time keeper to help kep you on track",
       "location": "Gym",
       "type": "sleep",
-      "use": "3"
+      "modifier": "3"
     },
     {
       "name": "blanket",
@@ -254,7 +254,7 @@
       "description": "to keep you nice an toasty",
       "location": "Green House",
       "type": "sleep",
-      "use": "4"
+      "modifier": "4"
     },
     {
       "name": "melatonin",
@@ -262,7 +262,7 @@
       "description": "puts you right to sleep",
       "location": "Docking Station",
       "type": "sleep",
-      "use": "5"
+      "modifier": "5"
     }
   ]
 }
