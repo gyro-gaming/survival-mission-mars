@@ -20,7 +20,7 @@ public class PlayScreen extends JFrame {
     Font normalFont = new Font("Times New Roman", Font.ITALIC, 30);
 
     public PlayScreen() {
-        setContentPane(mainPanel);
+//         setContentPane(mainPanel);
         setTitle("Survival Mars Mission");
         setSize(800, 600);
         mainPanel.setBackground(Color.gray);
