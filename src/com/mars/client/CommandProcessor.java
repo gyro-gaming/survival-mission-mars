@@ -136,12 +136,16 @@ public class CommandProcessor {
             if(currentLocation.getDirections().containsKey(command.get(1))) {                                           // checking if currentLocation has direction of movement provided by user input as an option
                 nextLocation = currentLocation.getDirections().get(command.get(1));                                     // moving to nextLocation
             } else {
-                System.out.println("C'mon, get right, you can't go that way!");                                         // otherwise informing user that pathway is not accessible
+                currentLocation.setName("Can't go that way");
+                currentLocation.setDescription(".... ");
+                return currentLocation;                                       // otherwise informing user that pathway is not accessible
             }
 
         }
         catch (NullPointerException e ) {
-            System.out.println("Can't go that way");
+            currentLocation.setName("Can't go that way");
+            return currentLocation;
+
         }
         catch (ArrayIndexOutOfBoundsException e){
             System.out.println("Go where?");

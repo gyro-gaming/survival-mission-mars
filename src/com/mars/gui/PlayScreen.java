@@ -37,6 +37,8 @@ public class PlayScreen extends JFrame {
     private JLabel textField1;
     private JComboBox puzzleChoiceBox;
     private JButton puzzleChoiceButton;
+    private JTextField textField2;
+    private JPanel puzzlePanel;
     Font normalFont = new Font("Times New Roman", Font.ITALIC, 30);
     private CommandProcessor processor = new CommandProcessor();
     public PlayScreen() {
@@ -66,6 +68,7 @@ public class PlayScreen extends JFrame {
                 List<String> nextCommand = processor.getCommand(e1);            // calling upon Parser to begin parse process
                 Room room = processor.processCommand(nextCommand);
                 roomLabel.setText(room.getName());
+                textField2.setText(room.getDescription());
             }
         });
         southButton.addActionListener(new ActionListener() {
@@ -75,6 +78,8 @@ public class PlayScreen extends JFrame {
                 List<String> nextCommand = processor.getCommand(e1);            // calling upon Parser to begin parse process
                 Room room = processor.processCommand(nextCommand);
                 roomLabel.setText(room.getName());
+                textField2.setText(room.getDescription());
+
             }
         });
         westButton.addActionListener(new ActionListener() {
@@ -84,6 +89,7 @@ public class PlayScreen extends JFrame {
                 List<String> nextCommand = processor.getCommand(e1);            // calling upon Parser to begin parse process
                 Room room = processor.processCommand(nextCommand);
                 roomLabel.setText(room.getName());
+                textField2.setText(room.getDescription());
             }
         });
         eastButton.addActionListener(new ActionListener() {
@@ -93,6 +99,7 @@ public class PlayScreen extends JFrame {
                 List<String> nextCommand = processor.getCommand(e1);            // calling upon Parser to begin parse process
                 Room room = processor.processCommand(nextCommand);
                 roomLabel.setText(room.getName());
+                textField2.setText(room.getDescription());
             }
         });
     }
