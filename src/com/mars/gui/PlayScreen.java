@@ -1,7 +1,10 @@
 package com.mars.gui;
 
 import com.mars.client.CommandProcessor;
+import com.mars.client.Game;
+import com.mars.items.Item;
 import com.mars.locations.Room;
+import com.mars.objects.Player;
 import com.mars.timer.GameTimer;
 
 import javax.swing.*;
@@ -10,8 +13,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Vector;
 
 public class PlayScreen extends JFrame {
     private JPanel mainPanel, topLeftPanel, bottomLeftPanel, noClockAndMapPanel, mapAndInventoryPanel, healthLevelsPanel, descriptionsPanel, directionPanel, utilitiesPanel, goNorthPanel, goSouthPanel, goWestPanel, goEastPanel, mapPanel, inventoryPanel;
@@ -80,6 +85,7 @@ public class PlayScreen extends JFrame {
                 roomLabel.setText(room.getName());
                 textField2.setText(room.getDescription());
 
+
             }
         });
         westButton.addActionListener(new ActionListener() {
@@ -100,6 +106,13 @@ public class PlayScreen extends JFrame {
                 Room room = processor.processCommand(nextCommand);
                 roomLabel.setText(room.getName());
                 textField2.setText(room.getDescription());
+            }
+        });
+        itemsBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
             }
         });
     }
