@@ -9,6 +9,7 @@ public class PuzzleItem implements Item {
     private Room location;
     private String puzzle;
 
+    // getters and setters
     @Override
     public void setName(String name) {
         this.name = name;
@@ -56,16 +57,33 @@ public class PuzzleItem implements Item {
     public String getPuzzle() {
         return puzzle;
     }
+    // end getters and setters
 
-    // TODO write logic
+    /**
+     * overridden equals()
+     * @param object
+     * @return boolean
+     */
     @Override
-    public boolean equals(Object o) {
-        return false;
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+        if (!(object instanceof PuzzleItem)) {
+            return false;
+        }
+        PuzzleItem puzzleItem = (PuzzleItem) object;
+        return this.getName().equalsIgnoreCase(puzzleItem.getName());
     }
 
-    // TODO write logic
+    /**
+     * overridden toString()
+     * @return String
+     */
     @Override
     public String toString() {
-        return "string";
+        return "You are looking at " + name +
+                ", which is a puzzle item, used to unlock a puzzle challenge.\n" +
+                description;
     }
 }

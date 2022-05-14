@@ -91,7 +91,7 @@
       "modifier" : "0"
     },
     {
-      "name": "pH meter",
+      "name": "ph meter",
       "image": "coming soon!",
       "description": "mmm....",
       "location": "Gym",
@@ -112,7 +112,7 @@
       "name": "potato",
       "image": "coming soon!",
       "description": "mmm....",
-      "location": "Docking Station",
+      "location": "Solar Array",
       "type": "puzzle",
       "use": "GreenHouse",
       "modifier" : "0"
@@ -193,7 +193,7 @@
       "name": "mre menu 3",
       "image": "coming soon!",
       "description": "Chicken, Egg Noodles, and Vegetables in Sauce",
-      "location": "Green House",
+      "location": "Environmental Control Room",
       "type": "food",
       "use": "none",
       "modifier": "1"
@@ -238,7 +238,7 @@
       "name": "oxygen canister",
       "image": "coming soon!",
       "description": "mmm....",
-      "location": "Solar Array",
+      "location": "Green House",
       "type": "oxygen",
       "use": "none",
       "modifier": "3"
@@ -273,7 +273,7 @@
       "name": "alarm clock",
       "image": "coming soon!",
       "description": "simple time keeper to help kep you on track",
-      "location": "Gym",
+      "location": "Environmental Control Room",
       "type": "sleep",
       "modifier": "3"
     },
@@ -289,7 +289,7 @@
       "name": "melatonin",
       "image": "coming soon!",
       "description": "puts you right to sleep",
-      "location": "Docking Station",
+      "location": "Sleep Quarters",
       "type": "sleep",
       "modifier": "5"
     }

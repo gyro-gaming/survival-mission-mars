@@ -140,16 +140,15 @@ public class Game {
             }
 
             try {
-                List<Map<String, Object>> itemMap = (List<Map<String, Object>>) location.get("items");
+                List<String> itemMap = (List<String>) location.get("items");
                 List<String> items = new ArrayList<>();
-                for (Map<String, Object> item : itemMap) {
-                    for (Map.Entry<String, Object> entry : item.entrySet()) {
-                        items.add(entry.getKey());
-                    }
+
+                for (String item : itemMap) {
+                    items.add(item);
                 }
                 room.setItems(getItemsListForRooms(items));
             } catch (Exception e) {
-
+                System.out.println("items at locations not being added");
             }
             rooms.add(room);
         }

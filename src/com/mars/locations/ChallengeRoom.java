@@ -1,10 +1,10 @@
 package com.mars.locations;
 
+import com.mars.client.Display;
 import com.mars.client.Game;
 import com.mars.client.Puzzle;
 import com.mars.items.Item;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -27,31 +27,27 @@ public class ChallengeRoom extends Room {
         return instance;
     }
 
-    public void showIntro(String path) {
-        // Display.displayText(path);
-    }
-
     public void runPuzzle(Game game, String option, Map<String, Boolean> solved) {
         System.out.println(option);
         switch (option) {
             case "Solar Array":
-                showIntro("path"); // need to get path from Room object based on option
+                Display.showTextFile(option); // need to get path from Room object based on option
                 setSolved(solarPuzzle(game, option, solved));
                 break;
             case "Reactor":
-                showIntro("path"); // need to get path from Room object based on option
+                Display.showTextFile(option); // need to get path from Room object based on option
                 setSolved(reactorPuzzle(game, option, solved));
                 break;
             case "Environmental Control Room":
-                showIntro("path"); // need to get path from Room object based on option
+                Display.showTextFile(option); // need to get path from Room object based on option
                 setSolved(environmentalPuzzle(game, option, solved));
                 break;
             case "Green House":
-                showIntro("path"); // need to get path from Room object based on option
+                Display.showTextFile(option); // need to get path from Room object based on option
                 setSolved(greenHousePuzzle(game, option, solved));
                 break;
             case "Hydro Control Room":
-                showIntro("path"); // need to get path from Room object based on option
+                Display.showTextFile(option); // need to get path from Room object based on option
                 setSolved(hydroPuzzle(game, option, solved));
                 break;
             default:
