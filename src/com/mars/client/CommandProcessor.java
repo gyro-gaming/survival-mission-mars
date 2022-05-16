@@ -171,11 +171,12 @@ public class CommandProcessor {
                 // adding to inventory;
                 player.getInventory().add(item);
                 currentLocation.removeItem(item);
-                sb.append("You've retrieved the " + item.getName() + " and added it to your inventory.");     // output to user informing item added to inventory
+                //sb.append("You've retrieved the " + item.getName() + " and added it to your inventory.");     // output to user informing item added to inventory
+                sb.append(item.getName());
                 // TODO update inventory panel
                 // sb.append(player.getInventory().toString());
-            } else if (item.getName().equals(noun) && inventory.size() == 3 && item.getLocation().getName().equals(currentLocation.getName())) {
-                sb.append("You can only have 3 items in inventory");
+            } else if (item.getName().equals(noun) && inventory.size() == 4 && item.getLocation().getName().equals(currentLocation.getName())) {
+                sb.append("You can only have 4 items in inventory");
             } else if (noun.equals(" ")) {
                 sb.append("What do you want to get");
             }
@@ -218,23 +219,16 @@ public class CommandProcessor {
 
 
     public void forDrop(List<String> command) {
+        try {
+            Item droppedItem = game.getPlayer().getInventory().drop(command.get(1));
+            currentLocation.addItem(droppedItem);
+        } catch (Exception e) {
 
-        for (Item item : locationItems) {
-            if (player.getInventory().lookItem().contains(command.get(1))) {
-                Item dropping = player.getInventory().drop(command.get(1));// if so, assigning it a variable named 'dropping'
-                dropping.setLocation(currentLocation);
-                item.setLocation(currentLocation);
-                System.out.println("You have dropped the " + command.get(1) + ", it is no longer in your " +        // output to user to inform them of the change
-                        "inventory. It has been placed in this location.");
-                System.out.println("Inventory: " + player.getInventory().toString());
-                break;
-            }
-        }
-        // 'drop' functionality enabled to allow user to drop items from inventory, add to currentLocation
-        if (command.get(1).equals(" ")) {
-            System.out.println("Drop what");             // output to user to inform them of invalid attempt to drop item
         }
     }
+
+        // 'drop' functionality enabled to allow user to drop items from inventory, add to currentLocation
+
 
     public void forUse(List<String> command) {
         try {
