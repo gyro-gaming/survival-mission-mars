@@ -44,7 +44,7 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
     private GameTimer gt = new GameTimer();;
     private long timer = (gt.printCurrentTime());
     private Date date = new Date(timer);
-    private String stringFormCurrentTime = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(timer * 1000);
+    private String stringFormCurrentTime = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(timer);
     public PlayScreen() {
         setContentPane(mainPanel);
         setTitle("Survival Mission Mars");
@@ -175,7 +175,7 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
             GameTimer gt = new GameTimer();
             long timer = (gt.printCurrentTime());
             Date date = new Date(timer);
-            String stringFormCurrentTime = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(timer * 1000);
+            String stringFormCurrentTime = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(timer);
             textField1.setText("Current Time: " + stringFormCurrentTime);
         }
     }
