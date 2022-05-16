@@ -6,10 +6,11 @@ import java.io.IOException;
 
 public class Audio {
 
-    public static Clip playAudio(Clip clip) throws LineUnavailableException, UnsupportedAudioFileException, IOException {
+    public static Clip playAudio() throws LineUnavailableException, UnsupportedAudioFileException, IOException {
         // create new file and passed into getAudioInputAStream
         File f = new File("data/sounds/outer-space-air.wav");
         AudioInputStream as = AudioSystem.getAudioInputStream(f);
+        Clip clip = AudioSystem.getClip();
         // open the audio file
         clip.open(as);
         // start the audio file
@@ -23,17 +24,12 @@ public class Audio {
         clip.stop();
         clip.close();
     }
-    public static void volumeDown(Clip clip){
+    public static void volume(Clip clip){
         FloatControl gainControl =
                 (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
+        gainControl.setValue(gainControl.getValue()); // Reduce volume by 10 decibels.
         clip.start();
     }
-    public static void volumeUp(Clip clip){
-        FloatControl gainControl =
-                (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(4.0f); // increase volume by 4 decibels.
-        clip.start();
-    }
+
 
 }

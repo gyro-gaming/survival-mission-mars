@@ -12,8 +12,6 @@ import java.io.IOException;
 class Main {
     public static void main(String[] args) throws LineUnavailableException, UnsupportedAudioFileException, IOException {
         new SplashScreen();
-        Clip clip = AudioSystem.getClip();
-        Audio.playAudio(clip);
 
     }
 }
