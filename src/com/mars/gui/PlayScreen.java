@@ -33,6 +33,10 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener {
     private JLabel roomLabel;
     private JLabel textField1;
     private JTextArea textField2;
+    private JComboBox puzzleChoiceBox;
+    private JButton submitPuzzleButton;
+    private JPanel puzzlePanel;
+    private JButton SUBMITButton;
     private Vector<String> items;
     private Font normalFont = new Font("Times New Roman", Font.ITALIC, 30);
     private CommandProcessor processor = new CommandProcessor();
