@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
-public class PlayScreen extends JFrame implements ActionListener, ItemListener {
+public class PlayScreen extends JFrame implements ActionListener, ItemListener, MouseListener {
     private JPanel mainPanel, topLeftPanel, bottomLeftPanel, noClockAndMapPanel, mapAndInventoryPanel, healthLevelsPanel, descriptionsPanel, directionPanel, utilitiesPanel, goNorthPanel, goSouthPanel, goWestPanel, goEastPanel, mapPanel, inventoryPanel;
     private JButton northButton, westButton, eastButton, southButton;
     private JComboBox itemsBox, menuDropDownBox;
@@ -40,7 +40,11 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener {
     private Vector<String> items;
     private Font normalFont = new Font("Times New Roman", Font.ITALIC, 30);
     private CommandProcessor processor = new CommandProcessor();
-
+    private DefaultListModel demoList = new DefaultListModel();
+    private GameTimer gt = new GameTimer();;
+    private long timer = (gt.printCurrentTime());
+    private Date date = new Date(timer);
+    private String stringFormCurrentTime = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(timer * 1000);
     public PlayScreen() {
         setContentPane(mainPanel);
         setTitle("Survival Mission Mars");
@@ -49,17 +53,6 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
 
-        clockPanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                GameTimer gt = new GameTimer();
-                long timer = (gt.printCurrentTime());
-                Date date = new Date(timer);
-                String stringFormCurrentTime = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(timer * 1000);
-                textField1.setText("Current Time: " + stringFormCurrentTime);
-            }
-        });
 
         northButton.addActionListener(this);
         southButton.addActionListener(this);
@@ -67,10 +60,10 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener {
         eastButton.addActionListener(this);
         radioButtonGo.addActionListener(this);
         radioButtonLook.addActionListener(this);
-
+        radioButtonGet.addActionListener(this);
+        radioButtonInspect.addActionListener(this);
         itemsBox.addItemListener(this);
-
-
+        dropButton.addMouseListener(this);
     }
 
     @Override
@@ -93,6 +86,7 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener {
         } else if (southButton.equals(e.getSource()) && radioButtonLook.isSelected()) {
             lookButton("look south");
         }
+
     }
 
     private void directionButton(String e1) {
@@ -119,8 +113,9 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener {
             if (itemsBox.equals(e.getSource()) && radioButtonInspect.isSelected()) {
                 lookItem("inspect " + itemsBox.getSelectedItem().toString());
             } else if (itemsBox.equals(e.getSource()) && radioButtonGet.isSelected()) {
-                getItem("inspect " + itemsBox.getSelectedItem().toString());
+                getItem("get " + itemsBox.getSelectedItem().toString());
             }
+
         } catch (NullPointerException ex) {}
     }
 
@@ -136,7 +131,58 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener {
         if (itemsBox.getSelectedItem().equals(get)) {
             itemsBox.removeItem(get);
         }
-        textField2.setText(get);
+        demoList.addElement(get);
+        inventoryList.setModel(demoList);
+        //textField2.setText(get);
+        itemsBox.revalidate();
+        itemsBox.repaint();
+
+    }
+    private void dropItem(){
+        try {
+            String dropItem = inventoryList.getSelectedValue().toString();
+            List<String> nextCommand = processor.getCommand("drop " + dropItem);
+            processor.forDrop(nextCommand);
+            int index = inventoryList.getSelectedIndex();
+            if (index >= 0) {
+                demoList.remove(index);
+            }
+            inventoryList.setModel(demoList);
+        } catch (Exception e) {
+        }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (dropButton.isSelected()){
+            dropItem();
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        if (true){
+            GameTimer gt = new GameTimer();
+            long timer = (gt.printCurrentTime());
+            Date date = new Date(timer);
+            String stringFormCurrentTime = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(timer * 1000);
+            textField1.setText("Current Time: " + stringFormCurrentTime);
+        }
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }
 
