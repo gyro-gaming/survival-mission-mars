@@ -1,24 +1,17 @@
 package com.mars.gui;
 
 import com.mars.client.CommandProcessor;
-import com.mars.client.Game;
-import com.mars.items.Item;
 import com.mars.locations.Room;
-import com.mars.objects.Player;
 import com.mars.timer.GameTimer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.awt.event.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
-public class PlayScreen extends JFrame {
+public class PlayScreen extends JFrame implements ActionListener, ItemListener {
     private JPanel mainPanel, topLeftPanel, bottomLeftPanel, noClockAndMapPanel, mapAndInventoryPanel, healthLevelsPanel, descriptionsPanel, directionPanel, utilitiesPanel, goNorthPanel, goSouthPanel, goWestPanel, goEastPanel, mapPanel, inventoryPanel;
     private JButton northButton, westButton, eastButton, southButton;
     private JComboBox itemsBox, menuDropDownBox;
@@ -30,7 +23,6 @@ public class PlayScreen extends JFrame {
     private JLabel volumeLabel;
     private JLabel menuLabel;
     private JLabel muteLabel;
-    private JScrollPane informationPanel;
     private JPanel roomAndClockPanel;
     private JPanel clockPanel;
     private JPanel roomPanel;
@@ -40,12 +32,9 @@ public class PlayScreen extends JFrame {
     private JPanel imagePanel;
     private JLabel roomLabel;
     private JLabel textField1;
-    private JComboBox puzzleChoiceBox;
-    private JButton puzzleChoiceButton;
-    private JTextField textField2;
-    private JPanel puzzlePanel;
-    private JButton itemSubmitButton;
-    Font normalFont = new Font("Times New Roman", Font.ITALIC, 30);
+    private JTextArea textField2;
+    private Vector<String> items;
+    private Font normalFont = new Font("Times New Roman", Font.ITALIC, 30);
     private CommandProcessor processor = new CommandProcessor();
 
     public PlayScreen() {
@@ -55,7 +44,6 @@ public class PlayScreen extends JFrame {
         mainPanel.setBackground(Color.gray);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
-
 
         clockPanel.addMouseListener(new MouseAdapter() {
             @Override
@@ -69,72 +57,82 @@ public class PlayScreen extends JFrame {
             }
         });
 
-        northButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String e1 = "go north";
-                List<String> nextCommand = processor.getCommand(e1);            // calling upon Parser to begin parse process
-                Room room = processor.processCommand(nextCommand);
-                roomLabel.setText(room.getName());
-                textField2.setText(room.getDescription());
-                itemsBox.removeAllItems();
-            }
-        });
+        northButton.addActionListener(this);
+        southButton.addActionListener(this);
+        westButton.addActionListener(this);
+        eastButton.addActionListener(this);
+        radioButtonGo.addActionListener(this);
+        radioButtonLook.addActionListener(this);
 
-        southButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String e1 = "go south";
-                List<String> nextCommand = processor.getCommand(e1);            // calling upon Parser to begin parse process
-                Room room = processor.processCommand(nextCommand);
-                roomLabel.setText(room.getName());
-                textField2.setText(room.getDescription());
-                itemsBox.removeAllItems();
+        itemsBox.addItemListener(this);
 
-            }
-        });
-
-        westButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String e1 = "go west";
-                List<String> nextCommand = processor.getCommand(e1);            // calling upon Parser to begin parse process
-                Room room = processor.processCommand(nextCommand);
-                roomLabel.setText(room.getName());
-                textField2.setText(room.getDescription());
-                itemsBox.removeAllItems();
-            }
-        });
-
-        eastButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String e1 = "go east";
-                List<String> nextCommand = processor.getCommand(e1);            // calling upon Parser to begin parse process
-                Room room = processor.processCommand(nextCommand);
-                roomLabel.setText(room.getName());
-                textField2.setText(room.getDescription());
-                itemsBox.removeAllItems();
-            }
-        });
-
-
-        itemsBox.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                itemsBox.removeAllItems();
-                Vector<String>items =processor.forItem(roomLabel.getText());
-                for (int i = 0; i < items.size(); i++){
-                    itemsBox.addItem(items.get(i));
-                }
-            }
-        });
 
     }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String e1 = "";
+        if (eastButton.equals(e.getSource()) && radioButtonGo.isSelected()) {
+            directionButton("go east");
+        } else if (westButton.equals(e.getSource()) && radioButtonGo.isSelected()) {
+            directionButton("go west");
+        } else if (northButton.equals(e.getSource()) && radioButtonGo.isSelected()) {
+            directionButton("go north");
+        } else if (southButton.equals(e.getSource()) && radioButtonGo.isSelected()) {
+            directionButton("go south");
+        } else if (eastButton.equals(e.getSource()) && radioButtonLook.isSelected()) {
+            lookButton("look east");
+        } else if (westButton.equals(e.getSource()) && radioButtonLook.isSelected()) {
+            lookButton("look west");
+        } else if (northButton.equals(e.getSource()) && radioButtonLook.isSelected()) {
+            lookButton("look north");
+        } else if (southButton.equals(e.getSource()) && radioButtonLook.isSelected()) {
+            lookButton("look south");
+        }
+    }
+
+    private void directionButton(String e1) {
+        itemsBox.removeAllItems();
+        List<String> nextCommand = processor.getCommand(e1);            // calling upon Parser to begin parse process
+        Room room = processor.processCommand(nextCommand);
+        roomLabel.setText(room.getName());
+        items = processor.forItem(roomLabel.getText());
+        for (int i = 0; i < items.size(); i++){
+            itemsBox.addItem(items.get(i));
+        }
+        textField2.setText(room.toString());
+    }
+
+    private void lookButton(String e1) {
+        List<String> nextCommand = processor.getCommand(e1);
+        String look = processor.forLook(nextCommand);
+        textField2.setText(look);
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        try {
+            if (itemsBox.equals(e.getSource()) && radioButtonInspect.isSelected()) {
+                lookItem("inspect " + itemsBox.getSelectedItem().toString());
+            } else if (itemsBox.equals(e.getSource()) && radioButtonGet.isSelected()) {
+                getItem("inspect " + itemsBox.getSelectedItem().toString());
+            }
+        } catch (NullPointerException ex) {}
+    }
+
+    private void lookItem(String e1) {
+        List<String> nextCommand = processor.getCommand(e1);
+        String inspect = processor.forInspect(nextCommand);
+        textField2.setText(inspect);
+    }
+
+    private void getItem(String e1) {
+        List<String> nextCommand = processor.getCommand(e1);
+        String get = processor.forGet(nextCommand);
+        if (itemsBox.getSelectedItem().equals(get)) {
+            itemsBox.removeItem(get);
+        }
+        textField2.setText(get);
     }
 }
 

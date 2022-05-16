@@ -11,9 +11,7 @@
       "puzzle": "false",
       "items": [
         "mre menu 1",
-        "helmet",
-        "potato",
-        "melatonin"
+        "helmet"
       ]
     },
     {
@@ -75,7 +73,7 @@
       "puzzle": "true",
       "items": [
         "checklist",
-        "mre menu 3",
+        "oxygen canister",
         "blanket",
         "voltage_meter"
       ]
@@ -93,6 +91,7 @@
       "items": [
         "key",
         "freeze dried ice cream",
+        "melatonin",
         "tool_kit"
       ]
     },
@@ -107,7 +106,7 @@
       "items": [
         "chlorine tablets",
         "mre menu 10",
-        "oxygen canister",
+        "potato",
         "calculator"
       ]
     },
@@ -124,7 +123,7 @@
         "gps",
         "alarm clock",
         "mre menu 3",
-        "water_level_probe"
+        "water level probe"
       ]
     },
     {
@@ -139,7 +138,7 @@
       "items": [
         "cable",
         "large oxygen canister",
-        "pH_meter",
+        "ph meter",
         "compass"
       ]
     }

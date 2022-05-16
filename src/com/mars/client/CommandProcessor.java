@@ -5,10 +5,7 @@ import com.mars.locations.ChallengeRoom;
 import com.mars.locations.Room;
 import com.mars.objects.Player;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 public class CommandProcessor {
     private Display display = new Display();
@@ -21,6 +18,7 @@ public class CommandProcessor {
     private Map<String, Boolean> solvedPuzzles = Game.getSolved();
     private Map<String, Integer> stats = game.getStats();
     private List<Item> inventory = game.getInventory();
+    private Vector<String> items;
     private Room currentLocation = rooms.get(0);
 
     // method to resolve action command inputs from user
@@ -33,7 +31,7 @@ public class CommandProcessor {
             }
             if (command.size() > 1) {
                 // getting name of currentLocation and assign to nextLocation
-                clearConsole();
+                //clearConsole();
                 switch (command.get(0)) {
                     case "go":
                         currentLocation = forGo(command);
@@ -122,18 +120,16 @@ public class CommandProcessor {
     }
 
     public Vector<String> forItem(String location) {
-        Vector<String> items = new Vector<>();
-        for (Item i : Game.getItems()) {
+        items = new Vector<>();
+        for (Item i : currentLocation.getItems()) {
             if (i.getLocation().getName().equals(location)) {
-                items.add(i.getName());
+                items.add(i.getName().replace(" ", "_"));
             }
         }
-        System.out.println(items.toString());
         return items;
     }
 
     public Room forGo(List<String> command) {
-
         try {
             // need a way to grab directions from map
             if (currentLocation.getDirections().containsKey(command.get(1))) {                                           // checking if currentLocation has direction of movement provided by user input as an option
@@ -162,74 +158,64 @@ public class CommandProcessor {
         return newRoom;
     }
 
-    public void forGet(String noun) {
+    public String forGet(List<String> command) {
+        if (inventory.size() == 4) {
+            return "You bag is full.";
+        }
+
+        String noun = command.get(1).replace("_", " ").toLowerCase();
+        StringBuilder sb = new StringBuilder();
         // 'get' functionality enabled to allow user to acquire items, add to inventory
         for (Item item : locationItems) {
-            if (item.getName().equals(noun) && inventory.size() < 3 && item.getLocation().getName().equals(currentLocation.getName()) && !(player.getInventory().lookItem().contains(item.getName()))) {
+            if (item.getName().equals(noun) && item.getLocation().getName().equals(currentLocation.getName()) && !(player.getInventory().lookItem().contains(item.getName()))) {
                 // adding to inventory;
                 player.getInventory().add(item);
-                System.out.println("You've retrieved the " + item.getName() + " and added it to your inventory.");     // output to user informing item added to inventory
-                System.out.println(player.getInventory().toString());
-                break;
-                // display.displayPlayerInventory();
+                currentLocation.removeItem(item);
+                sb.append("You've retrieved the " + item.getName() + " and added it to your inventory.");     // output to user informing item added to inventory
+                // TODO update inventory panel
+                // sb.append(player.getInventory().toString());
             } else if (item.getName().equals(noun) && inventory.size() == 3 && item.getLocation().getName().equals(currentLocation.getName())) {
-                System.out.println("You can only have 3 items in inventory");
-                break;
+                sb.append("You can only have 3 items in inventory");
             } else if (noun.equals(" ")) {
-                System.out.println("What do you want to get");
-                break;
+                sb.append("What do you want to get");
             }
         }
+        return sb.toString();
     }
 
-    public void forLook(List<String> command) {
+    public String forLook(List<String> command) {
+        String name = "";
+        String result = "";
         try {
-            for (Item i : locationItems) {
-                if (i.getName().equals(command.get(1)) && i.getLocation().getName().equals(currentLocation.getName())) {
-                    System.out.println("Upon examination you find " + i.getDescription());
-                    break;
+            for (Map.Entry<String, String> map : currentLocation.getDirections().entrySet()) {
+                if (map.getKey().equals(command.get(1))) {
+                    name = map.getValue();
                 }
-                if (player.getInventory().lookItem().contains(command.get(1))) {                                                  // if not in currentLocation, check if in inventory
-                    System.out.println("Upon examination you find " + player.getInventory().getItemDescription(command.get(1)));
-                    break;// if item present in inventory, output to user description of item
-                }
-
             }
-            switch (command.get(1)) {
-                case "room":
-                    System.out.println("Looking around this room, you see: " + currentLocation.getDescription());
-                    break;
-                case "inventory":
-                    if (player.getInventory().getInventory().size() > 0) {
-                        System.out.println("Inventory: " + player.getInventory().toString());
-                        ;
-                    } else {
-                        System.out.println("You currently have nothing in your inventory.");
-                    }
-                    break;
-                case "oxygen":
-                case "O2":
-                    Boolean tempValue = false;
-                    for (Item item : locationItems) {
-                        if (item.getName().equals("oxygen") && currentLocation.getName().equals(item.getLocation().getName())) {
-                            tempValue = true;
-                        }
-                    }
-                    if (tempValue.equals(true)) {
-                        System.out.println("The O2 Sensor indicates the oxygen levels are: SAFE");
-                    } else {
-                        System.out.println("The O2 Sensor indicates the oxygen levels are: DANGEROUS");
-                    }
-                    break;
-                case " ":
-                    System.out.println("Look where");
-                    break;
+            for (Room room : rooms) {
+                if (room.getName().equals(name)) {
+                    result = room.toString();
+                }
             }
         } catch (NullPointerException e) {
-            System.out.println("No item to look");
         }
-
+        return result;
     }
+
+    public String forInspect(List<String> command) {
+        String item = command.get(1).replace("_", " ").toLowerCase();
+        try {
+            for (Item i : locationItems) {
+                if (i.getName().toLowerCase().equals(item) && i.getLocation().getName().equals(currentLocation.getName())) {
+                    return i.toString();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("problem inspecting items");
+        }
+        return "";
+    }
+
 
     public void forDrop(List<String> command) {
 

@@ -9,6 +9,7 @@ public class OxygenItem implements Item {
     private Room location;
     private int modifier;
 
+    // getters and setters
     @Override
     public void setName(String name) {
         this.name = name;
@@ -56,17 +57,33 @@ public class OxygenItem implements Item {
     public int getModifier() {
         return modifier;
     }
+    // end getters and setters
 
-
-    // TODO write logic
+    /**
+     * overridden equals()
+     * @param object
+     * @return boolean
+     */
     @Override
-    public boolean equals(Object o) {
-        return false;
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+        if (!(object instanceof OxygenItem)) {
+            return false;
+        }
+        OxygenItem oxygenItem = (OxygenItem) object;
+        return this.getName().equalsIgnoreCase(oxygenItem.getName());
     }
 
-    // TODO write logic
+    /**
+     * overridden toString()
+     * @return String
+     */
     @Override
     public String toString() {
-        return "string";
+        return "You are looking at " + name +
+                ", which is an oxygen item to boost your O2 levels.\n" +
+                description;
     }
 }

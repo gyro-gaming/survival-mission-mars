@@ -1,7 +1,6 @@
 package com.mars.locations;
 
 import com.mars.items.Item;
-import com.mars.items.PuzzleItem;
 import com.mars.objects.NPC;
 
 import java.util.List;
@@ -19,6 +18,7 @@ public class Room extends Base {
 
     public Room(String name, String image, String description, Map<String, String> directions, NPC npc, List<Item> items) {
         setName(name);
+        setImage(image);
         setDirections(directions);
         setDescription(description);
         setItems(items);
@@ -26,6 +26,7 @@ public class Room extends Base {
         setItems(items);
     }
 
+    // getters and setters
     public void setName(String name) {
         this.name = name;
     }
@@ -73,85 +74,68 @@ public class Room extends Base {
     public List<Item> getItems() {
         return items;
     }
+    // end getters and setters
 
-    public Item removeItem(String name) {
-        // TODO logic to find item in list and remove it
-        return new PuzzleItem();
-    }
-
-    public void addItem(Item addDropped) {
-        items.add(addDropped);
-    }
-
-
-
-    @Override
-    public String toString() {
-        return "Room{" +
-                "name='" + name + '\'' +
-                ", image='" + image + '\'' +
-                ", description='" + description + '\'' +
-                ", directions=" + directions +
-                ", npc=" + npc +
-                ", items=" + items +
-                '}';
-    }
-
-
-
-    /*
-    public boolean getOxygen() {
-        return oxygen;
-    }
-
-    public void setOxygen(boolean oxygen) {
-        this.oxygen = oxygen;
-    }
-
-    public String getAsciiArt() {
-        return asciiArt;
-    }
-
-    public void setAsciiArt(String asciiArt) {
-        this.asciiArt = asciiArt;
-    }
-
-    //return boolean if room contains a puzzle
-    public boolean getPuzzle(){
-        return this.puzzle;
-    }
-
-    public Puzzle getTypePuzzle(){
-        return locationPuzzle;
-    }
-
-    //method to instantiate a puzzle, only if Location has a puzzle, else do nothing
-    public void createPuzzle() {
-        if (getPuzzle()) {
-            if (this.getName().equals("Solar Plant")) {
-                locationPuzzle = new SolarPuzzleRoom();
-            } else if (this.getName().equals("Reactor")) {
-                locationPuzzle = new ReactorPuzzleRoom();
-            } else if (this.getName().equals("Hydro")) {
-                locationPuzzle = new HydroPuzzleRoom();
-            } else if (this.getName().equals("Green House")) {
-                locationPuzzle = new GhPuzzleRoom();
+    /**
+     * method to remove an item from the room's inventory when picked up by a player
+     * @param item
+     */
+    public boolean removeItem(Item item) {
+        System.out.println(item);
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).equals(item)) {
+                return items.remove(items.get(i));
             }
         }
+        return false;
     }
 
-    //sets boolean value for if room has a puzzle
-    private void setPuzzle(boolean puzzle){
-        this.puzzle = puzzle;
-    }
-
-    public void startPuzzle(){
-        //logic to kick off/run the challenge for the user
-        locationPuzzle.runPuzzle();
-    }
-
-    public boolean isSolved(){
-        return locationPuzzle.isSolved();
-    }
+    /**
+     * method to add an item to the room's inventory when dropped by a player
+     * @param item
      */
+    public void addItem(Item item) {
+        items.add(item);
+    }
+
+    /**
+     * overridden equals()
+     * @param object
+     * @return boolean
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+        if (!(object instanceof Room)) {
+            return false;
+        }
+        Room room = (Room) object;
+        return this.getName().equalsIgnoreCase(room.getName());
+    }
+
+    /**
+     * overridden toString()
+     * @return String
+     */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("You are in " + name + ".\n");
+        sb.append(description + ".\n");
+        sb.append("You see the following items in the room: \n");
+        try {
+            for (int i = 0; i < items.size(); i++) {
+                if (i == items.size() - 1) {
+                    sb.append(items.get(i).getName());
+                } else {
+                    sb.append(items.get(i).getName() + ", ");
+                }
+            }
+        } catch (Exception e) {
+            sb.append("There are no items in this room.");
+        }
+        return sb.toString();
+    }
 }
