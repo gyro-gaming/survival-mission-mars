@@ -5,10 +5,20 @@ import com.mars.client.CommandProcessor;
 import com.mars.locations.Room;
 import com.mars.timer.GameTimer;
 
+
+import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import javax.sound.sampled.Clip;
+
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -66,7 +76,47 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
         radioButtonInspect.addActionListener(this);
         itemsBox.addItemListener(this);
         dropButton.addMouseListener(this);
-        menuDropDownBox.addActionListener(this);
+
+        volumeSlider = new JSlider(0,100, 50);
+        volumeSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                try {
+                    Audio.playAudio();
+                    Clip clip = Audio.playAudio();
+                    Audio.volume(clip);
+                } catch (LineUnavailableException ex) {
+                    ex.printStackTrace();
+                } catch (UnsupportedAudioFileException ex) {
+                    ex.printStackTrace();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        radioButtonMute.addMouseListener(new MouseAdapter() {
+            Clip clip;
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseClicked(e);
+                try {
+                    clip = Audio.playAudio();
+                } catch (LineUnavailableException ex) {
+                    ex.printStackTrace();
+                } catch (UnsupportedAudioFileException unsupportedAudioFileException) {
+                    unsupportedAudioFileException.printStackTrace();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mousePressed(e);
+                clip.stop();
+                clip.close();
+            }
+        });
+
     }
 
     @Override
@@ -91,6 +141,8 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
         }
 
     }
+
+
 
     private void directionButton(String e1) {
         itemsBox.removeAllItems();
