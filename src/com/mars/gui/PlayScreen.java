@@ -5,10 +5,14 @@ import com.mars.client.CommandProcessor;
 import com.mars.locations.Room;
 import com.mars.timer.GameTimer;
 
+
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+
+import javax.sound.sampled.Clip;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -72,6 +76,7 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
         radioButtonInspect.addActionListener(this);
         itemsBox.addItemListener(this);
         dropButton.addMouseListener(this);
+
         volumeSlider = new JSlider(0,100, 50);
         volumeSlider.addChangeListener(new ChangeListener() {
             @Override
@@ -111,6 +116,7 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
                 clip.close();
             }
         });
+
     }
 
     @Override
@@ -175,6 +181,7 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
     }
 
     private void getItem(String e1) {
+
         List<String> nextCommand = processor.getCommand(e1);
         String get = processor.forGet(nextCommand);
         if (itemsBox.getSelectedItem().equals(get)) {
@@ -193,10 +200,14 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
             List<String> nextCommand = processor.getCommand("drop " + dropItem);
             processor.forDrop(nextCommand);
             int index = inventoryList.getSelectedIndex();
+            itemsBox.addItem(inventoryList.getSelectedValue());
+            itemsBox.revalidate();
+            itemsBox.repaint();
             if (index >= 0) {
                 demoList.remove(index);
             }
             inventoryList.setModel(demoList);
+
         } catch (Exception e) {
         }
     }
