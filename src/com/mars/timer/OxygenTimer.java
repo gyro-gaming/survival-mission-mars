@@ -1,21 +1,20 @@
 package com.mars.timer;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.mars.items.Item;
+import com.mars.items.OxygenItem;
+import java.time.Duration;
 
-public class OxygenTimer extends AbstractTimer{
-    private long delay = 10 * 60000L;
+public class OxygenTimer extends GameTimer{
 
-    public void pickUpOxygen() {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+    public OxygenTimer(long delay) {
+        super(delay);
+    }
 
-        try {
-            Date date = sdf.parse(stringFormEndTime);
-            Long newDate = date.getTime() + delay;
-            stringFormEndTime = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date (newDate*1000));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+    public static Duration addOxygen(Duration duration, Item item) {
+        return duration.ofMillis(getValue(item));
+    }
+
+    private static long getValue(Item item) {
+        return (((OxygenItem)item).getModifier() * 60000L>300000L)?300000L:((OxygenItem)item).getModifier() * 60000L;
     }
 }

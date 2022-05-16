@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.Duration;
+import java.time.Instant;
 
 public class SplashScreen {
 
@@ -71,7 +73,8 @@ public class SplashScreen {
     }
 
     public void PlayScreen() {
-        new PlayScreen();
+        Instant instant = Instant.now();
+        new PlayScreen(instant);
         window.setVisible(false);
     }
 
@@ -80,4 +83,5 @@ public class SplashScreen {
             PlayScreen();
         }
     }
+
 }

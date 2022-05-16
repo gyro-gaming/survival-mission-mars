@@ -1,22 +1,21 @@
 package com.mars.timer;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.mars.items.Item;
+import com.mars.items.SleepItem;
 
-class StaminaTimer extends AbstractTimer {
-    private long delay = 7 * 60000L;
+import java.time.Duration;
 
-    public void goToSleep() {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+public class StaminaTimer extends GameTimer{
 
-        try {
-            Date date = sdf.parse(stringFormEndTime);
-            Long newDate = date.getTime() + delay;
-            stringFormEndTime = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date (newDate*1000));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+    public StaminaTimer(long delay) {
+        super(delay);
     }
 
+    public static Duration addSleep(Duration duration, Item item) {
+        return duration.ofMillis(getValue(item));
+    }
+
+    private static long getValue(Item item) {
+        return (((SleepItem)item).getModifier() * 60000L>300000L)?300000L:((SleepItem)item).getModifier() * 60000L;
+    }
 }
