@@ -1,9 +1,11 @@
 package com.mars.gui;
 
+import com.mars.client.Audio;
 import com.mars.client.CommandProcessor;
 import com.mars.locations.Room;
 import com.mars.timer.GameTimer;
 
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -64,6 +66,7 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
         radioButtonInspect.addActionListener(this);
         itemsBox.addItemListener(this);
         dropButton.addMouseListener(this);
+        menuDropDownBox.addActionListener(this);
     }
 
     @Override
@@ -126,6 +129,7 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
     }
 
     private void getItem(String e1) {
+
         List<String> nextCommand = processor.getCommand(e1);
         String get = processor.forGet(nextCommand);
         if (itemsBox.getSelectedItem().equals(get)) {
@@ -144,10 +148,14 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
             List<String> nextCommand = processor.getCommand("drop " + dropItem);
             processor.forDrop(nextCommand);
             int index = inventoryList.getSelectedIndex();
+            itemsBox.addItem(inventoryList.getSelectedValue());
+            itemsBox.revalidate();
+            itemsBox.repaint();
             if (index >= 0) {
                 demoList.remove(index);
             }
             inventoryList.setModel(demoList);
+
         } catch (Exception e) {
         }
     }

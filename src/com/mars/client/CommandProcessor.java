@@ -120,11 +120,14 @@ public class CommandProcessor {
     }
 
     public Vector<String> forItem(String location) {
-        items = new Vector<>();
-        for (Item i : currentLocation.getItems()) {
-            if (i.getLocation().getName().equals(location)) {
-                items.add(i.getName().replace(" ", "_"));
+        try {
+            items = new Vector<>();
+            for (Item i : currentLocation.getItems()) {
+                    items.add(i.getName().replace(" ", "_"));
+
             }
+        } catch (Exception e) {
+
         }
         return items;
     }
@@ -226,8 +229,6 @@ public class CommandProcessor {
 
         }
     }
-
-        // 'drop' functionality enabled to allow user to drop items from inventory, add to currentLocation
 
 
     public void forUse(List<String> command) {
