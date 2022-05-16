@@ -52,7 +52,8 @@
                   <component id="2c2" class="javax.swing.JTextArea" binding="textField2">
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                        <preferred-size width="50" height="50"/>
+                        <minimum-size width="450" height="125"/>
+                        <preferred-size width="250" height="100"/>
                       </grid>
                     </constraints>
                     <properties>
