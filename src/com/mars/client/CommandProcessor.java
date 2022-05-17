@@ -111,7 +111,8 @@ public class CommandProcessor {
         }
         setCurrentLocation(newRoom);
         sb.append(currentLocation.toString() + "\n\n");
-        ChallengeRoom.getInstance(game, currentLocation.getName(), Game.getSolved(), Game.getPuzzles());
+        ChallengeRoom.getInstance(game, Game.getSolved(), Game.getPuzzles());
+        sb.append("\n\n" + ChallengeRoom.runPuzzle(getCurrentLocation().getName()));
         return sb.toString();
     }
 

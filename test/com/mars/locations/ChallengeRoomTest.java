@@ -18,7 +18,7 @@ public class ChallengeRoomTest {
         game = Game.getInstance();
         List<Puzzle> puzzles = Game.getPuzzles();
         option = "Solar Array";
-        room = ChallengeRoom.getInstance(game, option, new HashMap<>(), puzzles);
+        room = ChallengeRoom.getInstance(game, new HashMap<>(), puzzles);
 
     }
 
