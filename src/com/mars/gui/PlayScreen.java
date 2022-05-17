@@ -59,20 +59,11 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     private Font normalFont = new Font("Times New Roman", Font.ITALIC, 30);
     private CommandProcessor processor = new CommandProcessor();
     private DefaultListModel demoList = new DefaultListModel();
-
-    private GameTimer gt = new GameTimer();
-   
-    private long timer = (gt.printCurrentTime());
-    private Date date = new Date(timer);
     private Clip clip;
-    private String stringFormCurrentTime = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(timer);
-
-    public PlayScreen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
     private GameTimer gameTimer;
     private LocalDateTime futureTime;
 
-    public PlayScreen(Instant instant) {
-
+    public PlayScreen(Instant instant) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         setContentPane(mainPanel);
         setTitle("Survival Mission Mars");
         setSize(1250, 700);
@@ -81,7 +72,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         setVisible(true);
 
         clip = Audio.playAudio();
-
 
         targetHours = new JTextField("00", 2);
         targetMins = new JTextField("00", 2);

@@ -77,11 +77,12 @@ public class SplashScreen {
         container.add(myLabel);
     }
 
-
+/*
     public void PlayScreen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         new PlayScreen();
-
-    public void PlayScreen() {
+    }
+*/
+    public void PlayScreen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         Instant instant = Instant.now();
         new PlayScreen(instant);
         window.setVisible(false);
