@@ -1,4 +1,4 @@
-package com.mars.objects;
+package com.mars.players;
 
 class Hunger {
     private static int hunger;

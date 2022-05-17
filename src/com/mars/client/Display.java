@@ -1,5 +1,9 @@
 package com.mars.client;
 
+import com.mars.gui.PlayScreen;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,7 +22,7 @@ public class Display {
     }
     // end getters and setters
 
-    public static String displayText(String str) {
+    public static String displayText(String str)  {
         return str;
     }
 

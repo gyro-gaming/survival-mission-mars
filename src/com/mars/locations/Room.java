@@ -1,7 +1,7 @@
 package com.mars.locations;
 
 import com.mars.items.Item;
-import com.mars.objects.NPC;
+import com.mars.players.NPC;
 
 import java.util.List;
 import java.util.Map;

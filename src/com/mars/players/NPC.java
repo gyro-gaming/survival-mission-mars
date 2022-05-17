@@ -1,4 +1,4 @@
-package com.mars.objects;
+package com.mars.players;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.mars.objects;
+package com.mars.players;
 
 class Stamina {
     private static int stamina;

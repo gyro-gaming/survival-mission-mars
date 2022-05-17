@@ -1,9 +1,9 @@
 package com.mars.client;
 
 import com.mars.items.*;
-import com.mars.objects.NPC;
+import com.mars.players.NPC;
 import com.mars.locations.Room;
-import com.mars.objects.Player;
+import com.mars.players.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;

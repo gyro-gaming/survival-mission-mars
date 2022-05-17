@@ -1,4 +1,6 @@
-package com.mars.objects;
+package com.mars.players;
+
+import com.mars.timer.OxygenTimer;
 
 class Oxygen {
     private static int oxygen;
@@ -19,4 +21,8 @@ class Oxygen {
         return oxygen;
     }
     // end getters and setters
+
+    public static int calculateOxygen() {
+        return oxygen;
+    }
 }

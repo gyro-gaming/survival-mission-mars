@@ -1,4 +1,4 @@
-package com.mars.objects;
+package com.mars.players;
 
 import com.mars.items.Item;
 import com.mars.items.PuzzleItem;

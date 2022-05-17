@@ -2,22 +2,21 @@ package com.mars.gui;
 
 import com.mars.client.Audio;
 import com.mars.client.CommandProcessor;
-import com.mars.locations.Room;
+import com.mars.client.Game;
 import com.mars.timer.GameTimer;
 
 
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
-import javax.sound.sampled.Clip;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -26,11 +25,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
-public class PlayScreen extends JFrame implements ActionListener, ChangeListener, ItemListener, MouseListener {
+public class PlayScreen extends JFrame implements ActionListener, ChangeListener, ItemListener, MouseListener, PropertyChangeListener {
     private JPanel mainPanel, topLeftPanel, bottomLeftPanel, noClockAndMapPanel, mapAndInventoryPanel, healthLevelsPanel, descriptionsPanel, directionPanel, utilitiesPanel, goNorthPanel, goSouthPanel, goWestPanel, goEastPanel, mapPanel, inventoryPanel;
     private JButton northButton, westButton, eastButton, southButton;
     private JComboBox itemsBox, menuDropDownBox;
-    private JProgressBar progressO2Bar, progressHealthBar, progressStaminaBar;
+    private JProgressBar progressO2Bar, progressHungerBar, progressStaminaBar;
     private JLabel o2LevelLabel, healthLabel, staminaLabel;
     private JRadioButton radioButtonLook, radioButtonGo, radioButtonInspect, radioButtonGet, radioButtonMute;
     private JSlider volumeSlider;
@@ -51,14 +50,13 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     private JComboBox puzzleChoiceBox;
     private JButton submitPuzzleButton;
     private JPanel puzzlePanel;
-    private JButton SUBMITButton;
     private JTextField targetHours;
     private JTextField targetMins;
     private JTextField targetSeconds;
     private Vector<String> items;
     private Font normalFont = new Font("Times New Roman", Font.ITALIC, 30);
     private CommandProcessor processor = new CommandProcessor();
-    private DefaultListModel demoList = new DefaultListModel();
+    private DefaultListModel demoList = new DefaultListModel();;
     private Clip clip;
     private GameTimer gameTimer;
     private LocalDateTime futureTime;
@@ -88,20 +86,29 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         southButton.addActionListener(this);
         westButton.addActionListener(this);
         eastButton.addActionListener(this);
+
         radioButtonGo.addActionListener(this);
         radioButtonLook.addActionListener(this);
+
         radioButtonGet.addActionListener(this);
         radioButtonInspect.addActionListener(this);
+
         itemsBox.addItemListener(this);
         dropButton.addMouseListener(this);
+        useButton.addMouseListener(this);
+
         radioButtonMute.addMouseListener(this);
+
         volumeSlider.addChangeListener(this);
         volumeSlider.setMajorTickSpacing(20);
         volumeSlider.setMinorTickSpacing(10);
         volumeSlider.setPaintLabels(true);
         volumeSlider.setPaintTicks(true);
         volumeSlider.setPaintTrack(true);
-        useButton.addMouseListener(this);
+
+        progressO2Bar.addPropertyChangeListener(this);
+        progressStaminaBar.addPropertyChangeListener(this);
+        progressHungerBar.addPropertyChangeListener(this);
     }
 
     @Override
@@ -168,13 +175,13 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     private void directionButton(String e1) {
         itemsBox.removeAllItems();
         List<String> nextCommand = processor.getCommand(e1);            // calling upon Parser to begin parse process
-        Room room = processor.processCommand(nextCommand);
-        roomLabel.setText(room.getName());
-        items = processor.forItem(roomLabel.getText());
+        String result = processor.forGo(nextCommand);
+        roomLabel.setText(processor.getCurrentLocation().getName());
+        items = processor.getItems();
         for (int i = 0; i < items.size(); i++) {
             itemsBox.addItem(items.get(i));
         }
-        textField2.setText(room.toString());
+        textField2.setText(result);
     }
 
     private void lookButton(String e1) {
@@ -202,38 +209,45 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     }
 
     private void getItem(String e1) {
-
         List<String> nextCommand = processor.getCommand(e1);
         String get = processor.forGet(nextCommand);
-        if (itemsBox.getSelectedItem().equals(get)) {
-            itemsBox.removeItem(get);
+
+        if (itemsBox.getSelectedItem().equals(get.replace(" ", "_"))) {
+            itemsBox.removeItem(get.replace(" ", "_"));
+        }
+
+        if (get.equalsIgnoreCase("Your bag is full.")) {
+            textField2.setText(get);
+            return;
         }
         demoList.addElement(get);
         inventoryList.setModel(demoList);
-        //textField2.setText(get);
         itemsBox.revalidate();
         itemsBox.repaint();
-
+        textField2.setText(get);
     }
+
     private void useItem(){
         String useItem = inventoryList.getSelectedValue().toString();
         List<String> nextCommand = processor.getCommand("use " + useItem);
         String text = processor.forUse(nextCommand);
         textField2.setText(text);
     }
+
     private void dropItem() {
         try {
             String dropItem = inventoryList.getSelectedValue().toString();
             List<String> nextCommand = processor.getCommand("drop " + dropItem);
-            processor.forDrop(nextCommand);
+            String drop = processor.forDrop(nextCommand);
             int index = inventoryList.getSelectedIndex();
-            itemsBox.addItem(inventoryList.getSelectedValue());
+            itemsBox.addItem(inventoryList.getSelectedValue().toString().replace(" ", "_"));
             itemsBox.revalidate();
             itemsBox.repaint();
             if (index >= 0) {
                 demoList.remove(index);
             }
             inventoryList.setModel(demoList);
+            textField2.setText(drop);
 
         } catch (Exception e) {}
     }
@@ -248,7 +262,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             useItem();
         }
         if(radioButtonMute.isSelected()) {
-             clip.stop();
+            clip.stop();
         }
         if(!radioButtonMute.isSelected()) {
             clip.start();
@@ -273,6 +287,22 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        try {
+            SwingUtilities.invokeLater(() -> progressO2Bar.setValue(Game.getStats().get("Oxygen")));
+            java.lang.Thread.sleep(100);
+        } catch (InterruptedException event) {}
+        try {
+            SwingUtilities.invokeLater(() -> progressStaminaBar.setValue(Game.getStats().get("Stamina")));
+            java.lang.Thread.sleep(100);
+        } catch (InterruptedException event) {}
+        try {
+            SwingUtilities.invokeLater(() -> progressHungerBar.setValue(Game.getStats().get("Hunger")));
+            java.lang.Thread.sleep(100);
+        } catch (InterruptedException event) {}
     }
 }
 
