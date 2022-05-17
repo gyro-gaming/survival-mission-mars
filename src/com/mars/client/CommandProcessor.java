@@ -23,7 +23,6 @@ public class CommandProcessor {
 
     // method to resolve action command inputs from user
     public Room processCommand(List<String> command) {
-
         try {
             if (command.size() == 1) {
                 String command1 = " ";

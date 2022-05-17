@@ -22,13 +22,11 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
-public class PlayScreen extends JFrame implements ActionListener, ItemListener, MouseListener {
+public class PlayScreen extends JFrame implements ActionListener, ChangeListener, ItemListener, MouseListener {
     private JPanel mainPanel, topLeftPanel, bottomLeftPanel, noClockAndMapPanel, mapAndInventoryPanel, healthLevelsPanel, descriptionsPanel, directionPanel, utilitiesPanel, goNorthPanel, goSouthPanel, goWestPanel, goEastPanel, mapPanel, inventoryPanel;
     private JButton northButton, westButton, eastButton, southButton;
     private JComboBox itemsBox, menuDropDownBox;
@@ -107,6 +105,7 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
         radioButtonInspect.addActionListener(this);
         itemsBox.addItemListener(this);
         dropButton.addMouseListener(this);
+      
         volumeSlider = new JSlider(0, 100, 50);
         volumeSlider.addChangeListener(new ChangeListener() {
             @Override
@@ -123,6 +122,7 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
                 }
             }
         });
+      
         radioButtonMute.addMouseListener(this);
 
         radioButtonMute.addMouseListener(new MouseAdapter() {
@@ -152,6 +152,9 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
 
     }
 
+    @Override
+    public void stateChanged(ChangeEvent e) {
+    }
 
     private void directionButton(String e1) {
         itemsBox.removeAllItems();
@@ -180,8 +183,7 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
                 getItem("get " + itemsBox.getSelectedItem().toString());
             }
 
-        } catch (NullPointerException ex) {
-        }
+        } catch (NullPointerException ex) {}
     }
 
     private void lookItem(String e1) {
@@ -219,8 +221,7 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
             }
             inventoryList.setModel(demoList);
 
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
     }
 
     @Override
@@ -235,8 +236,7 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
         if(!radioButtonMute.isSelected()) {
             clip.start();
         }
-
-}
+    }
 
 
 

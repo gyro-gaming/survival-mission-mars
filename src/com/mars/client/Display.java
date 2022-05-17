@@ -18,13 +18,8 @@ public class Display {
     }
     // end getters and setters
 
-    public static String displayText(String path) {
-        return "displayText()";
-    }
-
-    public static String displayPuzzleText(String name, String section) {
-
-        return "wisecrack";
+    public static String displayText(String str) {
+        return str;
     }
 
     public static String showTextFile(String name) {
