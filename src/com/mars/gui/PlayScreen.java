@@ -18,6 +18,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -49,25 +54,49 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
     private JButton submitPuzzleButton;
     private JPanel puzzlePanel;
     private JButton SUBMITButton;
+    private JTextField targetHours;
+    private JTextField targetMins;
+    private JTextField targetSeconds;
     private Vector<String> items;
     private Font normalFont = new Font("Times New Roman", Font.ITALIC, 30);
     private CommandProcessor processor = new CommandProcessor();
     private DefaultListModel demoList = new DefaultListModel();
+
     private GameTimer gt = new GameTimer();
-    ;
+   
     private long timer = (gt.printCurrentTime());
     private Date date = new Date(timer);
     private Clip clip;
     private String stringFormCurrentTime = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(timer);
 
     public PlayScreen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+    private GameTimer gameTimer;
+    private LocalDateTime futureTime;
+
+    public PlayScreen(Instant instant) {
+
         setContentPane(mainPanel);
         setTitle("Survival Mission Mars");
         setSize(1250, 700);
         mainPanel.setBackground(Color.gray);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
+
         clip = Audio.playAudio();
+
+
+        targetHours = new JTextField("00", 2);
+        targetMins = new JTextField("00", 2);
+        targetSeconds = new JTextField("00", 2);
+
+        gameTimer = new GameTimer(60 * 60000L);
+        futureTime = LocalDateTime.now()
+                .plusHours(Long.parseLong(targetHours.getText()))
+                .plusMinutes(Long.parseLong(targetMins.getText()))
+                .plusSeconds(Long.parseLong(targetSeconds.getText()));
+        Duration duration = Duration.between(instant, futureTime.plusMinutes(gameTimer.getDelay() / 60000L).atZone(ZoneId.systemDefault()).toInstant());
+
+
         northButton.addActionListener(this);
         southButton.addActionListener(this);
         westButton.addActionListener(this);
@@ -224,13 +253,7 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        if (true){
-            GameTimer gt = new GameTimer();
-            long timer = (gt.printCurrentTime());
-            Date date = new Date(timer);
-            String stringFormCurrentTime = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(timer);
-            textField1.setText("Current Time: " + stringFormCurrentTime);
-        }
+
     }
 
     @Override
