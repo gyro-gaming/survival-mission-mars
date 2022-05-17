@@ -5,60 +5,34 @@ import com.mars.client.Game;
 import com.mars.client.Puzzle;
 import com.mars.items.Item;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class ChallengeRoom extends Room {
     private Game game;
-    private Map<String, Boolean> solved;
+    private Map<String, Map<String, Boolean>> solved;
     private List<Puzzle> puzzleList;
+    Map<String, Map<String, Item>> puzzleItemMap;
     private static ChallengeRoom instance = new ChallengeRoom();
 
     private Scanner input = new Scanner(System.in);
 
-    private ChallengeRoom() {}
+    private ChallengeRoom() {
+    }
 
     public static ChallengeRoom getInstance(Game game, String option, Map<String, Boolean> solved, List<Puzzle> puzzle) {
         instance.setGame(game);
-        instance.setSolved(solved);
+        instance.convertToLocalSolved(solved);
         instance.setPuzzleList(puzzle);
-        instance.runPuzzle(game, option, solved);
+        instance.runPuzzle(option);
         return instance;
     }
 
-    public void runPuzzle(Game game, String option, Map<String, Boolean> solved) {
-        System.out.println(option);
-        switch (option) {
-            case "Solar Array":
-                Display.showTextFile(option); // need to get path from Room object based on option
-                setSolved(solarPuzzle(game, option, solved));
-                break;
-            case "Reactor":
-                Display.showTextFile(option); // need to get path from Room object based on option
-                setSolved(reactorPuzzle(game, option, solved));
-                break;
-            case "Environmental Control Room":
-                Display.showTextFile(option); // need to get path from Room object based on option
-                setSolved(environmentalPuzzle(game, option, solved));
-                break;
-            case "Green House":
-                Display.showTextFile(option); // need to get path from Room object based on option
-                setSolved(greenHousePuzzle(game, option, solved));
-                break;
-            case "Hydro Control Room":
-                Display.showTextFile(option); // need to get path from Room object based on option
-                setSolved(hydroPuzzle(game, option, solved));
-                break;
-            default:
-                // System.out.println("Something went wrong!\nThis room does not have a challenge.");
-                return;
-        }
-        game.setSolved(solved);
+    public void setSolved(Map<String, Map<String, Boolean>> solved) {
+        this.solved = solved;
     }
 
-    public void setSolved(Map<String, Boolean> solved) {
-        this.solved = solved;
+    public Map<String, Map<String, Boolean>> getSolved() {
+        return solved;
     }
 
     public void setPuzzleList(List<Puzzle> puzzleList) {
@@ -69,168 +43,259 @@ public class ChallengeRoom extends Room {
         this.game = game;
     }
 
-    public Map<String, Boolean> greenHousePuzzle(Game game, String option, Map<String, Boolean> solved) {
+    public void setPuzzleItemMap() {
         List<Item> items = Game.getItems();
-        Item nozzle = null;
-        Item fertilizer = null;
-        Item potato = null;
+        Map<String, Map<String, Item>> required = new HashMap<>();
         for (Item item : items) {
             if (item.getName().equals("nozzle")) {
-                nozzle = item;
+                Map<String, Item> temp = new HashMap<>();
+                temp.put("a1", item);
+                required.put("Green House", temp);
             } else if (item.getName().equals("fertilizer")) {
-                fertilizer = item;
+                Map<String, Item> temp = new HashMap<>();
+                temp.put("a2", item);
+                required.put("Green House", temp);
             } else if (item.getName().equals("potato")) {
-                potato = item;
-            }
-        }
-        if (game.getPlayer().getInventory().getInventory().contains(potato) &&
-                game.getPlayer().getInventory().getInventory().contains(fertilizer) &&
-                !solved.get(option + "-a")) {
-            String output1 = "[y/n]?";
-            solved = getQuestions(option + "a", solved);
-        }
-        if (game.getPlayer().getInventory().getInventory().contains(nozzle) &&
-                !solved.get(option + "-b")) {
-            String output3 = "";
-            solved = getQuestions(option + "b", solved);
-        }
-        return solved;
-    }
-
-    public Map<String, Boolean> hydroPuzzle(Game game, String option, Map<String, Boolean> solved) {
-        List<Item> items = Game.getItems();
-        Item pressureGauge = null;
-        Item voltageMeter = null;
-        Item chlorineTablets = null;
-        for (Item item : items) {
-            if (item.getName().equals("pressure gauge")) {
-                pressureGauge = item;
-            } else if (item.getName().equals("voltage meter")) {
-                voltageMeter = item;
+                Map<String, Item> temp = new HashMap<>();
+                temp.put("a3", item);
+                required.put("Green House", temp);
+            } else if (item.getName().equals("water level probe")) {
+                Map<String, Item> temp = new HashMap<>();
+                temp.put("a1", item);
+                required.put("Hydro Control Room", temp);
+            } else if (item.getName().equals("ph meter")) {
+                Map<String, Item> temp = new HashMap<>();
+                temp.put("a2", item);
+                required.put("Hydro Control Room", temp);
             } else if (item.getName().equals("chlorine tablets")) {
-                chlorineTablets = item;
-            }
-        }
-        if (game.getPlayer().getInventory().getInventory().contains(pressureGauge) &&
-                game.getPlayer().getInventory().getInventory().contains(voltageMeter) &&
-                !solved.get(option + "-a")) {
-            String output1 = "[y/n]?";
-            solved = getQuestions(option + "a", solved);
-        }
-        if (game.getPlayer().getInventory().getInventory().contains(chlorineTablets) &&
-                !solved.get(option + "-b")) {
-            String output3 = "";
-            solved = getQuestions(option + "b", solved);
-        }
-        return solved;
-    }
-
-    public Map<String, Boolean> environmentalPuzzle(Game game, String option, Map<String, Boolean> solved) {
-        List<Item> items = Game.getItems();
-        Item pressureGauge = null;
-        Item voltageMeter = null;
-        Item toolKit = null;
-        for (Item item : items) {
-            if (item.getName().equals("pressure gauge")) {
-                pressureGauge = item;
+                Map<String, Item> temp = new HashMap<>();
+                temp.put("a3", item);
+                required.put("Hydro Control Room", temp);
+            } else if (item.getName().equals("pressure gauge")) {
+                Map<String, Item> temp = new HashMap<>();
+                temp.put("a1", item);
+                required.put("Environmental Control Room", temp);
             } else if (item.getName().equals("voltage meter")) {
-                voltageMeter = item;
+                Map<String, Item> temp = new HashMap<>();
+                temp.put("a2", item);
+                required.put("Environmental Control Room", temp);
             } else if (item.getName().equals("tool kit")) {
-                toolKit = item;
-            }
-        }
-        if (game.getPlayer().getInventory().getInventory().contains(pressureGauge) &&
-                game.getPlayer().getInventory().getInventory().contains(voltageMeter) &&
-                !solved.get(option + "-a")) {
-            String output1 = "[y/n]?";
-            solved = getQuestions(option + "a", solved);
-        }
-        if (game.getPlayer().getInventory().getInventory().contains(toolKit) &&
-                !solved.get(option + "-b")) {
-            String output3 = "";
-            solved = getQuestions(option + "b", solved);
-        }
-        return solved;
-    }
-
-    public Map<String, Boolean> reactorPuzzle(Game game, String option, Map<String, Boolean> solved) {
-        List<Item> items = Game.getItems();
-        Item dosimeter = null;
-        Item key = null;
-        Item checklist = null;
-        for (Item item : items) {
-            if (item.getName().equals("dosimeter")) {
-                dosimeter = item;
+                Map<String, Item> temp = new HashMap<>();
+                temp.put("a3", item);
+                required.put("Environmental Control Room", temp);
+            } else if (item.getName().equals("dosimeter")) {
+                Map<String, Item> temp = new HashMap<>();
+                temp.put("a1", item);
+                required.put("Reactor", temp);
             } else if (item.getName().equals("key")) {
-                key = item;
+                Map<String, Item> temp = new HashMap<>();
+                temp.put("a2", item);
+                required.put("Reactor", temp);
             } else if (item.getName().equals("checklist")) {
-                checklist = item;
-            }
-        }
-        if (game.getPlayer().getInventory().getInventory().contains(key) &&
-                game.getPlayer().getInventory().getInventory().contains(dosimeter) &&
-                !solved.get(option + "-a")) {
-            String output1 = "[y/n]?";
-            solved = getQuestions(option + "a", solved);
-        }
-        if (game.getPlayer().getInventory().getInventory().contains(checklist) &&
-                !solved.get(option + "-b")) {
-            String output3 = "";
-            solved = getQuestions(option + "b", solved);
-        }
-        return solved;
-    }
-
-    public Map<String, Boolean> solarPuzzle(Game game, String option, Map<String, Boolean> solved) {
-        List<Item> items = Game.getItems();
-        Item batteries = null;
-        Item gps = null;
-        Item cable = null;
-        for (Item item : items) {
-            if (item.getName().equals("batteries")) {
-                batteries = item;
+                Map<String, Item> temp = new HashMap<>();
+                temp.put("a3", item);
+                required.put("Reactor", temp);
+            } else if (item.getName().equals("batteries")) {
+                Map<String, Item> temp = new HashMap<>();
+                temp.put("a1", item);
+                required.put("Solar Array", temp);
             } else if (item.getName().equals("gps")) {
-                gps = item;
+                Map<String, Item> temp = new HashMap<>();
+                temp.put("a2", item);
+                required.put("Solar Array", temp);
             } else if (item.getName().equals("cable")) {
-                cable = item;
+                Map<String, Item> temp = new HashMap<>();
+                temp.put("a3", item);
+                required.put("Solar Array", temp);
             }
         }
-
-            if (game.getPlayer().getInventory().getInventory().contains(batteries) &&
-                    game.getPlayer().getInventory().getInventory().contains(gps) &&
-                    !solved.get(option + "-a")) {
-                String output1 = "Would you like to attempt to align the panels [y/n]? ";
-                solved = getQuestions(option + "a", solved);
-            } else {
-                String output2 = "You are missing an item!";
-            }
-            if (game.getPlayer().getInventory().getInventory().contains(cable) &&
-                    !solved.get(option + "-b")) {
-                String output3 = "You notice that the array is not generating any power, would you like to take a look?";
-                solved = getQuestions(option + "b", solved);
-            }
-        try {
-            if (solved.get(option + "a") && solved.get(option + "b")) {
-                // mission control npc contacts player with status update and mission details
-            }
-        } catch (NullPointerException e) {
-            System.out.println("You are missing items!");
-        }
-        return solved;
+        this.puzzleItemMap = required;
     }
 
-    private Map<String, Boolean> getQuestions(String option, Map<String, Boolean> solved) {
+    public Map<String, Map<String, Item>> getPuzzleItemMap() {
+        return puzzleItemMap;
+    }
+
+    public void convertToLocalSolved(Map<String, Boolean> solved) {
+        Map<String, Map<String, Boolean>> newMap = new HashMap<>();
+        for (Map.Entry<String, Boolean> solvd : solved.entrySet()) {
+            if (solvd.getValue()) {
+                Map<String, Boolean> temp = new HashMap<>();
+                temp.put("a", true);
+                temp.put("b", true);
+                newMap.put(solvd.getKey(), temp);
+            }
+        }
+
+        this.solved = newMap;
+    }
+
+    public Map<String, Boolean> convertToSuperSolved(Map<String, Map<String, Boolean>> solved) {
+        Map<String, Boolean> newMap = Game.getSolved();
+        for (Map.Entry<String, Map<String, Boolean>> solvd : solved.entrySet()) {
+            if (solvd.getValue().get("a") && solvd.getValue().get("a")) {
+                newMap.put(solvd.getKey(), true);
+            }
+        }
+        return newMap;
+    }
+
+    public void runPuzzle(String option) {
+        setPuzzleItemMap();
+        Display.showTextFile(option);
+        eligiblePuzzle(option);
+        game.setSolved(convertToSuperSolved(solved));
+    }
+
+    private void eligiblePuzzle(String option) {
+        convertToLocalSolved(Game.getSolved());
+        if (!solved.containsKey(option)) {
+            Map<String, Boolean> temp = new HashMap<>();
+            temp.put("a", false);
+            temp.put("b", false);
+            solved.put(option, temp);
+            Map<String, Boolean> temp2 = new HashMap<>();
+            temp2.put(option, false);
+            game.setSolved(temp2);
+        }
+        if ("Solar Array" == option && !Game.getSolved().get(option)) {
+            if (!solved.get(option).get("a")) {
+                askQuestionA1(option);
+            } else if (solved.get(option).get("a") && !solved.get(option).get("b")) {
+                askQuestionA2(option);
+            }
+        } else if ("Reactor" == option && !Game.getSolved().get(option)
+                && Game.getSolved().get("Solar Array")) {
+            if (!solved.get("Reactor").get("a")) {
+                askQuestionA1(option);
+            } else if (solved.get("Reactor").get("a")
+                    && !solved.get("Reactor").get("b")) {
+                askQuestionA2(option);
+            }
+        } else if ("Environmental Control Room" == option && !Game.getSolved().get(option)
+                && Game.getSolved().get("Solar Array")
+                && Game.getSolved().get("Reactor")) {
+            if (!solved.get("Environmental Control Room").get("a")) {
+                askQuestionA1(option);
+            } else if (solved.get("Environmental Control Room").get("a")
+                    && !solved.get("Environmental Control Room").get("b")) {
+                askQuestionA2(option);
+            }
+        } else if ("Hydro Control Room" == option && !Game.getSolved().get(option)
+                && Game.getSolved().get("Solar Array")
+                && Game.getSolved().get("Reactor")
+                && Game.getSolved().get("Environmental Control Room")) {
+            if (!solved.get("Hydro Control Room").get("a")) {
+                askQuestionA1(option);
+            } else if (solved.get("Hydro Control Room").get("a")
+                    && !solved.get("Hydro Control Room").get("b")) {
+                askQuestionA2(option);
+            }
+        } else if ("Green House" == option && !Game.getSolved().get(option)
+                && Game.getSolved().get("Solar Array")
+                && Game.getSolved().get("Reactor")
+                && Game.getSolved().get("Environmental Control Room")
+                && Game.getSolved().get("Hydro Control Room")) {
+            if (!solved.get("Green House").get("a")) {
+                askQuestionA1(option);
+            } else if (solved.get("Green House").get("a")
+                    && !solved.get("Green House").get("b")) {
+                askQuestionA2(option);
+            }
+        }
+    }
+
+    private void askQuestionA1(String option) {
+        List<Item> inventory = game.getPlayer().getInventory().getInventory();
+        if (inventory.contains(getPuzzleItemMap().get(option).get("a1"))
+                && inventory.contains(getPuzzleItemMap().get(option).get("a2"))
+                && !getSolved().get(option).get("a")) {
+            Display.displayText(getPuzzleQuestion(option + "-a"));
+            Display.displayText("[y/n]?");
+            int result = 0;
+            result += getQuestions();
+            result += getQuestions();
+            if (result == 2) {
+                Map<String, Map<String, Boolean>> tempSolved = getSolved();
+                Map<String, Boolean> temp = new HashMap<>();
+                tempSolved.put(option, temp);
+                setSolved(tempSolved);
+                Display.displayText("you solved this part");
+            } else {
+                Display.displayText("you did not solve this part");
+            }
+        }
+    }
+
+    private void askQuestionA2(String option) {
+        List<Item> inventory = game.getPlayer().getInventory().getInventory();
+        if (inventory.contains(getPuzzleItemMap().get(option).get("a3"))
+                && !getSolved().get(option).get("b")) {
+            String output5 = getPuzzleQuestion(option + "-b");
+            Display.displayText("[y/n]?");
+            int result = 0;
+            result += getQuestions();
+            if (result == 1) {
+                Map<String, Map<String, Boolean>> tempSolved = getSolved();
+                Map<String, Boolean> temp = new HashMap<>();
+                tempSolved.put(option, temp);
+                setSolved(tempSolved);
+                String output6 = "you solved the second part";
+            } else {
+                String output7 = "you did not solve this one either";
+            }
+        }
+    }
+
+    private String getPuzzleQuestion(String option) {
+        String question = "";
+        switch (option) {
+            case "Solar Array-a":
+                question = "Would you like to attempt to bring the solar array online?";
+                break;
+            case "Solar Array-b":
+                question = "Would you like to closely inspect the solar array?";
+                break;
+            case "Reactor-a":
+                question = "Would you like to attempt to bring the reactor online?";
+                break;
+            case "Reactor-b":
+                question = "Would you like to closely inspect the reactor?";
+                break;
+            case "Environmental Control Room-a":
+                question = "Would you like to attempt to bring the environmental controls online?";
+                break;
+            case "Environmental Control Room-b":
+                question = "Would you like to closely inspect the environmental controls?";
+                break;
+            case "Hydro Control Room-a":
+                question = "Would you like to attempt to bring the water controls online?";
+                break;
+            case "Hydro Control Room-b":
+                question = "Would you like to closely inspect the water controls?";
+                break;
+            case "Green House-a":
+                question = "Would you like to attempt to bring the green house online?";
+                break;
+            case "GreenHouse-b":
+                question = "Would you like to closely inspect the soil?";
+                break;
+            default:
+                break;
+        }
+        return question;
+    }
+
+    private int getQuestions() {
         String input1 = input.nextLine();
         if (input1.equalsIgnoreCase("y")) {
             boolean correct = false;
             correct = getPuzzle(puzzleList);
-            correct = getPuzzle(puzzleList);
-            solved.put(option, correct);
+            return (correct) ? 1 : 0;
         } else {
             String output2 = "OK, then...";
-            solved.put(option, false);
+            return 0;
         }
-        return solved;
     }
 
     private int getRandomPuzzle(int num) {

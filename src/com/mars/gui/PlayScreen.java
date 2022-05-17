@@ -22,13 +22,11 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
-public class PlayScreen extends JFrame implements ActionListener, ItemListener, MouseListener {
+public class PlayScreen extends JFrame implements ActionListener, ChangeListener, ItemListener, MouseListener {
     private JPanel mainPanel, topLeftPanel, bottomLeftPanel, noClockAndMapPanel, mapAndInventoryPanel, healthLevelsPanel, descriptionsPanel, directionPanel, utilitiesPanel, goNorthPanel, goSouthPanel, goWestPanel, goEastPanel, mapPanel, inventoryPanel;
     private JButton northButton, westButton, eastButton, southButton;
     private JComboBox itemsBox, menuDropDownBox;
@@ -161,7 +159,10 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
 
     }
 
+    @Override
+    public void stateChanged(ChangeEvent e) {
 
+    }
 
     private void directionButton(String e1) {
         itemsBox.removeAllItems();
