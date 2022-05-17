@@ -275,7 +275,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
                 textField2.setText(get);
                 return;
             }
-            demoList.addElement(get);
+            demoList.addElement(get.replace(" ", "_"));
             inventoryList.setModel(demoList);
             itemsBox.revalidate();
             itemsBox.repaint();
@@ -289,6 +289,11 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         String useItem = inventoryList.getSelectedValue().toString();
         List<String> nextCommand = processor.getCommand("use " + useItem);
         String text = processor.forUse(nextCommand);
+        int index = inventoryList.getSelectedIndex();
+        if (index >= 0) {
+            demoList.remove(index);
+        }
+        inventoryList.setModel(demoList);
         textField2.setText(text);
     }
 
