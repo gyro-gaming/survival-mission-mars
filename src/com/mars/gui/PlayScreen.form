@@ -161,7 +161,7 @@
                       <text value="Stamina"/>
                     </properties>
                   </component>
-                  <component id="9aa5c" class="javax.swing.JProgressBar" binding="progressO2Bar" custom-create="true">
+                  <component id="9aa5c" class="javax.swing.JProgressBar" binding="progressO2Bar">
                     <constraints>
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
