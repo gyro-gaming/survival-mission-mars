@@ -101,6 +101,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         volumeSlider.setPaintLabels(true);
         volumeSlider.setPaintTicks(true);
         volumeSlider.setPaintTrack(true);
+        useButton.addMouseListener(this);
     }
 
     @Override
@@ -214,7 +215,12 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         itemsBox.repaint();
 
     }
-
+    private void useItem(){
+        String useItem = inventoryList.getSelectedValue().toString();
+        List<String> nextCommand = processor.getCommand("use " + useItem);
+        String text = processor.forUse(nextCommand);
+        textField2.setText(text);
+    }
     private void dropItem() {
         try {
             String dropItem = inventoryList.getSelectedValue().toString();
@@ -237,6 +243,9 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
 
         if (dropButton.isSelected()) {
             dropItem();
+        }
+        if (useButton.isSelected()){
+            useItem();
         }
         if(radioButtonMute.isSelected()) {
              clip.stop();

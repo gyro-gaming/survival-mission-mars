@@ -162,7 +162,7 @@ public class CommandProcessor {
 
     public String forGet(List<String> command) {
         if (inventory.size() == 4) {
-            return "You bag is full.";
+            return "Your bag is full.";
         }
 
         String noun = command.get(1).replace("_", " ").toLowerCase();
@@ -177,9 +177,7 @@ public class CommandProcessor {
                 sb.append(item.getName());
                 // TODO update inventory panel
                 // sb.append(player.getInventory().toString());
-            } else if (item.getName().equals(noun) && inventory.size() == 4 && item.getLocation().getName().equals(currentLocation.getName())) {
-                sb.append("You can only have 4 items in inventory");
-            } else if (noun.equals(" ")) {
+            }  else if (noun.equals(" ")) {
                 sb.append("What do you want to get");
             }
         }
@@ -224,24 +222,16 @@ public class CommandProcessor {
         try {
             Item droppedItem = game.getPlayer().getInventory().drop(command.get(1));
             currentLocation.addItem(droppedItem);
+
         } catch (Exception e) {
 
         }
     }
 
 
-    public void forUse(List<String> command) {
-        try {
+    public String forUse(List<String> command) {
             // TODO: what about consumable items? (mealkit) ...or Items that actuate something else? (key -> reactor)
-            if (player.getInventory().lookItem().contains(command.get(1))) {
-                System.out.println("Item is here");
-
-            } else {
-                System.out.println("Use what?");
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Use what?");
-        }
+            return "Item is here";
     }
 
     public static void clearConsole() {
