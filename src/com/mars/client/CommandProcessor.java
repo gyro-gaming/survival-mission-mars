@@ -173,14 +173,15 @@ public class CommandProcessor {
     }
 
     public String forUse(List<String> command) {
+        String noun = command.get(1).replace("_", " ").toLowerCase();
         try {
-            // TODO: what about consumable items? (mealkit) ...or Items that actuate something else? (key -> reactor)
-            if (player.getInventory().lookItem().contains(command.get(1))) {
-                System.out.println("Item is here");
 
-            } else {
-                System.out.println("Use what?");
-            }
+            // TODO: what about consumable items? (mealkit) ...or Items that actuate something else? (key -> reactor)
+                for(Item item: inventory){
+                    if(noun.equals(item.getName())) {
+                       return Player.addOxygen(item);
+                    }
+                }
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Use what?");
         }
