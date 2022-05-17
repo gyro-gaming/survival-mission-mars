@@ -1,11 +1,16 @@
 package com.mars.gui;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+
 
 public class SplashScreen {
 
@@ -72,6 +77,10 @@ public class SplashScreen {
         container.add(myLabel);
     }
 
+
+    public void PlayScreen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        new PlayScreen();
+
     public void PlayScreen() {
         Instant instant = Instant.now();
         new PlayScreen(instant);
@@ -80,7 +89,15 @@ public class SplashScreen {
 
     public class TitleScreenHandler implements ActionListener{
         public void actionPerformed(ActionEvent event) {
-            PlayScreen();
+            try {
+                PlayScreen();
+            } catch (UnsupportedAudioFileException e) {
+                e.printStackTrace();
+            } catch (LineUnavailableException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
