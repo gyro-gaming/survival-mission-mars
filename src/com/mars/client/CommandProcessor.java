@@ -29,6 +29,7 @@ public class CommandProcessor {
         setStats();
         setInventory();
         setCurrentLocation();
+        Player.calculateOxygen();
     }
 
     public void setPlayer() {
@@ -75,71 +76,6 @@ public class CommandProcessor {
             }
         } catch (Exception e) {}
         return items;
-    }
-
-    // method to resolve action command inputs from user
-    public Room processCommand(List<String> command) {
-        try {
-            if (command.size() == 1) {
-                String command1 = " ";
-                command.add(1, command1);
-            }
-            if (command.size() > 1) {
-                // getting name of currentLocation and assign to nextLocation
-                //clearConsole();
-                switch (command.get(0)) {
-                    case "go":
-                        // currentLocation = forGo(command);
-                        break;
-                    case "eat":
-                        if (!currentLocation.getName().equals("Docking Station")) {
-                            System.out.println("You can't eat outside docking station");
-                        } else {
-                            forUse(command);
-                        }
-                        break;
-                    case "quit":
-                        Game.quit();
-                        break;
-                    case "help":
-                        System.out.println(" ");
-                        Display.displayText("text/help.txt");
-                        break;
-                    case "look":
-                        forLook(command);
-                        break;
-                    default:
-                        System.out.println("That is an invalid command. Please try again.");
-                        break;
-                }
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Check your input");
-        } catch (NullPointerException e) {
-            System.out.println("Can't go that way .... yet");
-        }
-        return currentLocation;
-    }
-
-    public void setStat() {
-        try {
-            stats.put("Stamina", 100);
-            if (!currentLocation.getName().equals("Docking Station") && stats.get("Stamina") > 0) {
-                newStamina = stats.get("Stamina") - 5;
-                stats.put("Stamina", newStamina);
-                game.setStats(stats);
-                System.out.println("Stamina Level: " + newStamina);
-            } else {
-                System.out.println("Stamina Level: " + stats.get("Stamina"));
-            }
-            if (stats.get("Stamina") <= 0) {
-                System.out.println("no more STAMINA......YOU DIED AND IS NOW FLOATING IN SPACE....");
-                System.out.println("goodbye");
-                System.exit(0);
-            }
-        } catch (NullPointerException e) {
-            System.out.println("Need to use a verb");
-        }
     }
 
     public List<String> getCommand(String userInput) {
