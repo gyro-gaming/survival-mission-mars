@@ -139,20 +139,23 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         if(volumeSlider.getValue() == 40) {
             Audio.volumeDown(clip);
         }
-        if(volumeSlider.getValue() == 60) {
+        if(volumeSlider.getValue() == 50) {
             Audio.volumeUp(clip);
         }
-        if(volumeSlider.getValue() == 70) {
+        if(volumeSlider.getValue() == 60) {
             Audio.volumeUp1(clip);
         }
-        if(volumeSlider.getValue() == 80) {
+        if(volumeSlider.getValue() == 70) {
             Audio.volumeUp2(clip);
         }
-        if(volumeSlider.getValue() == 90) {
+        if(volumeSlider.getValue() == 80) {
             Audio.volumeUp3(clip);
         }
+        if(volumeSlider.getValue() == 90) {
+            Audio.volumeUp4(clip);
+        }
         if(volumeSlider.getValue() == 100) {
-            Audio.volumeUp3(clip);
+            Audio.volumeUp5(clip);
         }
 
     }

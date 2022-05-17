@@ -51,31 +51,37 @@ public class Audio {
     public static void volumeUp(Clip clip){
         FloatControl gainControl =
                 (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(+5); // Reduce volume by 10 decibels.
+        gainControl.setValue(+1); // Reduce volume by 10 decibels.
         clip.start();
     }
     public static void volumeUp1(Clip clip){
         FloatControl gainControl =
                 (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(+10); // Reduce volume by 10 decibels.
+        gainControl.setValue(+2); // Reduce volume by 10 decibels.
         clip.start();
     }
     public static void volumeUp2(Clip clip){
         FloatControl gainControl =
                 (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(+20); // Reduce volume by 10 decibels.
+        gainControl.setValue(+3); // Reduce volume by 10 decibels.
         clip.start();
     }
     public static void volumeUp3(Clip clip){
         FloatControl gainControl =
                 (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(+30); // Reduce volume by 10 decibels.
+        gainControl.setValue(+4); // Reduce volume by 10 decibels.
         clip.start();
     }
     public static void volumeUp4(Clip clip){
         FloatControl gainControl =
                 (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(+40); // Reduce volume by 10 decibels.
+        gainControl.setValue(+5); // Reduce volume by 10 decibels.
+        clip.start();
+    }
+    public static void volumeUp5(Clip clip){
+        FloatControl gainControl =
+                (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(+6); // Reduce volume by 10 decibels.
         clip.start();
     }
 
