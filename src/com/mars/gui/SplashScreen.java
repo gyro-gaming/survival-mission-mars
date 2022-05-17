@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 
-
 public class SplashScreen {
 
     JFrame window;
@@ -23,7 +22,7 @@ public class SplashScreen {
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
     JButton startButton, instructionsButton;
 
-    TitleScreenHandler tsHandler = new TitleScreenHandler();
+   TitleScreenHandler tsHandler = new TitleScreenHandler();
 
     public SplashScreen() {
 
@@ -54,7 +53,7 @@ public class SplashScreen {
         instructionsButton.setBackground(Color.black);
         instructionsButton.setForeground(Color.black);
         instructionsButton.setFont(normalFont);
-//        instructionsButton.addActionListener(tsHandler);
+        instructionsButton.addActionListener(tsHandler);
 
         startButtonPanel = new JPanel();
         startButtonPanel.setBounds(310, 400, 140, 48);
@@ -77,29 +76,24 @@ public class SplashScreen {
         container.add(myLabel);
     }
 
-/*
-    public void PlayScreen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        new PlayScreen();
-    }
-*/
     public void PlayScreen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         Instant instant = Instant.now();
         new PlayScreen(instant);
         window.setVisible(false);
     }
 
-    public class TitleScreenHandler implements ActionListener{
-        public void actionPerformed(ActionEvent event) {
-            try {
-                PlayScreen();
-            } catch (UnsupportedAudioFileException e) {
-                e.printStackTrace();
-            } catch (LineUnavailableException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+    public class TitleScreenHandler implements ActionListener {
+            public void actionPerformed(ActionEvent event) {
+                try {
+                    PlayScreen();
+                } catch (UnsupportedAudioFileException e) {
+                    e.printStackTrace();
+                } catch (LineUnavailableException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
-    }
 
-}
+    }

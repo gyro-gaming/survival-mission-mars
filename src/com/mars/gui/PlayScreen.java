@@ -84,7 +84,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
                 .plusSeconds(Long.parseLong(targetSeconds.getText()));
         Duration duration = Duration.between(instant, futureTime.plusMinutes(gameTimer.getDelay() / 60000L).atZone(ZoneId.systemDefault()).toInstant());
 
-
         northButton.addActionListener(this);
         southButton.addActionListener(this);
         westButton.addActionListener(this);
@@ -95,28 +94,13 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         radioButtonInspect.addActionListener(this);
         itemsBox.addItemListener(this);
         dropButton.addMouseListener(this);
-      
-        volumeSlider = new JSlider(0, 100, 50);
-        volumeSlider.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                try {
-                    Clip clip = Audio.playAudio();
-                    Audio.volume(clip);
-                } catch (LineUnavailableException ex) {
-                    ex.printStackTrace();
-                } catch (UnsupportedAudioFileException ex) {
-                    ex.printStackTrace();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-      
         radioButtonMute.addMouseListener(this);
-
-        radioButtonMute.addMouseListener(new MouseAdapter() {
-        });
+        volumeSlider.addChangeListener(this);
+        volumeSlider.setMajorTickSpacing(20);
+        volumeSlider.setMinorTickSpacing(10);
+        volumeSlider.setPaintLabels(true);
+        volumeSlider.setPaintTicks(true);
+        volumeSlider.setPaintTrack(true);
     }
 
     @Override
@@ -139,12 +123,40 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         } else if (southButton.equals(e.getSource()) && radioButtonLook.isSelected()) {
             lookButton("look south");
         }
-
     }
 
     @Override
     public void stateChanged(ChangeEvent e) {
+        if(volumeSlider.getValue() == 10) {
+            Audio.volumeDown3(clip);
+        }
+        if(volumeSlider.getValue() == 20) {
+            Audio.volumeDown2(clip);
+        }
+        if(volumeSlider.getValue() == 30) {
+            Audio.volumeDown1(clip);
+        }
+        if(volumeSlider.getValue() == 40) {
+            Audio.volumeDown(clip);
+        }
+        if(volumeSlider.getValue() == 60) {
+            Audio.volumeUp(clip);
+        }
+        if(volumeSlider.getValue() == 70) {
+            Audio.volumeUp1(clip);
+        }
+        if(volumeSlider.getValue() == 80) {
+            Audio.volumeUp2(clip);
+        }
+        if(volumeSlider.getValue() == 90) {
+            Audio.volumeUp3(clip);
+        }
+        if(volumeSlider.getValue() == 100) {
+            Audio.volumeUp3(clip);
+        }
+
     }
+
 
     private void directionButton(String e1) {
         itemsBox.removeAllItems();
@@ -227,9 +239,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             clip.start();
         }
     }
-
-
-
 
     @Override
     public void mousePressed(MouseEvent e) {
