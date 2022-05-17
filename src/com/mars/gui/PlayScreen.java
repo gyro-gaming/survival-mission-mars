@@ -56,6 +56,8 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     private JComboBox puzzleChoiceBox;
     private JButton submitPuzzleButton;
     private JPanel puzzlePanel;
+    private JScrollPane textScrollPane;
+    private JTextArea textArea1;
     private JTextField targetHours;
     private JTextField targetMins;
     private JTextField targetSeconds;
