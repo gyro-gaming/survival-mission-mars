@@ -4,7 +4,7 @@ import com.mars.items.Item;
 import com.mars.items.OxygenItem;
 import java.time.Duration;
 
-public class OxygenTimer extends GameTimer{
+public class OxygenTimer extends GameTimer {
 
     public OxygenTimer(long delay) {
         super(delay);
@@ -15,6 +15,6 @@ public class OxygenTimer extends GameTimer{
     }
 
     private static long getValue(Item item) {
-        return (((OxygenItem)item).getModifier() * 60000L>300000L)?300000L:((OxygenItem)item).getModifier() * 60000L;
+        return (((OxygenItem)item).getModifier() * 60000L > 300000L) ? 300000L:((OxygenItem)item).getModifier() * 60000L;
     }
 }

@@ -3,23 +3,79 @@ package com.mars.client;
 import com.mars.items.Item;
 import com.mars.locations.ChallengeRoom;
 import com.mars.locations.Room;
-import com.mars.objects.Player;
+import com.mars.players.Player;
 
 import java.util.*;
 
 public class CommandProcessor {
-    private Display display = new Display();
     private String nextLocation = "";
     private int newStamina = 0;
-    private Game game = Game.getInstance();
-    private Player player = game.getPlayer();
-    private List<Room> rooms = Game.getRooms();
-    private List<Item> locationItems = Game.getItems();
-    private Map<String, Boolean> solvedPuzzles = Game.getSolved();
-    private Map<String, Integer> stats = game.getStats();
-    private List<Item> inventory = game.getInventory();
+    private Game game;
+    private Player player;
+    private List<Room> rooms;
+    private List<Item> locationItems;
+    private Map<String, Boolean> solvedPuzzles;
+    private Map<String, Integer> stats;
+    private List<Item> inventory;
     private Vector<String> items;
-    private Room currentLocation = rooms.get(0);
+    private Room currentLocation;
+
+    public CommandProcessor() {
+        this.game = Game.getInstance();
+        setPlayer();
+        setRooms();
+        setLocationItems();
+        setSolvedPuzzles();
+        setStats();
+        setInventory();
+        setCurrentLocation();
+    }
+
+    public void setPlayer() {
+        this.player = game.getPlayer();
+    }
+
+    public void setRooms() {
+        this.rooms = Game.getRooms();
+    }
+
+    public void setLocationItems() {
+        this.locationItems = Game.getItems();
+    }
+
+    public void setSolvedPuzzles() {
+        this.solvedPuzzles = Game.getSolved();
+    }
+
+    public void setStats() {
+        this.stats = game.getStats();
+    }
+
+    public void setInventory() {
+        this.inventory = game.getInventory();
+    }
+
+    public void setCurrentLocation() {
+        this.currentLocation = Game.getRooms().get(0);
+    }
+
+    public void setCurrentLocation(Room currentLocation) {
+        this.currentLocation = currentLocation;
+    }
+
+    public Room getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public Vector<String> getItems() {
+        try {
+            items = new Vector<>();
+            for (Item i : currentLocation.getItems()) {
+                items.add(i.getName().replace(" ", "_"));
+            }
+        } catch (Exception e) {}
+        return items;
+    }
 
     // method to resolve action command inputs from user
     public Room processCommand(List<String> command) {
@@ -33,7 +89,7 @@ public class CommandProcessor {
                 //clearConsole();
                 switch (command.get(0)) {
                     case "go":
-                        currentLocation = forGo(command);
+                        // currentLocation = forGo(command);
                         break;
                     case "eat":
                         if (!currentLocation.getName().equals("Docking Station")) {
@@ -86,68 +142,28 @@ public class CommandProcessor {
         }
     }
 
-    // method to actually run the application
-    public Room runApp(String userInput) {
-//        boolean isRunning = true;                      // establish & setting boolean to default off for game execution
-//        String answer = display.playGame();             // Ask if user wants to play a game
-//        if(answer.equals("y")){
-//            isRunning = true;                           // setting boolean on for game execution
-//        }
-//        else{
-//            System.out.println("You chose to not play :(");     // message showing user their choice
-//            System.exit(0);                              // exiting game load
-//        }
-
-        // functions while game is running
-        while (userInput.length() > 1) {
-
-            List<String> nextCommand = getCommand(userInput);            // calling upon Parser to begin parse process
-            currentLocation = processCommand(nextCommand);
-            return currentLocation;
-            // setStat();
-        }
-        return null;
-    }
-
     public List<String> getCommand(String userInput) {
-        List<String> cmdInput = new ArrayList<>(); //empty arraylist to store parsed command
+        List<String> input = new ArrayList<>(); //empty arraylist to store parsed command
         StringTokenizer cleanInput = new StringTokenizer(userInput); //pass string through function to strip out extra words
         while (cleanInput.hasMoreTokens()) {
-            cmdInput.add(cleanInput.nextToken().toLowerCase());
+            input.add(cleanInput.nextToken().toLowerCase());
         }
-        return cmdInput; //return the list of verb, noun
+        return input;
     }
 
-    public Vector<String> forItem(String location) {
+    public String forGo(List<String> command) {
+        StringBuilder sb = new StringBuilder();
         try {
-            items = new Vector<>();
-            for (Item i : currentLocation.getItems()) {
-                    items.add(i.getName().replace(" ", "_"));
-
-            }
-        } catch (Exception e) {
-
-        }
-        return items;
-    }
-
-    public Room forGo(List<String> command) {
-        try {
-            // need a way to grab directions from map
             if (currentLocation.getDirections().containsKey(command.get(1))) {                                           // checking if currentLocation has direction of movement provided by user input as an option
                 nextLocation = currentLocation.getDirections().get(command.get(1));                                     // moving to nextLocation
             } else {
-                currentLocation.setName("Can't go that way");
-                currentLocation.setDescription(".... ");
-                return currentLocation;                                       // otherwise informing user that pathway is not accessible
+                return "Can't go that way";
             }
 
         } catch (NullPointerException e) {
-            currentLocation.setName("Can't go that way");
-            return currentLocation;
-
+            return "Can't go that way";
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Go where?");
+           return "Go where?";
         }
         Room newRoom = null;
         for (Room r : Game.getRooms()) {
@@ -155,32 +171,26 @@ public class CommandProcessor {
                 newRoom = r;
             }
         }
-
-        ChallengeRoom.getInstance(game, newRoom.getName().toString(), Game.getSolved(), Game.getPuzzles());
-        return newRoom;
+        setCurrentLocation(newRoom);
+        sb.append(currentLocation.toString() + "\n\n");
+        ChallengeRoom.getInstance(game, currentLocation.getName(), Game.getSolved(), Game.getPuzzles());
+        return sb.toString();
     }
 
     public String forGet(List<String> command) {
         if (inventory.size() == 4) {
             return "Your bag is full.";
         }
-
         String noun = command.get(1).replace("_", " ").toLowerCase();
         StringBuilder sb = new StringBuilder();
-        // 'get' functionality enabled to allow user to acquire items, add to inventory
         for (Item item : locationItems) {
             if (item.getName().equals(noun) && item.getLocation().getName().equals(currentLocation.getName()) && !(player.getInventory().lookItem().contains(item.getName()))) {
-                // adding to inventory;
                 player.getInventory().add(item);
                 currentLocation.removeItem(item);
-                //sb.append("You've retrieved the " + item.getName() + " and added it to your inventory.");     // output to user informing item added to inventory
                 sb.append(item.getName());
-                // TODO update inventory panel
-                // sb.append(player.getInventory().toString());
-            }  else if (noun.equals(" ")) {
-                sb.append("What do you want to get");
             }
         }
+        setLocationItems();
         return sb.toString();
     }
 
@@ -205,51 +215,41 @@ public class CommandProcessor {
 
     public String forInspect(List<String> command) {
         String item = command.get(1).replace("_", " ").toLowerCase();
+        StringBuilder sb = new StringBuilder();
         try {
             for (Item i : locationItems) {
                 if (i.getName().toLowerCase().equals(item) && i.getLocation().getName().equals(currentLocation.getName())) {
-                    return i.toString();
+                    sb.append(i);
                 }
             }
         } catch (Exception e) {
-            System.out.println("problem inspecting items");
         }
-        return "";
+        return sb.toString();
     }
 
 
-    public void forDrop(List<String> command) {
+    public String forDrop(List<String> command) {
+        Item droppedItem = null;
         try {
-            Item droppedItem = game.getPlayer().getInventory().drop(command.get(1));
+            droppedItem = game.getPlayer().getInventory().drop(command.get(1));
             currentLocation.addItem(droppedItem);
-
-        } catch (Exception e) {
-
-        }
+        } catch (Exception e) {}
+        return "You dropped a " + droppedItem.getName();
     }
 
 
     public String forUse(List<String> command) {
-            // TODO: what about consumable items? (mealkit) ...or Items that actuate something else? (key -> reactor)
-            return "Item is here";
-    }
-
-    public static void clearConsole() {
         try {
-            String operatingSystem = System.getProperty("os.name"); //Check the current operating system
+            // TODO: what about consumable items? (mealkit) ...or Items that actuate something else? (key -> reactor)
+            if (player.getInventory().lookItem().contains(command.get(1))) {
+                System.out.println("Item is here");
 
-            if (operatingSystem.contains("Windows")) {
-                ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "cls");
-                Process startProcess = pb.inheritIO().start();
-                startProcess.waitFor();
             } else {
-                ProcessBuilder pb = new ProcessBuilder("clear");
-                Process startProcess = pb.inheritIO().start();
-
-                startProcess.waitFor();
+                System.out.println("Use what?");
             }
-        } catch (Exception e) {
-            System.out.println("can't clear console");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Use what?");
         }
+        return "";
     }
 }
