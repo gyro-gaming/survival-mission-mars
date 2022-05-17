@@ -4,22 +4,31 @@ import com.mars.client.Audio;
 import com.mars.client.CommandProcessor;
 import com.mars.client.Display;
 import com.mars.client.Game;
+import com.mars.timer.GameTimer;
+import com.sun.tools.javac.Main;
+
+
+import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.time.Duration;
 import java.time.Instant;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 public class PlayScreen extends JFrame implements ActionListener, ChangeListener, ItemListener, MouseListener, PropertyChangeListener {
@@ -42,6 +51,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     private JRadioButton useButton;
     private JPanel imagePanel;
     private JLabel roomLabel;
+    private JLabel textField1;
     private JTextArea textField2;
     private JComboBox puzzleChoiceBox;
     private JButton submitPuzzleButton;
@@ -49,14 +59,14 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     private JTextField targetHours;
     private JTextField targetMins;
     private JTextField targetSeconds;
+    private JLabel mapLabel;
     private Vector<String> items;
     private Font normalFont = new Font("Times New Roman", Font.ITALIC, 30);
     private CommandProcessor processor = new CommandProcessor();
     private DefaultListModel demoList = new DefaultListModel();;
     private Clip clip;
-    private Instant futureTime;
-    private Timer timer;
-    private JLabel countDown;
+    private GameTimer gameTimer;
+    private LocalDateTime futureTime;
 
     public PlayScreen(Instant instant) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         setContentPane(mainPanel);
@@ -68,54 +78,16 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         textField2.setText(Display.showTextFile("Intro"));
         clip = Audio.playAudio();
 
-        // this is the timer
-        setLayout(new GridBagLayout());
+        targetHours = new JTextField("00", 2);
+        targetMins = new JTextField("00", 2);
+        targetSeconds = new JTextField("00", 2);
 
-        JPanel targetPanel = new JPanel(new GridBagLayout());
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.insets = new Insets(8, 8, 8, 8);
-
-        add(targetPanel, gbc);
-
-        JButton btn = new JButton("Start");
-        btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                futureTime = LocalDateTime.now()
-                        .plusHours(1)
-                        .plusMinutes(0)
-                        .plusSeconds(0)
-                        .atZone(ZoneId.systemDefault()).toInstant();
-
-                if (timer != null) {
-                    timer.stop();
-                }
-
-                countDown.setText("---");
-                timer = new Timer(500, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        Duration duration = Duration.between(Instant.now(), futureTime);
-                        if (duration.isNegative()) {
-                            timer.stop();
-                            timer = null;
-                            countDown.setText("00:00:00");
-                        } else {
-                            String formatted = String.format("%02d:%02d:%02d", duration.toHours(), duration.toMinutesPart(), duration.toSecondsPart());
-                            countDown.setText(formatted);
-                        }
-                    }
-                });
-                timer.start();
-            }
-        });
-        add(btn, gbc);
-
-        countDown = new JLabel("---");
-        add(countDown, gbc);
-        // the end of timer
+        gameTimer = new GameTimer(60 * 60000L);
+        futureTime = LocalDateTime.now()
+                .plusHours(Long.parseLong(targetHours.getText()))
+                .plusMinutes(Long.parseLong(targetMins.getText()))
+                .plusSeconds(Long.parseLong(targetSeconds.getText()));
+        Duration duration = Duration.between(instant, futureTime.plusMinutes(gameTimer.getDelay() / 60000L).atZone(ZoneId.systemDefault()).toInstant());
 
         northButton.addActionListener(this);
         southButton.addActionListener(this);
@@ -180,7 +152,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             new SplashScreen();
         }
         if (menuDropDownBox.getSelectedItem().equals("Save")){
-            Game.save();
         }
 
     }
@@ -188,6 +159,16 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     @Override
     public void stateChanged(ChangeEvent e) {
         audioSlider();
+        if (roomLabel.equals("Kitchen")) {
+            try {
+                BufferedImage image = ImageIO.read(getClass().getResource("data/images/Kitchen.png"));
+                ImageIcon icon = new ImageIcon(image);
+                mapLabel.setIcon(icon);
+                mapLabel.repaint();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     private void audioSlider(){

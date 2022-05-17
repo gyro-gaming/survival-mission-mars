@@ -2,7 +2,7 @@
   "locations": [
     {
       "name": "Docking Station",
-      "image": "coming soon!",
+      "image": "data/images/DockingStation.png",
       "directions": {
         "east": "Gym",
         "west": "Hydro Control Room"
@@ -16,7 +16,7 @@
     },
     {
       "name": "Hydro Control Room",
-      "image": "coming soon!",
+      "image": "data/images/HydroRoom.png",
       "directions": {
         "east": "Docking Station",
         "west": "Kitchen"
@@ -32,7 +32,7 @@
     },
     {
       "name": "Kitchen",
-      "image": "coming soon!",
+      "image": "data/images/Kitchen.png",
       "directions": {
         "east": "Hydro Control Room",
         "north": "Reactor",
@@ -49,7 +49,7 @@
     },
     {
       "name": "Reactor",
-      "image": "coming soon!",
+      "image": "data/images/Reactor.png",
       "directions": {
         "south": "Kitchen"
       },
@@ -64,7 +64,7 @@
     },
     {
       "name": "Green House",
-      "image": "coming soon!",
+      "image": "data/images/GreenHouse.png",
       "directions": {
         "east": "Kitchen",
         "west": "Sleep Quarters"
@@ -80,7 +80,7 @@
     },
     {
       "name": "Sleep Quarters",
-      "image": "coming soon!",
+      "image": "data/images/SleepingQuarters.png",
       "directions": {
         "east": "Green House",
         "south": "Solar Array",
@@ -97,7 +97,7 @@
     },
     {
       "name": "Solar Array",
-      "image": "coming soon!",
+      "image": "data/images/SolarArray.png",
       "directions": {
         "north": "Sleep Quarters"
       },
@@ -112,7 +112,7 @@
     },
     {
       "name": "Environmental Control Room",
-      "image": "coming soon!",
+      "image": "data/images/EnviromentalControlRoom.png",
       "directions": {
         "east": "Sleep Quarters",
         "west": "Gym"
@@ -128,7 +128,7 @@
     },
     {
       "name": "Gym",
-      "image": "coming soon!",
+      "image": "data/images/Gym.png",
       "directions": {
         "east": "Environmental Control Room",
         "west": "Docking Station"
