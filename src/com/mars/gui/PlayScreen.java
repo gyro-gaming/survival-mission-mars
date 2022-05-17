@@ -127,6 +127,9 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
 
     @Override
     public void stateChanged(ChangeEvent e) {
+        if (volumeSlider.getValue() == 0){
+            clip.stop();
+        }
         if(volumeSlider.getValue() == 10) {
             Audio.volumeDown3(clip);
         }
