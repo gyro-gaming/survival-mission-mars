@@ -53,19 +53,21 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
     private Font normalFont = new Font("Times New Roman", Font.ITALIC, 30);
     private CommandProcessor processor = new CommandProcessor();
     private DefaultListModel demoList = new DefaultListModel();
-    private GameTimer gt = new GameTimer();;
+    private GameTimer gt = new GameTimer();
+    ;
     private long timer = (gt.printCurrentTime());
     private Date date = new Date(timer);
+    private Clip clip;
     private String stringFormCurrentTime = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(timer);
-    public PlayScreen() {
+
+    public PlayScreen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         setContentPane(mainPanel);
         setTitle("Survival Mission Mars");
         setSize(1250, 700);
         mainPanel.setBackground(Color.gray);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
-
-
+        clip = Audio.playAudio();
         northButton.addActionListener(this);
         southButton.addActionListener(this);
         westButton.addActionListener(this);
@@ -76,13 +78,11 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
         radioButtonInspect.addActionListener(this);
         itemsBox.addItemListener(this);
         dropButton.addMouseListener(this);
-
-        volumeSlider = new JSlider(0,100, 50);
+        volumeSlider = new JSlider(0, 100, 50);
         volumeSlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
                 try {
-                    Audio.playAudio();
                     Clip clip = Audio.playAudio();
                     Audio.volume(clip);
                 } catch (LineUnavailableException ex) {
@@ -94,29 +94,10 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
                 }
             }
         });
-        radioButtonMute.addMouseListener(new MouseAdapter() {
-            Clip clip;
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseClicked(e);
-                try {
-                    clip = Audio.playAudio();
-                } catch (LineUnavailableException ex) {
-                    ex.printStackTrace();
-                } catch (UnsupportedAudioFileException unsupportedAudioFileException) {
-                    unsupportedAudioFileException.printStackTrace();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-            }
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mousePressed(e);
-                clip.stop();
-                clip.close();
-            }
-        });
+        radioButtonMute.addMouseListener(this);
 
+        radioButtonMute.addMouseListener(new MouseAdapter() {
+        });
     }
 
     @Override
@@ -143,14 +124,13 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
     }
 
 
-
     private void directionButton(String e1) {
         itemsBox.removeAllItems();
         List<String> nextCommand = processor.getCommand(e1);            // calling upon Parser to begin parse process
         Room room = processor.processCommand(nextCommand);
         roomLabel.setText(room.getName());
         items = processor.forItem(roomLabel.getText());
-        for (int i = 0; i < items.size(); i++){
+        for (int i = 0; i < items.size(); i++) {
             itemsBox.addItem(items.get(i));
         }
         textField2.setText(room.toString());
@@ -171,7 +151,8 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
                 getItem("get " + itemsBox.getSelectedItem().toString());
             }
 
-        } catch (NullPointerException ex) {}
+        } catch (NullPointerException ex) {
+        }
     }
 
     private void lookItem(String e1) {
@@ -194,7 +175,8 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
         itemsBox.repaint();
 
     }
-    private void dropItem(){
+
+    private void dropItem() {
         try {
             String dropItem = inventoryList.getSelectedValue().toString();
             List<String> nextCommand = processor.getCommand("drop " + dropItem);
@@ -214,10 +196,21 @@ public class PlayScreen extends JFrame implements ActionListener, ItemListener, 
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (dropButton.isSelected()){
+
+        if (dropButton.isSelected()) {
             dropItem();
         }
-    }
+        if(radioButtonMute.isSelected()) {
+             clip.stop();
+        }
+        if(!radioButtonMute.isSelected()) {
+            clip.start();
+        }
+
+}
+
+
+
 
     @Override
     public void mousePressed(MouseEvent e) {
