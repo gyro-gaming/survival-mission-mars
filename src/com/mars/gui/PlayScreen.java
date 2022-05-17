@@ -149,8 +149,9 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             new SplashScreen();
         }
         if (menuDropDownBox.getSelectedItem().equals("Save")){
-
+            Game.save();
         }
+
     }
 
     @Override
