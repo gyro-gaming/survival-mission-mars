@@ -2,13 +2,22 @@ package com.mars.timer;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-// time calculation method
-public class GameTimer extends AbstractTimer{
-    private long delay = 60 * 60000L;
-}
+public class GameTimer {
+    private long delay;
 
+    public GameTimer(long delay) {
+        this.delay = delay;
+    }
+
+    public long getDelay() {
+        return delay;
+    }
+
+    public void setDelay(long delay) {
+        this.delay = delay;
+    }
+}

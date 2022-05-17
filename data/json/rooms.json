@@ -2,7 +2,7 @@
   "locations": [
     {
       "name": "Docking Station",
-      "image": "coming soon!",
+      "image": "data/images/DockingStation.png",
       "directions": {
         "east": "Gym",
         "west": "Hydro Control Room"
@@ -10,13 +10,13 @@
       "description": "Your space craft is docked and you see the remains of an old abandoned outpost.",
       "puzzle": "false",
       "items": [
-        "mealkit",
+        "mre menu 1",
         "helmet"
       ]
     },
     {
       "name": "Hydro Control Room",
-      "image": "coming soon!",
+      "image": "data/images/HydroRoom.png",
       "directions": {
         "east": "Docking Station",
         "west": "Kitchen"
@@ -24,13 +24,15 @@
       "description": "It appears to be an old hydro station-an essential part of restoring water to the outpost.\n There appears to be a helpful placard on the tank.",
       "puzzle": "true",
       "items": [
-        "flashlight",
-        "batteries"
+        "batteries",
+        "voltage_meter",
+        "sleep mask",
+        "nozzle"
       ]
     },
     {
       "name": "Kitchen",
-      "image": "coming soon!",
+      "image": "data/images/Kitchen.png",
       "directions": {
         "east": "Hydro Control Room",
         "north": "Reactor",
@@ -38,27 +40,31 @@
       },
       "description": "An uncomplicated room with a mini fridge and a center island for prep space. This is where the snacks happen!",
       "puzzle": "false",
-      "items": {
-        "air_fryer": "only the fanciest appliances for NASA's finest",
-        "freeze_dried_ice_cream": "almost as good as the real thing"
-      }
+      "items": [
+        "dosimeter",
+        "mre menu 13 vegetarian",
+        "pressure_gauge",
+        "chuck taylors"
+      ]
     },
     {
       "name": "Reactor",
-      "image": "coming soon!",
+      "image": "data/images/Reactor.png",
       "directions": {
         "south": "Kitchen"
       },
       "description": "A large room full of multiple screens, buttons and levers. The main power source for the outpost.",
       "puzzle": "true",
       "items": [
-        "seeds",
-        "deck_of_cards"
+        "fertilizer",
+        "small oxygen canister",
+        "mre menu 2",
+        "flashlight"
       ]
     },
     {
       "name": "Green House",
-      "image": "coming soon!",
+      "image": "data/images/GreenHouse.png",
       "directions": {
         "east": "Kitchen",
         "west": "Sleep Quarters"
@@ -66,13 +72,15 @@
       "description": "A warm, glass-enclosed room with row after row of grow lights. Soil bags sit in the corner awaiting use.",
       "puzzle": "true",
       "items": [
-        "water_level_probe",
-        "pH_meter"
+        "checklist",
+        "oxygen canister",
+        "blanket",
+        "voltage_meter"
       ]
     },
     {
       "name": "Sleep Quarters",
-      "image": "coming soon!",
+      "image": "data/images/SleepingQuarters.png",
       "directions": {
         "east": "Green House",
         "south": "Solar Array",
@@ -81,27 +89,30 @@
       "description": "A quiet, dark, enclosed room. Bunk beds line the walls.",
       "puzzle": "false",
       "items": [
-        "alarm_clock",
-        "sleeping_mask",
-        "r_key"
+        "key",
+        "freeze dried ice cream",
+        "melatonin",
+        "tool_kit"
       ]
     },
     {
       "name": "Solar Array",
-      "image": "coming soon!",
+      "image": "data/images/SolarArray.png",
       "directions": {
         "north": "Sleep Quarters"
       },
       "description": "a large field of solar panels still intact.",
       "puzzle": "true",
       "items": [
-        "calculator",
-        "compass"
+        "chlorine tablets",
+        "mre menu 10",
+        "potato",
+        "calculator"
       ]
     },
     {
       "name": "Environmental Control Room",
-      "image": "coming soon!",
+      "image": "data/images/EnviromentalControlRoom.png",
       "directions": {
         "east": "Sleep Quarters",
         "west": "Gym"
@@ -110,12 +121,14 @@
       "puzzle": "false",
       "items": [
         "gps",
-        "cable"
+        "alarm clock",
+        "mre menu 3",
+        "water level probe"
       ]
     },
     {
       "name": "Gym",
-      "image": "coming soon!",
+      "image": "data/images/Gym.png",
       "directions": {
         "east": "Environmental Control Room",
         "west": "Docking Station"
@@ -123,8 +136,10 @@
       "description": "Where the gainz happen.",
       "puzzle": "false",
       "items": [
-        "chuck_taylors",
-        "protein_powder"
+        "cable",
+        "large oxygen canister",
+        "ph meter",
+        "compass"
       ]
     }
   ]
