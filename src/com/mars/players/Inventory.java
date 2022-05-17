@@ -6,7 +6,7 @@ import com.mars.items.PuzzleItem;
 import java.util.*;
 
 public class Inventory {
-    private List<Item> inventory;
+    private static List<Item> inventory;
     private static Inventory instance = new Inventory();
 
     private Inventory() {}
@@ -65,8 +65,12 @@ public class Inventory {
         return dropItem;
     }
 
-    public void use(PuzzleItem item){
-        System.out.println("You used " + item.getName());
+    public static void use(Item item){
+        for (Item i : inventory) {
+            if (i.equals(item)) {
+                inventory.remove(i);
+            }
+        }
     }
 
     public String toString() {

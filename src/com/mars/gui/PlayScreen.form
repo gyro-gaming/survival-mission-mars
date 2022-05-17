@@ -113,9 +113,9 @@
                       <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <background color="-16089069"/>
+                      <background color="-9013642"/>
                       <enabled value="true"/>
-                      <foreground color="-16089069"/>
+                      <foreground color="-16711936"/>
                       <indeterminate value="false"/>
                       <stringPainted value="true"/>
                       <value value="100"/>
@@ -126,8 +126,8 @@
                       <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <background color="-63196"/>
-                      <foreground color="-63196"/>
+                      <background color="-9013642"/>
+                      <foreground color="-16711936"/>
                       <indeterminate value="false"/>
                       <stringPainted value="true"/>
                       <value value="60"/>
@@ -149,7 +149,7 @@
                     </constraints>
                     <properties>
                       <font name="Andale Mono" size="12" style="3"/>
-                      <text value="Health"/>
+                      <text value="Hunger"/>
                     </properties>
                   </component>
                   <component id="de712" class="javax.swing.JLabel" binding="staminaLabel">
@@ -166,8 +166,8 @@
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <background color="-65536"/>
-                      <foreground color="-65536"/>
+                      <background color="-9013642"/>
+                      <foreground color="-16711936"/>
                       <indeterminate value="false"/>
                       <stringPainted value="true"/>
                     </properties>
