@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public class SplashScreen {
 
@@ -21,6 +23,9 @@ public class SplashScreen {
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
     JButton startButton, instructionsButton;
+    Instant futureTime;
+    Timer timer;
+    JLabel countDown;
 
    TitleScreenHandler tsHandler = new TitleScreenHandler();
 
@@ -83,17 +88,17 @@ public class SplashScreen {
     }
 
     public class TitleScreenHandler implements ActionListener {
-            public void actionPerformed(ActionEvent event) {
-                try {
-                    PlayScreen();
-                } catch (UnsupportedAudioFileException e) {
-                    e.printStackTrace();
-                } catch (LineUnavailableException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        public void actionPerformed(ActionEvent event) {
+            try {
+                PlayScreen();
+            } catch (UnsupportedAudioFileException e) {
+                e.printStackTrace();
+            } catch (LineUnavailableException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-
     }
+
+}
