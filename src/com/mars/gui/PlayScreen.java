@@ -2,10 +2,13 @@ package com.mars.gui;
 
 import com.mars.client.Audio;
 import com.mars.client.CommandProcessor;
+import com.mars.client.Display;
 import com.mars.client.Game;
 import com.mars.timer.GameTimer;
+import com.sun.tools.javac.Main;
 
 
+import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -23,6 +26,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 public class PlayScreen extends JFrame implements ActionListener, ChangeListener, ItemListener, MouseListener, PropertyChangeListener {
@@ -68,7 +72,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         mainPanel.setBackground(Color.gray);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
-
+        textField2.setText(Display.showTextFile("Intro"));
         clip = Audio.playAudio();
 
         targetHours = new JTextField("00", 2);
@@ -109,6 +113,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         progressO2Bar.addPropertyChangeListener(this);
         progressStaminaBar.addPropertyChangeListener(this);
         progressHungerBar.addPropertyChangeListener(this);
+        menuDropDownBox.addActionListener(this);
     }
 
     @Override
@@ -131,10 +136,29 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         } else if (southButton.equals(e.getSource()) && radioButtonLook.isSelected()) {
             lookButton("look south");
         }
+        if (menuDropDownBox.getSelectedItem().equals("Instructions")){
+            textField2.setText(Display.showTextFile("Help"));
+        }
+        if (menuDropDownBox.getSelectedItem().equals("Quit")){
+            System.exit(0);
+        }
+        if (menuDropDownBox.getSelectedItem().equals("Restart")){
+            clip.stop();
+            clip.close();
+            setVisible(false);
+            new SplashScreen();
+        }
+        if (menuDropDownBox.getSelectedItem().equals("Save")){
+
+        }
     }
 
     @Override
     public void stateChanged(ChangeEvent e) {
+        audioSlider();
+    }
+
+    private void audioSlider(){
         if (volumeSlider.getValue() == 0){
             clip.stop();
         }
@@ -170,8 +194,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         }
 
     }
-
-
     private void directionButton(String e1) {
         itemsBox.removeAllItems();
         List<String> nextCommand = processor.getCommand(e1);            // calling upon Parser to begin parse process
@@ -209,22 +231,26 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     }
 
     private void getItem(String e1) {
-        List<String> nextCommand = processor.getCommand(e1);
-        String get = processor.forGet(nextCommand);
+        try {
+            List<String> nextCommand = processor.getCommand(e1);
+            String get = processor.forGet(nextCommand);
 
-        if (itemsBox.getSelectedItem().equals(get.replace(" ", "_"))) {
-            itemsBox.removeItem(get.replace(" ", "_"));
-        }
+            if (itemsBox.getSelectedItem().equals(get.replace(" ", "_"))) {
+                itemsBox.removeItem(get.replace(" ", "_"));
+            }
 
-        if (get.equalsIgnoreCase("Your bag is full.")) {
+            if (get.equalsIgnoreCase("Your bag is full.")) {
+                textField2.setText(get);
+                return;
+            }
+            demoList.addElement(get);
+            inventoryList.setModel(demoList);
+            itemsBox.revalidate();
+            itemsBox.repaint();
             textField2.setText(get);
-            return;
+        } catch (ArrayIndexOutOfBoundsException e) {
+
         }
-        demoList.addElement(get);
-        inventoryList.setModel(demoList);
-        itemsBox.revalidate();
-        itemsBox.repaint();
-        textField2.setText(get);
     }
 
     private void useItem(){
