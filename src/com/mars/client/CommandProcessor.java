@@ -30,6 +30,8 @@ public class CommandProcessor {
         setInventory();
         setCurrentLocation();
         Player.calculateOxygen();
+        Player.calculateFood();
+        Player.calculateStamina();
     }
 
     public void setPlayer() {
