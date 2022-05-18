@@ -130,6 +130,12 @@ public class Game {
 
             }
 
+            try {
+                room.setPicture(location.get("picture").toString());
+            } catch (Exception e) {
+
+            }
+
             room.setDescription(location.get("description").toString());
             room.setPuzzle(Boolean.parseBoolean(location.get("puzzle").toString()));
             room.setDirections(convertJsonDirections((Map<String, Object>) location.get("directions")));
