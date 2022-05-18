@@ -63,7 +63,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     private Timer timer;
     private JLabel countDown;
     private JLabel imageLabel;
-    private Boolean timeUp = false;
 
     public PlayScreen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         setContentPane(mainPanel);
@@ -133,7 +132,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
                     timer.stop();
                     timer = null;
                     countDown.setText(remainTime + "00:00:00");
-                    timeUp = true;
+                    Game.quit();
                 } else {
                     String formatted = String.format("%02d:%02d:%02d", duration.toHours(), duration.toMinutesPart(), duration.toSecondsPart());
                     countDown.setText(remainTime + formatted);
