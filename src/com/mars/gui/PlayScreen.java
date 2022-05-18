@@ -73,7 +73,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         setVisible(true);
         textField2.setText(Display.showTextFile("Intro"));
         textField2.setBackground(Color.white);
-        // clip = Audio.playAudio();
+        clip = Audio.playAudio();
 
         // this is the timer
         showTimer();
@@ -95,7 +95,8 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         useButton.addMouseListener(this);
 
         radioButtonMute.addMouseListener(this);
-
+        roomLabel.setText("Docking Station");
+        showMap(roomLabel.getText());
         volumeSlider.addChangeListener(this);
         volumeSlider.setMajorTickSpacing(20);
         volumeSlider.setMinorTickSpacing(10);
@@ -143,6 +144,9 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     @Override
     public void actionPerformed(ActionEvent e) {
         String e1 = "";
+        if (radioButtonMute.isSelected()){
+            clip.stop();
+        }
         if (eastButton.equals(e.getSource()) && radioButtonGo.isSelected()) {
             directionButton("go east");
         } else if (westButton.equals(e.getSource()) && radioButtonGo.isSelected()) {
@@ -161,10 +165,9 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             lookButton("look south");
         }
 
-        showMap(roomLabel.getText());
-
         if (menuDropDownBox.getSelectedItem().equals("Instructions")){
             textField2.setText(Display.showTextFile("Help"));
+            menuDropDownBox.setSelectedIndex(0);
         }
         if (menuDropDownBox.getSelectedItem().equals("Quit")){
             System.exit(0);
@@ -176,11 +179,14 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             new SplashScreen();
         }
         if (menuDropDownBox.getSelectedItem().equals("Save")){
+            Game.save();
         }
+
         if (radioButtonGet.isSelected() && !itemsBox.getSelectedItem().equals(" ")){
             getItem("get " + itemsBox.getSelectedItem().toString());
         }
 
+        showMap(roomLabel.getText());
     }
 
     @Override
@@ -190,6 +196,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     }
 
     private void audioSlider(){
+        radioButtonMute.setSelected(false);
         if (volumeSlider.getValue() == 0){
             clip.stop();
         }
@@ -245,7 +252,9 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             ImageIcon icon = new ImageIcon(img);
             mapLabel.setIcon(icon);
             mapLabel.repaint();
-        } catch (IOException e) {
+        }catch (IndexOutOfBoundsException e) {
+
+        }catch (IOException e) {
             e.printStackTrace();
         }
 
