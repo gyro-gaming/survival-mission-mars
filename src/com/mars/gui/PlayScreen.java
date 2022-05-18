@@ -270,7 +270,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
                 itemsBox.removeItem(get.replace(" ", "_"));
             }
 
-            if (get.equalsIgnoreCase("Your bag is full.")) {
+            if (get.equalsIgnoreCase("Your bag is full.") || get.equalsIgnoreCase("Item is already in your bag.")) {
                 textField2.setText(get);
                 return;
             }
