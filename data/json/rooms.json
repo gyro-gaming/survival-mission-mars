@@ -118,7 +118,7 @@
         "west": "Gym"
       },
       "description": "A room filled banks of servers and several workstations.",
-      "puzzle": "false",
+      "puzzle": "true",
       "items": [
         "gps",
         "alarm clock",

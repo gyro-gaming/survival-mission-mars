@@ -10,6 +10,7 @@ public class Room extends Base {
     private String name;
     private String image;
     private String description;
+    private boolean puzzle;
     private Map<String, String> directions;
     private NPC npc;
     private List<Item> items;
@@ -55,6 +56,14 @@ public class Room extends Base {
 
     public void setDirections(Map<String, String> directions) {
         this.directions = directions;
+    }
+
+    public void setPuzzle(boolean puzzle) {
+        this.puzzle = puzzle;
+    }
+
+    public boolean isPuzzle() {
+        return puzzle;
     }
 
     public Map<String, String> getDirections() {
