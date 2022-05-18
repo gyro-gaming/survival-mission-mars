@@ -63,6 +63,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     private Timer timer;
     private JLabel countDown;
     private JLabel imageLabel;
+    private Duration duration;
 
     public PlayScreen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         setContentPane(mainPanel);
@@ -127,7 +128,8 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             @Override
             public void actionPerformed(ActionEvent e) {
                 String remainTime = "Remaining Time: ";
-                Duration duration = Duration.between(Instant.now(), futureTime);
+                duration = Duration.between(Instant.now(), futureTime);
+                //getDuration();
                 if (duration.isNegative()) {
                     timer.stop();
                     timer = null;
@@ -398,6 +400,11 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             SwingUtilities.invokeLater(() -> progressHungerBar.setValue(Game.getStats().get("Hunger")));
             java.lang.Thread.sleep(100);
         } catch (InterruptedException event) {}
+    }
+
+    public Duration getDuration() {
+        System.out.println(duration.toString());
+        return duration;
     }
 }
 
