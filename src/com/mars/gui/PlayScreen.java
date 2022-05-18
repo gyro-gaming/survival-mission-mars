@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Vector;
 
 public class PlayScreen extends JFrame implements ActionListener, ChangeListener, ItemListener, MouseListener, PropertyChangeListener {
-    private JPanel mainPanel, topLeftPanel, bottomLeftPanel, noClockAndMapPanel, mapAndInventoryPanel, healthLevelsPanel, descriptionsPanel, directionPanel, utilitiesPanel, goNorthPanel, goSouthPanel, goWestPanel, goEastPanel, mapPanel, inventoryPanel;
+    private JPanel mainPanel, middleRowPanel, bottomRowPanel, outerWrapperPanel, mapAndInventoryPanel, healthLevelsPanel, descriptionsPanel, directionPanel, utilitiesPanel, goNorthPanel, goSouthPanel, goWestPanel, goEastPanel, mapPanel, inventoryPanel;
     private JButton northButton, westButton, eastButton, southButton;
     private JComboBox itemsBox, menuDropDownBox;
     private JProgressBar progressO2Bar, progressHungerBar, progressStaminaBar;
@@ -67,12 +67,13 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     private Timer timer;
     private JLabel countDown;
     private JLabel imageLabel;
+    private JPanel topRowPanel;
     private Duration duration;
 
     public PlayScreen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         setContentPane(mainPanel);
         setTitle("Survival Mission Mars");
-        setSize(1250, 700);
+        setSize(1800, 1000);
         mainPanel.setBackground(Color.gray);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -137,7 +138,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             public void actionPerformed(ActionEvent e) {
                 String remainTime = "Remaining Time: ";
                 duration = Duration.between(Instant.now(), futureTime);
-                //getDuration();
                 if (duration.isNegative()) {
                     timer.stop();
                     timer = null;
@@ -430,8 +430,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     }
 
     public Duration getDuration() {
-        System.out.println(duration.toString());
         return duration;
     }
 }
-

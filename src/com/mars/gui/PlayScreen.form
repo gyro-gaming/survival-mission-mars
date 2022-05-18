@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.mars.gui.PlayScreen">
   <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-    <margin top="15" left="15" bottom="15" right="15"/>
+    <margin top="5" left="5" bottom="5" right="5"/>
     <constraints>
-      <xy x="20" y="20" width="1697" height="745"/>
+      <xy x="20" y="20" width="1737" height="824"/>
     </constraints>
     <properties>
       <background color="-2859222"/>
@@ -14,10 +14,14 @@
     </clientProperties>
     <border type="none"/>
     <children>
-      <grid id="c4374" binding="noClockAndMapPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="c4374" binding="outerWrapperPanel" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="5" left="5" bottom="5" right="5"/>
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <minimum-size width="1250" height="1000"/>
+            <preferred-size width="1250" height="1000"/>
+            <maximum-size width="1250" height="1000"/>
+          </grid>
         </constraints>
         <properties>
           <background color="-2859222"/>
@@ -28,82 +32,173 @@
           <title-color color="-2859222"/>
         </border>
         <children>
-          <grid id="bc5f2" binding="topLeftPanel" layout-manager="GridLayoutManager" row-count="2" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="10" left="10" bottom="10" right="10"/>
+          <grid id="252d8" binding="topRowPanel" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="5" left="5" bottom="5" right="5"/>
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="540" height="137"/>
+                <minimum-size width="1200" height="300"/>
+                <preferred-size width="1200" height="300"/>
+                <maximum-size width="1200" height="300"/>
               </grid>
             </constraints>
             <properties/>
             <border type="none"/>
             <children>
-              <grid id="c397a" binding="descriptionsPanel" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="1" left="1" bottom="1" right="1"/>
+              <grid id="61aa1" binding="menuControlPanel" layout-manager="GridLayoutManager" row-count="3" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <grid row="1" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="1" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties/>
-                <border type="bevel-lowered" title="REPORT" title-justification="1" title-position="2">
-                  <font name="Courier New" size="12" style="3"/>
-                  <title-color color="-15066351"/>
-                </border>
-                <children>
-                  <grid id="c47fd" binding="puzzlePanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="0" left="0" bottom="0" right="0"/>
-                    <constraints>
-                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties/>
-                    <border type="none"/>
-                    <children>
-                      <component id="27d47" class="javax.swing.JComboBox" binding="puzzleChoiceBox">
-                        <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties/>
-                      </component>
-                      <component id="c5dfc" class="javax.swing.JButton" binding="submitPuzzleButton">
-                        <constraints>
-                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <font name="Krungthep" size="12" style="3"/>
-                          <text value="SUBMIT"/>
-                        </properties>
-                      </component>
-                    </children>
-                  </grid>
-                  <scrollpane id="5dadd" binding="textScrollPane">
-                    <constraints>
-                      <grid row="0" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <horizontalScrollBarPolicy value="31"/>
-                    </properties>
-                    <border type="none"/>
-                    <children>
-                      <component id="2c2" class="javax.swing.JTextArea" binding="textField2">
-                        <constraints/>
-                        <properties>
-                          <background color="-12828863"/>
-                          <lineWrap value="true"/>
-                          <text value=""/>
-                        </properties>
-                      </component>
-                    </children>
-                  </scrollpane>
-                </children>
-              </grid>
-              <grid id="d6653" binding="healthLevelsPanel" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="10" right="30"/>
-                <constraints>
-                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="264" height="74"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <minimum-size width="400" height="250"/>
+                    <preferred-size width="400" height="250"/>
+                    <maximum-size width="400" height="250"/>
                   </grid>
                 </constraints>
                 <properties>
                   <background color="-4473925"/>
+                </properties>
+                <border type="bevel-raised" title="CONTROLS" title-justification="2" title-position="2">
+                  <font name="Courier New" size="12" style="3"/>
+                  <title-color color="-15066351"/>
+                </border>
+                <children>
+                  <component id="22785" class="javax.swing.JComboBox" binding="menuDropDownBox">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <model>
+                        <item value=""/>
+                        <item value="Instructions"/>
+                        <item value="Restart"/>
+                        <item value="Save"/>
+                        <item value="Quit"/>
+                      </model>
+                    </properties>
+                  </component>
+                  <component id="f25" class="javax.swing.JSlider" binding="volumeSlider">
+                    <constraints>
+                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <background color="-9013642"/>
+                      <foreground color="-2859222"/>
+                    </properties>
+                  </component>
+                  <component id="71c0c" class="javax.swing.JLabel" binding="volumeLabel">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Volume"/>
+                    </properties>
+                  </component>
+                  <component id="3e356" class="javax.swing.JLabel" binding="menuLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Menu"/>
+                    </properties>
+                  </component>
+                  <component id="152e1" class="javax.swing.JRadioButton" binding="radioButtonMute">
+                    <constraints>
+                      <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="25534" class="javax.swing.JLabel" binding="muteLabel">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Mute"/>
+                    </properties>
+                  </component>
+                  <hspacer id="33187">
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                </children>
+              </grid>
+              <grid id="16ee9" binding="roomAndClockPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <minimum-size width="200" height="250"/>
+                    <preferred-size width="200" height="250"/>
+                    <maximum-size width="200" height="250"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <grid id="1042b" binding="clockPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="1" left="1" bottom="1" right="1"/>
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                    <border type="bevel-lowered" title="CLOCK" title-justification="2" title-position="2">
+                      <font name="Courier New" size="12" style="3"/>
+                      <title-color color="-15066351"/>
+                    </border>
+                    <children>
+                      <component id="85715" class="javax.swing.JLabel" binding="countDown">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Label"/>
+                        </properties>
+                      </component>
+                      <vspacer id="43808">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                      </vspacer>
+                    </children>
+                  </grid>
+                  <grid id="90616" binding="roomPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="1" left="1" bottom="1" right="1"/>
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="150" height="50"/>
+                        <preferred-size width="150" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                    <border type="bevel-lowered" title="ROOM" title-justification="2" title-position="2">
+                      <font name="Courier New" size="12" style="3"/>
+                      <title-color color="-15066351"/>
+                    </border>
+                    <children>
+                      <component id="225cd" class="javax.swing.JLabel" binding="roomLabel">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                </children>
+              </grid>
+              <grid id="d6653" binding="healthLevelsPanel" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <minimum-size width="400" height="250"/>
+                    <preferred-size width="400" height="250"/>
+                    <maximum-size width="400" height="250"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-4473925"/>
+                  <enabled value="false"/>
                   <foreground color="-9659137"/>
                 </properties>
                 <clientProperties>
@@ -180,147 +275,28 @@
                   </component>
                 </children>
               </grid>
-              <grid id="61aa1" binding="menuControlPanel" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="10" left="10" bottom="0" right="10"/>
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <background color="-4473925"/>
-                </properties>
-                <border type="bevel-raised" title="CONTROLS" title-justification="2" title-position="2">
-                  <font name="Courier New" size="12" style="3"/>
-                  <title-color color="-15066351"/>
-                </border>
-                <children>
-                  <component id="22785" class="javax.swing.JComboBox" binding="menuDropDownBox">
-                    <constraints>
-                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <model>
-                        <item value=""/>
-                        <item value="Instructions"/>
-                        <item value="Restart"/>
-                        <item value="Save"/>
-                        <item value="Quit"/>
-                      </model>
-                    </properties>
-                  </component>
-                  <component id="f25" class="javax.swing.JSlider" binding="volumeSlider">
-                    <constraints>
-                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-9013642"/>
-                      <foreground color="-2859222"/>
-                    </properties>
-                  </component>
-                  <component id="71c0c" class="javax.swing.JLabel" binding="volumeLabel">
-                    <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <text value="Volume"/>
-                    </properties>
-                  </component>
-                  <component id="3e356" class="javax.swing.JLabel" binding="menuLabel">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <text value="Menu"/>
-                    </properties>
-                  </component>
-                  <component id="152e1" class="javax.swing.JRadioButton" binding="radioButtonMute">
-                    <constraints>
-                      <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <text value=""/>
-                    </properties>
-                  </component>
-                  <component id="25534" class="javax.swing.JLabel" binding="muteLabel">
-                    <constraints>
-                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <text value="Mute"/>
-                    </properties>
-                  </component>
-                </children>
+            </children>
+          </grid>
+          <grid id="bc5f2" binding="middleRowPanel" layout-manager="GridLayoutManager" row-count="1" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="5" left="5" bottom="5" right="5"/>
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <minimum-size width="1200" height="300"/>
+                <preferred-size width="1200" height="300"/>
+                <maximum-size width="1200" height="300"/>
               </grid>
-              <component id="7829b" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <font name="Copperplate" size="36" style="3"/>
-                  <foreground color="-2859222"/>
-                  <text value="-SMM-"/>
-                </properties>
-              </component>
-              <grid id="16ee9" binding="roomAndClockPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="1" left="1" bottom="1" right="1"/>
-                <constraints>
-                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties/>
-                <border type="none"/>
-                <children>
-                  <grid id="1042b" binding="clockPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="1" left="1" bottom="1" right="1"/>
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties/>
-                    <border type="bevel-lowered" title="CLOCK" title-justification="2" title-position="2">
-                      <font name="Courier New" size="12" style="3"/>
-                      <title-color color="-15066351"/>
-                    </border>
-                    <children>
-                      <component id="85715" class="javax.swing.JLabel" binding="countDown">
-                        <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <text value="Label"/>
-                        </properties>
-                      </component>
-                      <vspacer id="43808">
-                        <constraints>
-                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                      </vspacer>
-                    </children>
-                  </grid>
-                  <grid id="90616" binding="roomPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="1" left="1" bottom="1" right="1"/>
-                    <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties/>
-                    <border type="bevel-lowered" title="ROOM" title-justification="2" title-position="2">
-                      <font name="Courier New" size="12" style="3"/>
-                      <title-color color="-15066351"/>
-                    </border>
-                    <children>
-                      <component id="225cd" class="javax.swing.JLabel" binding="roomLabel">
-                        <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <text value=""/>
-                        </properties>
-                      </component>
-                    </children>
-                  </grid>
-                </children>
-              </grid>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
               <grid id="ea9b7" binding="imagePanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="2" left="2" bottom="2" right="2"/>
+                <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <minimum-size width="250" height="250"/>
+                    <preferred-size width="250" height="250"/>
+                    <maximum-size width="250" height="250"/>
+                  </grid>
                 </constraints>
                 <properties/>
                 <border type="bevel-raised"/>
@@ -335,13 +311,94 @@
                   </component>
                 </children>
               </grid>
+              <grid id="c47fd" binding="puzzlePanel" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <minimum-size width="250" height="250"/>
+                    <preferred-size width="250" height="250"/>
+                    <maximum-size width="250" height="250"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <enabled value="false"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="27d47" class="javax.swing.JComboBox" binding="puzzleChoiceBox">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="c5dfc" class="javax.swing.JButton" binding="submitPuzzleButton">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font name="Krungthep" size="12" style="3"/>
+                      <text value="SUBMIT"/>
+                    </properties>
+                  </component>
+                  <component id="35c4" class="javax.swing.JTextArea" binding="textArea1" default-binding="true">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                </children>
+              </grid>
+              <grid id="c397a" binding="descriptionsPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="1" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <minimum-size width="500" height="250"/>
+                    <preferred-size width="500" height="250"/>
+                    <maximum-size width="500" height="250"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="bevel-lowered" title="REPORT" title-justification="1" title-position="2">
+                  <font name="Courier New" size="12" style="3"/>
+                  <title-color color="-15066351"/>
+                </border>
+                <children>
+                  <scrollpane id="5dadd" binding="textScrollPane">
+                    <constraints>
+                      <grid row="0" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                        <minimum-size width="500" height="250"/>
+                        <preferred-size width="500" height="250"/>
+                        <maximum-size width="500" height="250"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <horizontalScrollBarPolicy value="31"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="2c2" class="javax.swing.JTextArea" binding="textField2">
+                        <constraints/>
+                        <properties>
+                          <background color="-12828863"/>
+                          <lineWrap value="true"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </scrollpane>
+                </children>
+              </grid>
             </children>
           </grid>
-          <grid id="b5d2a" binding="bottomLeftPanel" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
+          <grid id="b5d2a" binding="bottomRowPanel" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="5" left="5" bottom="5" right="5"/>
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="540" height="143"/>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <minimum-size width="1200" height="300"/>
+                <preferred-size width="1200" height="300"/>
+                <maximum-size width="1200" height="300"/>
               </grid>
             </constraints>
             <properties/>
@@ -350,7 +407,11 @@
               <grid id="b40e1" binding="directionPanel" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <grid row="0" column="1" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="1" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <minimum-size width="500" height="250"/>
+                    <preferred-size width="500" height="250"/>
+                    <maximum-size width="500" height="250"/>
+                  </grid>
                 </constraints>
                 <properties/>
                 <border type="bevel-raised" title="NAVIGATION" title-justification="2" title-position="2">
@@ -446,7 +507,11 @@
               <grid id="528c9" binding="utilitiesPanel" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <grid row="0" column="2" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="2" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <minimum-size width="250" height="250"/>
+                    <preferred-size width="250" height="250"/>
+                    <maximum-size width="250" height="250"/>
+                  </grid>
                 </constraints>
                 <properties/>
                 <border type="line" title="Manipulate Items" title-justification="2" title-position="2">
@@ -512,7 +577,11 @@
       <grid id="62452" binding="mapAndInventoryPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="5" left="5" bottom="5" right="5"/>
         <constraints>
-          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <minimum-size width="500" height="1000"/>
+            <preferred-size width="500" height="1000"/>
+            <maximum-size width="500" height="1000"/>
+          </grid>
         </constraints>
         <properties>
           <background color="-2859222"/>
@@ -521,10 +590,12 @@
         <border type="bevel-raised"/>
         <children>
           <grid id="ef501" binding="inventoryPanel" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="5" left="5" bottom="5" right="5"/>
+            <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="163" height="48"/>
+                <minimum-size width="250" height="250"/>
+                <preferred-size width="250" height="250"/>
+                <maximum-size width="250" height="250"/>
               </grid>
             </constraints>
             <properties>
@@ -570,10 +641,12 @@
             </children>
           </grid>
           <grid id="3160e" binding="mapPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="5" left="5" bottom="5" right="5"/>
+            <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="163" height="48"/>
+                <minimum-size width="500" height="500"/>
+                <preferred-size width="500" height="500"/>
+                <maximum-size width="500" height="500"/>
               </grid>
             </constraints>
             <properties>
