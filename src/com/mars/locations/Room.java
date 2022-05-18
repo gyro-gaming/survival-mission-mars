@@ -15,7 +15,9 @@ public class Room extends Base {
     private List<Item> items;
 
     public Room() {}
-
+    public Room(String name){
+        setName(name);
+    }
     public Room(String name, String image, String description, Map<String, String> directions, NPC npc, List<Item> items) {
         setName(name);
         setImage(image);
