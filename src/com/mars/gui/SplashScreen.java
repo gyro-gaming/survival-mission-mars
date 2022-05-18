@@ -43,16 +43,6 @@ public class SplashScreen {
         titleNameLabel.setForeground(Color.red);
         titleNameLabel.setFont(titleFont);
 
-        instructionsButtonPanel = new JPanel();
-        instructionsButtonPanel.setBounds(250, 350, 263, 49);
-        instructionsButtonPanel.setBackground(Color.red);
-
-        instructionsButton = new JButton("INSTRUCTIONS");
-        instructionsButton.setBackground(Color.black);
-        instructionsButton.setForeground(Color.black);
-        instructionsButton.setFont(normalFont);
-        instructionsButton.addActionListener(tsHandler);
-
         startButtonPanel = new JPanel();
         startButtonPanel.setBounds(310, 400, 140, 48);
         startButtonPanel.setBackground(Color.red);
@@ -65,11 +55,9 @@ public class SplashScreen {
         startButton.setFocusPainted(false);
 
         titleNamePanel.add(titleNameLabel);
-        instructionsButtonPanel.add(instructionsButton);
         startButtonPanel.add(startButton);
 
         container.add(titleNamePanel);
-        container.add(instructionsButtonPanel);
         container.add(startButtonPanel);
         container.add(myLabel);
     }

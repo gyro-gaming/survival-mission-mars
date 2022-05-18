@@ -62,6 +62,8 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     private Instant futureTime;
     private Timer timer;
     private JLabel countDown;
+    private JLabel imageLabel;
+    private Boolean timeUp = false;
 
     public PlayScreen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         setContentPane(mainPanel);
@@ -96,6 +98,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         radioButtonMute.addMouseListener(this);
         roomLabel.setText("Docking Station");
         showMap(roomLabel.getText());
+        showRoomImage(roomLabel.getText());
         volumeSlider.addChangeListener(this);
         volumeSlider.setMajorTickSpacing(20);
         volumeSlider.setMinorTickSpacing(10);
@@ -130,7 +133,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
                     timer.stop();
                     timer = null;
                     countDown.setText(remainTime + "00:00:00");
-                    Game.quit();
+                    timeUp = true;
                 } else {
                     String formatted = String.format("%02d:%02d:%02d", duration.toHours(), duration.toMinutesPart(), duration.toSecondsPart());
                     countDown.setText(remainTime + formatted);
@@ -188,6 +191,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         } catch (NullPointerException ex) {}
 
         showMap(roomLabel.getText());
+        showRoomImage(roomLabel.getText());
     }
 
     @Override
@@ -265,14 +269,15 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         Room room1 = new Room(room);
         int index = Game.getRooms().indexOf(room1);
         try {
-            BufferedImage img = ImageIO.read(new File(Game.getRooms().get(index).getImage()));
+            BufferedImage img = ImageIO.read(new File(Game.getRooms().get(index).getPicture()));
             ImageIcon icon = new ImageIcon(img);
-            mapLabel.setIcon(icon);
-            mapLabel.repaint();
+            imageLabel.setIcon(icon);
+            imageLabel.repaint();
         } catch (IndexOutOfBoundsException e) {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     private void lookButton(String e1) {
@@ -287,6 +292,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             if (itemsBox.equals(e.getSource()) && radioButtonInspect.isSelected()) {
                 lookItem("inspect " + itemsBox.getSelectedItem().toString());
             }
+
         } catch (NullPointerException ex) {}
     }
 

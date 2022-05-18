@@ -14,6 +14,8 @@ public class Room extends Base {
     private Map<String, String> directions;
     private NPC npc;
     private List<Item> items;
+    private String picture;
+
 
     public Room() {}
     public Room(String name){
@@ -30,6 +32,15 @@ public class Room extends Base {
     }
 
     // getters and setters
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
