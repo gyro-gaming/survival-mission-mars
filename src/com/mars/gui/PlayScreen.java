@@ -4,16 +4,10 @@ import com.mars.client.Audio;
 import com.mars.client.CommandProcessor;
 import com.mars.client.Display;
 import com.mars.client.Game;
-import com.mars.timer.GameTimer;
-import com.sun.tools.javac.Main;
-
-
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -28,7 +22,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.Vector;
 
 public class PlayScreen extends JFrame implements ActionListener, ChangeListener, ItemListener, MouseListener, PropertyChangeListener {
@@ -51,26 +44,24 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     private JRadioButton useButton;
     private JPanel imagePanel;
     private JLabel roomLabel;
-    private JLabel textField1;
     private JTextArea textField2;
     private JComboBox puzzleChoiceBox;
     private JButton submitPuzzleButton;
     private JPanel puzzlePanel;
     private JScrollPane textScrollPane;
     private JTextArea textArea1;
-    private JTextField targetHours;
-    private JTextField targetMins;
-    private JTextField targetSeconds;
     private JLabel mapLabel;
     private Vector<String> items;
     private Font normalFont = new Font("Times New Roman", Font.ITALIC, 30);
     private CommandProcessor processor = new CommandProcessor();
     private DefaultListModel demoList = new DefaultListModel();;
     private Clip clip;
-    private GameTimer gameTimer;
-    private LocalDateTime futureTime;
+    private Instant futureTime;
+    private Timer timer;
+    private JLabel countDown;
+    private Boolean timeUp = false;
 
-    public PlayScreen(Instant instant) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+    public PlayScreen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         setContentPane(mainPanel);
         setTitle("Survival Mission Mars");
         setSize(1250, 700);
@@ -78,18 +69,11 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         textField2.setText(Display.showTextFile("Intro"));
-        clip = Audio.playAudio();
+        textField2.setBackground(Color.white);
+        // clip = Audio.playAudio();
 
-        targetHours = new JTextField("00", 2);
-        targetMins = new JTextField("00", 2);
-        targetSeconds = new JTextField("00", 2);
-
-        gameTimer = new GameTimer(60 * 60000L);
-        futureTime = LocalDateTime.now()
-                .plusHours(Long.parseLong(targetHours.getText()))
-                .plusMinutes(Long.parseLong(targetMins.getText()))
-                .plusSeconds(Long.parseLong(targetSeconds.getText()));
-        Duration duration = Duration.between(instant, futureTime.plusMinutes(gameTimer.getDelay() / 60000L).atZone(ZoneId.systemDefault()).toInstant());
+        // this is the timer
+        showTimer();
 
         northButton.addActionListener(this);
         southButton.addActionListener(this);
@@ -119,6 +103,37 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         progressStaminaBar.addPropertyChangeListener(this);
         progressHungerBar.addPropertyChangeListener(this);
         menuDropDownBox.addActionListener(this);
+    }
+
+    // show countdown time
+    public void showTimer() {
+        futureTime = LocalDateTime.now()
+                .plusHours(1)
+                .plusMinutes(0)
+                .plusSeconds(0)
+                .atZone(ZoneId.systemDefault()).toInstant();
+
+        if (timer != null) {
+            timer.stop();
+        }
+
+        timer = new Timer(500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String remainTime = "Remaining Time: ";
+                Duration duration = Duration.between(Instant.now(), futureTime);
+                if (duration.isNegative()) {
+                    timer.stop();
+                    timer = null;
+                    countDown.setText(remainTime + "00:00:00");
+                    timeUp = true;
+                } else {
+                    String formatted = String.format("%02d:%02d:%02d", duration.toHours(), duration.toMinutesPart(), duration.toSecondsPart());
+                    countDown.setText(remainTime + formatted);
+                }
+            }
+        });
+        timer.start();
     }
 
     @Override

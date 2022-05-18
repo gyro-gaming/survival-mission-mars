@@ -23,11 +23,8 @@ public class SplashScreen {
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
     JButton startButton, instructionsButton;
-    Instant futureTime;
-    Timer timer;
-    JLabel countDown;
 
-   TitleScreenHandler tsHandler = new TitleScreenHandler();
+    TitleScreenHandler tsHandler = new TitleScreenHandler();
 
     public SplashScreen() {
 
@@ -82,8 +79,7 @@ public class SplashScreen {
     }
 
     public void PlayScreen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        Instant instant = Instant.now();
-        new PlayScreen(instant);
+        new PlayScreen();
         window.setVisible(false);
     }
 
