@@ -31,8 +31,13 @@ public class CommandProcessorTest {
     }
 
     @Test
-    public void forGo() {
+    public void forGo_shouldReturnErrorMessage_whenGoingWrongDirection() {
+        command.add("go");
+        command.add("north");
+        assertEquals(commandProcessor.forGo(command),"Can't go that way");
+
     }
+
 
     @Test
     public void forGetCheckIfCanGetItemAssertEquals() {
@@ -53,14 +58,26 @@ public class CommandProcessorTest {
 
     @Test
     public void forLook() {
+        command.add("look");
+        command.add("west");
+        commandProcessor.forLook(command);
+        assertEquals(commandProcessor.forLook(command),"You are in Hydro Control Room.\nIt appears to be an old hydro station-an essential part of restoring water to the outpost.\n There appears to be a helpful placard on the tank..\nYou see the following items in the room: \nbatteries, sleep mask, nozzle");
     }
 
     @Test
     public void forInspect() {
+
+        command.add("inspect");
+        command.add("gps");
+        assertEquals(commandProcessor.forInspect(command),"");
     }
 
     @Test
     public void forDrop() {
+        forGetCheckIfCanGetItemAssertEquals();
+        command.add("drop");
+        command.add("gps");
+        assertEquals(commandProcessor.forDrop(command),"You dropped a gps");
     }
 
     @Test
