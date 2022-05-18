@@ -162,6 +162,7 @@ public class ChallengeRoom extends Room {
         }
         if ("Solar Array" == option && !Game.getSolved().get(option)) {
             if (!solved.get(option).get("a")) {
+                System.out.println("Trying to solve problem");
                 sb.append(askQuestionA1(option));
             } else if (solved.get(option).get("a") && !solved.get(option).get("b")) {
                 sb.append(askQuestionA2(option));
