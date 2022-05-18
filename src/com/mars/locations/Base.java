@@ -5,7 +5,6 @@ class Base implements Location {
     private String image;
     private String description;
 
-
     public void setName(String name) {
         this.name = name;
     }
