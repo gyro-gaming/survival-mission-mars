@@ -177,6 +177,9 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         }
         if (menuDropDownBox.getSelectedItem().equals("Save")){
         }
+        if (radioButtonGet.isSelected() && !itemsBox.getSelectedItem().equals(" ")){
+            getItem("get " + itemsBox.getSelectedItem().toString());
+        }
 
     }
 
@@ -259,8 +262,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         try {
             if (itemsBox.equals(e.getSource()) && radioButtonInspect.isSelected()) {
                 lookItem("inspect " + itemsBox.getSelectedItem().toString());
-            } else if (itemsBox.equals(e.getSource()) && radioButtonGet.isSelected()) {
-                getItem("get " + itemsBox.getSelectedItem().toString());
             }
 
         } catch (NullPointerException ex) {}
@@ -276,11 +277,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         try {
             List<String> nextCommand = processor.getCommand(e1);
             String get = processor.forGet(nextCommand);
-
-            if (itemsBox.getSelectedItem().equals(get.replace(" ", "_"))) {
-                itemsBox.removeItem(get.replace(" ", "_"));
-            }
-
             if (get.equalsIgnoreCase("Your bag is full.") || get.equalsIgnoreCase("Item is already in your bag.")) {
                 textField2.setText(get);
                 return;
