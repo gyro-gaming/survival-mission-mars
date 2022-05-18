@@ -112,7 +112,7 @@
     },
     {
       "name": "Environmental Control Room",
-      "image": "data/images/EnviromentalControlRoom.png",
+      "image": "data/images/EnvironmentalControlRoom.png",
       "directions": {
         "east": "Sleep Quarters",
         "west": "Gym"
