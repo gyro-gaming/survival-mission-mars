@@ -107,14 +107,13 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         for (int i = 0; i < items.size(); i++) {
             itemsBox.addItem(items.get(i));
         }
+        textField2.setText(Display.showTextFile("Intro"));
         volumeSlider.addChangeListener(this);
         volumeSlider.setMajorTickSpacing(20);
         volumeSlider.setMinorTickSpacing(10);
         volumeSlider.setPaintLabels(true);
         volumeSlider.setPaintTicks(true);
         volumeSlider.setPaintTrack(true);
-        radioButtonInspect.setSelected(false);
-        radioButtonGo.setSelected(false);
         progressO2Bar.addPropertyChangeListener(this);
         progressStaminaBar.addPropertyChangeListener(this);
         progressHungerBar.addPropertyChangeListener(this);
