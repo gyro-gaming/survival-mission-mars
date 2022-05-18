@@ -1,10 +1,16 @@
 package com.mars.client;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.mars.items.*;
 import com.mars.players.NPC;
 import com.mars.locations.Room;
 import com.mars.players.Player;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -95,10 +101,31 @@ public class Game {
 
     // TODO method logic
     public static void save() {
+
+        try{
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+            ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+            // convert map to JSON file
+            writer.writeValue(new File("data/savedGames/savedGame.json"),instance);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Your game was not saved!!");
+        }
+
     }
 
     // TODO method logic
     public Game retrieveSave() {
+        Map<String,Object> savedMap = JsonParser.parseJson("savedGames/savedGame.json");
+        Map<String,Object> gyroMap = (Map<String, Object>) savedMap.get("");
+        Game game = new Game();
+        game.setPlayer(player);
+        game.getPlayer().setLocation(player.getLocation());
+        game.getPlayer().setInventory(player.getInventory());
+        Player.setStats(Player.getStats());
         return new Game();
     }
 

@@ -4,7 +4,9 @@ import com.mars.client.Audio;
 import com.mars.client.CommandProcessor;
 import com.mars.client.Display;
 import com.mars.client.Game;
+import com.mars.locations.Location;
 import com.mars.locations.Room;
+import com.mars.players.Player;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
@@ -13,6 +15,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -54,10 +57,11 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     private JScrollPane textScrollPane;
     private JTextArea textArea1;
     private JLabel mapLabel;
+    private JLabel l;
     private Vector<String> items;
     private Font normalFont = new Font("Times New Roman", Font.ITALIC, 30);
     private CommandProcessor processor = new CommandProcessor();
-    private DefaultListModel demoList = new DefaultListModel();;
+    private DefaultListModel demoList = new DefaultListModel();
     private Clip clip;
     private Instant futureTime;
     private Timer timer;
@@ -75,7 +79,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         textField2.setText(Display.showTextFile("Intro"));
         textField2.setBackground(Color.white);
         clip = Audio.playAudio();
-
         // this is the timer
         showTimer();
 
@@ -96,16 +99,21 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         useButton.addMouseListener(this);
 
         radioButtonMute.addMouseListener(this);
-        roomLabel.setText("Docking Station");
-        showMap(roomLabel.getText());
-        showRoomImage(roomLabel.getText());
+        roomLabel.setText(processor.getCurrentLocation().getName());
+        showMap(processor.getCurrentLocation().getName());
+        showRoomImage(processor.getCurrentLocation().getName());
+        items = processor.getItems();
+        for (int i = 0; i < items.size(); i++) {
+            itemsBox.addItem(items.get(i));
+        }
         volumeSlider.addChangeListener(this);
         volumeSlider.setMajorTickSpacing(20);
         volumeSlider.setMinorTickSpacing(10);
         volumeSlider.setPaintLabels(true);
         volumeSlider.setPaintTicks(true);
         volumeSlider.setPaintTrack(true);
-
+        radioButtonInspect.setSelected(false);
+        radioButtonGo.setSelected(false);
         progressO2Bar.addPropertyChangeListener(this);
         progressStaminaBar.addPropertyChangeListener(this);
         progressHungerBar.addPropertyChangeListener(this);
@@ -147,7 +155,8 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     @Override
     public void actionPerformed(ActionEvent e) {
         String e1 = "";
-        if (radioButtonMute.isSelected()){
+
+        if (radioButtonMute.isSelected()) {
             clip.stop();
         }
         if (eastButton.equals(e.getSource()) && radioButtonGo.isSelected()) {
@@ -168,21 +177,38 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             lookButton("look south");
         }
 
-        if (menuDropDownBox.getSelectedItem().equals("Instructions")){
+        if (menuDropDownBox.getSelectedItem().equals("Instructions")) {
             textField2.setText(Display.showTextFile("Help"));
             menuDropDownBox.setSelectedIndex(0);
         }
-        if (menuDropDownBox.getSelectedItem().equals("Quit")){
+        if (menuDropDownBox.getSelectedItem().equals("Quit")) {
             System.exit(0);
         }
-        if (menuDropDownBox.getSelectedItem().equals("Restart")){
+        if (menuDropDownBox.getSelectedItem().equals("Restart")) {
             clip.stop();
             clip.close();
             setVisible(false);
             new SplashScreen();
         }
-        if (menuDropDownBox.getSelectedItem().equals("Save")){
+        if (menuDropDownBox.getSelectedItem().equals("Save")) {
+//            // parent component of the dialog
+//            JFrame parentFrame = new JFrame();
+//
+//            JFileChooser fileChooser = new JFileChooser();
+//            fileChooser.setDialogTitle("Specify a file to save");
+//
+//            int userSelection = fileChooser.showSaveDialog(parentFrame);
+//
+//            if (userSelection == JFileChooser.APPROVE_OPTION) {
+//                File fileToSave = fileChooser.getSelectedFile();
+//                System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+//            }
+
             Game.save();
+
+        }
+        if (menuDropDownBox.getSelectedItem().equals("Retrieve Game")){
+
         }
 
         try {
@@ -198,7 +224,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     @Override
     public void stateChanged(ChangeEvent e) {
         audioSlider();
-
     }
 
     private void audioSlider(){
@@ -238,6 +263,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         }
 
     }
+
     private void directionButton(String e1) {
         itemsBox.removeAllItems();
         List<String> nextCommand = processor.getCommand(e1);            // calling upon Parser to begin parse process
@@ -247,6 +273,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         for (int i = 0; i < items.size(); i++) {
             itemsBox.addItem(items.get(i));
         }
+        radioButtonGo.setSelected(false);
         textField2.setText(result);
     }
 
