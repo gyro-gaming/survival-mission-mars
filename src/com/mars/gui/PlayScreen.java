@@ -87,6 +87,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         radioButtonInspect.addActionListener(this);
 
         itemsBox.addItemListener(this);
+
         dropButton.addMouseListener(this);
         useButton.addMouseListener(this);
 
@@ -269,7 +270,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
                 itemsBox.removeItem(get.replace(" ", "_"));
             }
 
-            if (get.equalsIgnoreCase("Your bag is full.")) {
+            if (get.equalsIgnoreCase("Your bag is full.") || get.equalsIgnoreCase("Item is already in your bag.")) {
                 textField2.setText(get);
                 return;
             }
@@ -279,7 +280,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             itemsBox.repaint();
             textField2.setText(get);
         } catch (ArrayIndexOutOfBoundsException e) {
-
         }
     }
 
@@ -332,22 +332,18 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
 
     @Override
     public void mousePressed(MouseEvent e) {
-
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-
     }
 
     @Override

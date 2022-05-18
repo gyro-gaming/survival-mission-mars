@@ -9,7 +9,6 @@ import java.util.*;
 
 public class CommandProcessor {
     private String nextLocation = "";
-    private int newStamina = 0;
     private Game game;
     private Player player;
     private List<Room> rooms;
@@ -123,10 +122,12 @@ public class CommandProcessor {
         String noun = command.get(1).replace("_", " ").toLowerCase();
         StringBuilder sb = new StringBuilder();
         for (Item item : locationItems) {
-            if (item.getName().equals(noun) && item.getLocation().getName().equals(currentLocation.getName()) && !(player.getInventory().lookItem().contains(item.getName()))) {
+            if (item.getName().equals(noun) && !inventory.contains(item)) {
                 player.getInventory().add(item);
                 currentLocation.removeItem(item);
                 sb.append(item.getName());
+            } else if (inventory.contains(item)) {
+                sb.append("Item is already in your bag.");
             }
         }
         setLocationItems();

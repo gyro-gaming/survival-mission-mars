@@ -81,7 +81,6 @@ public class Room extends Base {
      * @param item
      */
     public boolean removeItem(Item item) {
-        System.out.println(item);
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).equals(item)) {
                 return items.remove(items.get(i));
