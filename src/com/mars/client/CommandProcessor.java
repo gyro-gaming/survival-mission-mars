@@ -100,7 +100,7 @@ public class CommandProcessor {
         } catch (NullPointerException e) {
             return "Can't go that way";
         } catch (ArrayIndexOutOfBoundsException e) {
-           return "Go where?";
+            return "Go where?";
         }
         Room newRoom = null;
         for (Room r : Game.getRooms()) {
@@ -110,8 +110,12 @@ public class CommandProcessor {
         }
         setCurrentLocation(newRoom);
         sb.append(currentLocation.toString() + "\n\n");
-        ChallengeRoom.getInstance(game, Game.getSolved(), Game.getPuzzles());
-        sb.append("\n\n" + ChallengeRoom.runPuzzle(getCurrentLocation().getName()));
+        if (currentLocation.isPuzzle()) {
+            ChallengeRoom.getInstance(game, Game.getSolved(), Game.getPuzzles());
+            try {
+                sb.append(ChallengeRoom.runPuzzle(getCurrentLocation().getName()));
+            } catch (NullPointerException e) {}
+        }
         return sb.toString();
     }
 
@@ -126,8 +130,6 @@ public class CommandProcessor {
                 player.getInventory().add(item);
                 currentLocation.removeItem(item);
                 sb.append(item.getName());
-            } else if (inventory.contains(item)) {
-                sb.append("Item is already in your bag.");
             }
         }
         setLocationItems();

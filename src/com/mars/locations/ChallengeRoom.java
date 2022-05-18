@@ -44,70 +44,62 @@ public class ChallengeRoom extends Room {
 
     public static void setPuzzleItemMap() {
         List<Item> items = Game.getItems();
+        Map<String, Item> temp = new HashMap<>();
         Map<String, Map<String, Item>> required = new HashMap<>();
         for (Item item : items) {
             if (item.getName().equals("nozzle")) {
-                Map<String, Item> temp = new HashMap<>();
                 temp.put("a1", item);
-                required.put("Green House", temp);
             } else if (item.getName().equals("fertilizer")) {
-                Map<String, Item> temp = new HashMap<>();
                 temp.put("a2", item);
-                required.put("Green House", temp);
             } else if (item.getName().equals("potato")) {
-                Map<String, Item> temp = new HashMap<>();
                 temp.put("a3", item);
-                required.put("Green House", temp);
-            } else if (item.getName().equals("water level probe")) {
-                Map<String, Item> temp = new HashMap<>();
-                temp.put("a1", item);
-                required.put("Hydro Control Room", temp);
-            } else if (item.getName().equals("ph meter")) {
-                Map<String, Item> temp = new HashMap<>();
-                temp.put("a2", item);
-                required.put("Hydro Control Room", temp);
-            } else if (item.getName().equals("chlorine tablets")) {
-                Map<String, Item> temp = new HashMap<>();
-                temp.put("a3", item);
-                required.put("Hydro Control Room", temp);
-            } else if (item.getName().equals("pressure gauge")) {
-                Map<String, Item> temp = new HashMap<>();
-                temp.put("a1", item);
-                required.put("Environmental Control Room", temp);
-            } else if (item.getName().equals("voltage meter")) {
-                Map<String, Item> temp = new HashMap<>();
-                temp.put("a2", item);
-                required.put("Environmental Control Room", temp);
-            } else if (item.getName().equals("tool kit")) {
-                Map<String, Item> temp = new HashMap<>();
-                temp.put("a3", item);
-                required.put("Environmental Control Room", temp);
-            } else if (item.getName().equals("dosimeter")) {
-                Map<String, Item> temp = new HashMap<>();
-                temp.put("a1", item);
-                required.put("Reactor", temp);
-            } else if (item.getName().equals("key")) {
-                Map<String, Item> temp = new HashMap<>();
-                temp.put("a2", item);
-                required.put("Reactor", temp);
-            } else if (item.getName().equals("checklist")) {
-                Map<String, Item> temp = new HashMap<>();
-                temp.put("a3", item);
-                required.put("Reactor", temp);
-            } else if (item.getName().equals("batteries")) {
-                Map<String, Item> temp = new HashMap<>();
-                temp.put("a1", item);
-                required.put("Solar Array", temp);
-            } else if (item.getName().equals("gps")) {
-                Map<String, Item> temp = new HashMap<>();
-                temp.put("a2", item);
-                required.put("Solar Array", temp);
-            } else if (item.getName().equals("cable")) {
-                Map<String, Item> temp = new HashMap<>();
-                temp.put("a3", item);
-                required.put("Solar Array", temp);
             }
         }
+        required.put("Green House", temp);
+        temp = new HashMap<>();
+        for (Item item : items) {
+            if (item.getName().equals("water level probe")) {
+                temp.put("a1", item);
+            } else if (item.getName().equals("ph meter")) {
+                temp.put("a2", item);
+            } else if (item.getName().equals("chlorine tablets")) {
+                temp.put("a3", item);
+            }
+        }
+        required.put("Hydro Control Room", temp);
+        temp = new HashMap<>();
+        for (Item item : items) {
+            if (item.getName().equals("pressure gauge")) {
+                temp.put("a1", item);
+            } else if (item.getName().equals("voltage meter")) {
+                temp.put("a2", item);
+            } else if (item.getName().equals("tool kit")) {
+                temp.put("a3", item);
+            }
+        }
+        required.put("Environmental Control Room", temp);
+        temp = new HashMap<>();
+        for (Item item : items) {
+            if (item.getName().equals("dosimeter")) {
+                temp.put("a1", item);
+            } else if (item.getName().equals("key")) {
+                temp.put("a2", item);
+            } else if (item.getName().equals("checklist")) {
+                temp.put("a3", item);
+            }
+        }
+        required.put("Reactor", temp);
+        temp = new HashMap<>();
+        for (Item item : items) {
+            if (item.getName().equals("batteries")) {
+                temp.put("a1", item);
+            } else if (item.getName().equals("gps")) {
+                temp.put("a2", item);
+            } else if (item.getName().equals("cable")) {
+                temp.put("a3", item);
+            }
+        }
+        required.put("Solar Array", temp);
         ChallengeRoom.puzzleItemMap = required;
     }
 
@@ -160,14 +152,13 @@ public class ChallengeRoom extends Room {
             temp2.put(option, false);
             game.setSolved(temp2);
         }
-        if ("Solar Array" == option && !Game.getSolved().get(option)) {
+        if (!Game.getSolved().get(option) && "Solar Array".equals(option)) {
             if (!solved.get(option).get("a")) {
-                System.out.println("Trying to solve problem");
                 sb.append(askQuestionA1(option));
             } else if (solved.get(option).get("a") && !solved.get(option).get("b")) {
                 sb.append(askQuestionA2(option));
             }
-        } else if ("Reactor" == option && !Game.getSolved().get(option)
+        } else if ("Reactor".equals(option) && !Game.getSolved().get(option)
                 && Game.getSolved().get("Solar Array")) {
             if (!solved.get("Reactor").get("a")) {
                 sb.append(askQuestionA1(option));
@@ -175,30 +166,33 @@ public class ChallengeRoom extends Room {
                     && !solved.get("Reactor").get("b")) {
                 sb.append(askQuestionA2(option));
             }
-        } else if ("Environmental Control Room" == option && !Game.getSolved().get(option)
+        } else if (!Game.getSolved().get(option)
                 && Game.getSolved().get("Solar Array")
-                && Game.getSolved().get("Reactor")) {
+                && Game.getSolved().get("Reactor")
+                && "Environmental Control Room".equals(option)) {
             if (!solved.get("Environmental Control Room").get("a")) {
                 sb.append(askQuestionA1(option));
             } else if (solved.get("Environmental Control Room").get("a")
                     && !solved.get("Environmental Control Room").get("b")) {
                 sb.append(askQuestionA2(option));
             }
-        } else if ("Hydro Control Room" == option && !Game.getSolved().get(option)
+        } else if (!Game.getSolved().get(option)
                 && Game.getSolved().get("Solar Array")
                 && Game.getSolved().get("Reactor")
-                && Game.getSolved().get("Environmental Control Room")) {
+                && Game.getSolved().get("Environmental Control Room")
+                && "Hydro Control Room".equals(option)) {
             if (!solved.get("Hydro Control Room").get("a")) {
                 sb.append(askQuestionA1(option));
             } else if (solved.get("Hydro Control Room").get("a")
                     && !solved.get("Hydro Control Room").get("b")) {
                 sb.append(askQuestionA2(option));
             }
-        } else if ("Green House" == option && !Game.getSolved().get(option)
+        } else if (!Game.getSolved().get(option)
                 && Game.getSolved().get("Solar Array")
                 && Game.getSolved().get("Reactor")
                 && Game.getSolved().get("Environmental Control Room")
-                && Game.getSolved().get("Hydro Control Room")) {
+                && Game.getSolved().get("Hydro Control Room")
+                && "Green House".equals(option)) {
             if (!solved.get("Green House").get("a")) {
                 sb.append(askQuestionA1(option));
             } else if (solved.get("Green House").get("a")
@@ -215,11 +209,16 @@ public class ChallengeRoom extends Room {
         if (inventory.contains(getPuzzleItemMap().get(option).get("a1"))
                 && inventory.contains(getPuzzleItemMap().get(option).get("a2"))
                 && !getSolved().get(option).get("a")) {
-            sb.append(Display.displayText(getPuzzleQuestion(option + "-a")));
-            sb.append(Display.displayText("[y/n]?"));
+            System.out.print(getPuzzleQuestion(option + "-a"));
+            System.out.print(" [y/n]? ");
+            String userInput = input.nextLine();
             int result = 0;
-            result += getQuestions();
-            result += getQuestions();
+            if (userInput.equalsIgnoreCase("y")) {
+                result += getQuestions();
+                result += getQuestions();
+            } else {
+                sb.append("you chose not to fix the problem.");
+            }
             if (result == 2) {
                 Map<String, Map<String, Boolean>> tempSolved = getSolved();
                 Map<String, Boolean> temp = new HashMap<>();
@@ -262,7 +261,7 @@ public class ChallengeRoom extends Room {
                 question = "Would you like to attempt to bring the solar array online?";
                 break;
             case "Solar Array-b":
-                question = "Would you like to closely inspect the solar array?";
+                question = "Would you like to closely inspect the solar array";
                 break;
             case "Reactor-a":
                 question = "Would you like to attempt to bring the reactor online?";
@@ -295,15 +294,12 @@ public class ChallengeRoom extends Room {
     }
 
     private static int getQuestions() {
-        // String input1 = input.nextLine();
-        // if (input1.equalsIgnoreCase("y")) {
-            boolean correct = false;
-            correct = getPuzzle(puzzleList);
-            return (correct) ? 1 : 0;
-        //} else {
-            //String output2 = "OK, then...";
-            //return 0;
-        //}
+        System.out.println(Puzzle.getPuzzleList());
+        if (getPuzzle(Game.getPuzzles())) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     private static int getRandomPuzzle(int num) {
@@ -311,8 +307,11 @@ public class ChallengeRoom extends Room {
     }
 
     private static boolean getPuzzle(List<Puzzle> puzzleList) {
+        System.out.println("getPuzzle()");
+        System.out.println(puzzleList);
         int index = getRandomPuzzle(puzzleList.size());
         puzzleList.get(index).askQuestion();
+
         String option = input.nextLine();
         boolean correct;
         correct = puzzleList.get(index).checkAnswer(option);

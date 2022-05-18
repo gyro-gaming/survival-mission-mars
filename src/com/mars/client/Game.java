@@ -24,6 +24,7 @@ public class Game {
 
     public static Game getInstance() {
         player = Player.getInstance();
+        Puzzle.getInstance();
         instance.setPlayer(player);
         instance.setRooms();
         instance.setPuzzles(Puzzle.getPuzzleList());
@@ -130,6 +131,7 @@ public class Game {
             }
 
             room.setDescription(location.get("description").toString());
+            room.setPuzzle(Boolean.parseBoolean(location.get("puzzle").toString()));
             room.setDirections(convertJsonDirections((Map<String, Object>) location.get("directions")));
 
             try {

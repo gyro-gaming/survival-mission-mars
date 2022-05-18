@@ -181,9 +181,11 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             Game.save();
         }
 
-        if (radioButtonGet.isSelected() && !itemsBox.getSelectedItem().equals(" ")){
-            getItem("get " + itemsBox.getSelectedItem().toString());
-        }
+        try {
+            if (radioButtonGet.isSelected() && !itemsBox.getSelectedItem().equals(" ")){
+                getItem("get " + itemsBox.getSelectedItem().toString());
+            }
+        } catch (NullPointerException ex) {}
 
         showMap(roomLabel.getText());
     }
@@ -267,6 +269,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             ImageIcon icon = new ImageIcon(img);
             mapLabel.setIcon(icon);
             mapLabel.repaint();
+        } catch (IndexOutOfBoundsException e) {
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -297,7 +300,8 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         try {
             List<String> nextCommand = processor.getCommand(e1);
             String get = processor.forGet(nextCommand);
-            if (get.equalsIgnoreCase("Your bag is full.") || get.equalsIgnoreCase("Item is already in your bag.")) {
+            System.out.println(get);
+            if (get.equalsIgnoreCase("Your bag is full.")) {
                 textField2.setText(get);
                 return;
             }
