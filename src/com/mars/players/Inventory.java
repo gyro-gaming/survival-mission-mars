@@ -66,10 +66,14 @@ public class Inventory {
     }
 
     public static void use(Item item){
-        for (Item i : inventory) {
-            if (i.equals(item)) {
-                inventory.remove(i);
+        try {
+            for (Item i : inventory) {
+                if (i.equals(item)) {
+                    inventory.remove(i);
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

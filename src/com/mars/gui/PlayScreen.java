@@ -4,6 +4,8 @@ import com.mars.client.Audio;
 import com.mars.client.CommandProcessor;
 import com.mars.client.Display;
 import com.mars.client.Game;
+import com.mars.locations.Room;
+
 import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
@@ -16,6 +18,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -157,6 +160,9 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         } else if (southButton.equals(e.getSource()) && radioButtonLook.isSelected()) {
             lookButton("look south");
         }
+
+        showMap(roomLabel.getText());
+
         if (menuDropDownBox.getSelectedItem().equals("Instructions")){
             textField2.setText(Display.showTextFile("Help"));
         }
@@ -177,16 +183,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     @Override
     public void stateChanged(ChangeEvent e) {
         audioSlider();
-        if (roomLabel.equals("Kitchen")) {
-            try {
-                BufferedImage image = ImageIO.read(getClass().getResource("data/images/Kitchen.png"));
-                ImageIcon icon = new ImageIcon(image);
-                mapLabel.setIcon(icon);
-                mapLabel.repaint();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
+
     }
 
     private void audioSlider(){
@@ -237,6 +234,20 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         textField2.setText(result);
     }
 
+    private void showMap(String room){
+        Room room1 = new Room(room);
+        int index = Game.getRooms().indexOf(room1);
+        try {
+            BufferedImage img = ImageIO.read(new File(Game.getRooms().get(index).getImage()));
+            ImageIcon icon = new ImageIcon(img);
+            mapLabel.setIcon(icon);
+            mapLabel.repaint();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     private void lookButton(String e1) {
         List<String> nextCommand = processor.getCommand(e1);
         String look = processor.forLook(nextCommand);
@@ -274,11 +285,13 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
                 textField2.setText(get);
                 return;
             }
+            itemsBox.removeItem(get.replace(" ", "_"));
             demoList.addElement(get.replace(" ", "_"));
             inventoryList.setModel(demoList);
             itemsBox.revalidate();
             itemsBox.repaint();
             textField2.setText(get);
+
         } catch (ArrayIndexOutOfBoundsException e) {
         }
     }
