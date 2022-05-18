@@ -251,6 +251,20 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
 
     }
 
+    private void showRoomImage(String room){
+        Room room1 = new Room(room);
+        int index = Game.getRooms().indexOf(room1);
+        try {
+            BufferedImage img = ImageIO.read(new File(Game.getRooms().get(index).getImage()));
+            ImageIcon icon = new ImageIcon(img);
+            mapLabel.setIcon(icon);
+            mapLabel.repaint();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     private void lookButton(String e1) {
         List<String> nextCommand = processor.getCommand(e1);
         String look = processor.forLook(nextCommand);
