@@ -1,13 +1,9 @@
 package com.mars.locations;
 
-import java.util.List;
-import java.util.Objects;
-
 class Base implements Location {
     private String name;
     private String image;
     private String description;
-    private List<Objects> items;
 
 
     public void setName(String name) {

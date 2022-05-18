@@ -126,6 +126,8 @@ public class CommandProcessor {
                 player.getInventory().add(item);
                 currentLocation.removeItem(item);
                 sb.append(item.getName());
+            } else if (inventory.contains(item)) {
+                sb.append("Item is already in your bag.");
             }
         }
         setLocationItems();

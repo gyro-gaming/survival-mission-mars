@@ -57,7 +57,7 @@ public class Display {
                 setPath("data/text/hydroIntro.txt");
                 break;
             default:
-                return "Cannot find requested file.";
+                break;
         }
         return getPathReturn(getPath());
     }
