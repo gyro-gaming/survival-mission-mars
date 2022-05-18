@@ -12,7 +12,7 @@ public class JsonParserTest {
     }
 
     @Test
-    public void parseJson_shouldBeNotNull_whenFilePassedIn() {
+    public void parseJson_shouldBeNotNull_whenFileIsPassedIn() {
         String file = "data/json/rooms.json";
         JsonParser.parseJson(file);
         assertNotNull(JsonParser.parseJson(file));
