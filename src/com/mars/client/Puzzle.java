@@ -1,8 +1,11 @@
 package com.mars.client;
 
+import com.mars.gui.PlayScreen;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 public class Puzzle {
     private static List<Puzzle> puzzleList;
@@ -55,11 +58,17 @@ public class Puzzle {
     /**
      * helper method to display question
      */
-    public void askQuestion() {
-        String question = getQuestion();
-        String choices = getChoices();
-        System.out.println(question + "\n" + choices + "\n");
-        System.out.print(">");
+    public String askQuestion() {
+        return getQuestion();
+    }
+
+    public Vector<String> getAnswers() {
+        Vector<String> answers = new Vector<>();
+        String[] ans = getChoices().split(" ");
+        for (String an : ans) {
+            answers.add(an);
+        }
+        return answers;
     }
 
     /**
