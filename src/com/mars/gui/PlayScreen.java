@@ -464,11 +464,10 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         for (String item : items) {
             puzzleChoiceBox.addItem(item);
         }
-        submitPuzzleButton.setEnabled(true);
-
     }
 
     public boolean getCorrect(Puzzle puzzle) {
+        submitPuzzleButton.setEnabled(true);
         submitPuzzleButton.addActionListener(e -> {
             if (submitPuzzleButton.isSelected() && !puzzleChoiceBox.getSelectedItem().equals(" ")) {
                 userAnswer = puzzleChoiceBox.getSelectedItem().toString();

@@ -10,7 +10,7 @@ import java.util.Vector;
 public class Puzzle {
     private static List<Puzzle> puzzleList;
     private String question;
-    private String choices;
+    private List<String> choices;
     private String correctAnswer;
     private static Puzzle instance = new Puzzle();
 
@@ -38,11 +38,11 @@ public class Puzzle {
         return question;
     }
 
-    public void setChoices(String choices) {
+    public void setChoices(List<String> choices) {
         this.choices = choices;
     }
 
-    public String getChoices() {
+    public List<String> getChoices() {
         return choices;
     }
 
@@ -64,9 +64,8 @@ public class Puzzle {
 
     public Vector<String> getAnswers() {
         Vector<String> answers = new Vector<>();
-        String[] ans = getChoices().split(" ");
-        for (String an : ans) {
-            answers.add(an);
+        for (String ans : getChoices()) {
+            answers.add(ans);
         }
         return answers;
     }
@@ -102,9 +101,8 @@ public class Puzzle {
             Puzzle puzzle = new Puzzle();
             String ques = puzzleMap.get("question").toString();
             puzzle.setQuestion(ques);
-            List choicesInList = (List<String>)puzzleMap.get("incorrect_answers");
-            String choice = String.join("\n", choicesInList);
-            puzzle.setChoices(choice);
+            List<String> choices = (List<String>)puzzleMap.get("incorrect_answers");
+            puzzle.setChoices(choices);
             String correct = puzzleMap.get("correct_answer").toString();
             puzzle.setCorrectAnswer(correct);
             puzzleList.add(puzzle);
