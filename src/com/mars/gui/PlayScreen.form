@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="5" left="5" bottom="5" right="5"/>
     <constraints>
-      <xy x="20" y="20" width="1737" height="824"/>
+      <xy x="20" y="20" width="1774" height="1014"/>
     </constraints>
     <properties>
       <background color="-2859222"/>
@@ -384,6 +384,7 @@
                           <background color="-12828863"/>
                           <lineWrap value="true"/>
                           <text value=""/>
+                          <wrapStyleWord value="true"/>
                         </properties>
                       </component>
                     </children>
