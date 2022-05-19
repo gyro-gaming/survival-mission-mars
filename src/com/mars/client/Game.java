@@ -124,16 +124,6 @@ public class Game {
 
 
     public static Player retrieveSave() {
-        PlayScreen playScreen = null;
-        try {
-            playScreen = new PlayScreen();
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         Room newRoom = null;
         int counter;
         Map<String,Object> savedMap = JsonParser.parseJson("data/savedGames/savedGame.json");
@@ -150,7 +140,7 @@ public class Game {
         }
         player.setLocation(instance.getPlayer().getLocation());
         player.setInventory(instance.getPlayer().getInventory());
-        player.setDuration(playScreen.getDuration());
+        player.setDuration(instance.getPlayer().getDuration());
         return player;
     }
 

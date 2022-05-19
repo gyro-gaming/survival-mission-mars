@@ -240,7 +240,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             p.showMap(processor.getCurrentLocation().getName());
             p.showRoomImage(processor.getCurrentLocation().getName());
             p.textField2.setText("This is a past game that belongs to:  " + player.getName() + " user");
-            String formatted = String.format("%02d:%02d:%02d", player.getDuration().toHours(), player.getDuration().toMinutesPart(), player.getDuration().toSecondsPart());
+            String formatted = String.format("%02d:%02d:%02d", duration.toHours(), duration.toMinutesPart(), duration.toSecondsPart());
             p.countDown.setText(remainTime + formatted);
 
         } catch (UnsupportedAudioFileException ex) {
