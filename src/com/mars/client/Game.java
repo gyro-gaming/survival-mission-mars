@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.mars.gui.PlayScreen;
 import com.mars.items.*;
+import com.mars.players.Inventory;
 import com.mars.players.NPC;
 import com.mars.locations.Room;
 import com.mars.players.Player;
@@ -30,6 +32,7 @@ public class Game {
 
     public static Game getInstance() {
         player = Player.getInstance();
+        player.setName("Default");
         Puzzle.getInstance();
         instance.setPlayer(player);
         instance.setRooms();
@@ -118,15 +121,25 @@ public class Game {
     }
 
     // TODO method logic
-    public Game retrieveSave() {
-        Map<String,Object> savedMap = JsonParser.parseJson("savedGames/savedGame.json");
-        Map<String,Object> gyroMap = (Map<String, Object>) savedMap.get("");
-        Game game = new Game();
-        game.setPlayer(player);
-        game.getPlayer().setLocation(player.getLocation());
-        game.getPlayer().setInventory(player.getInventory());
-        Player.setStats(Player.getStats());
-        return new Game();
+    public static Player retrieveSave() {
+        Room newRoom = null;
+        int counter;
+        Map<String,Object> savedMap = JsonParser.parseJson("data/savedGames/savedGame.json");
+        Map<String,Object> playerMap = (Map<String, Object>) savedMap.get("player");
+        Map<String,Object> locMap = (Map<String, Object>) playerMap.get("location");
+        Map<String,Object> inventoryMap = (Map<String, Object>) playerMap.get("inventory");
+        ArrayList inventoryItem = (ArrayList) inventoryMap.get("inventory");
+        Map<String,Object> inv;
+        player.setName(playerMap.get("name").toString());
+        for (Room r : Game.getRooms()){
+            if(r.getName().equals(locMap.get("name"))){
+                newRoom = r;
+            }
+        }
+        player.setLocation(instance.getPlayer().getLocation());
+        player.setInventory(instance.getPlayer().getInventory());
+        player.setDuration(PlayScreen.getDuration());
+        return player;
     }
 
     public static void quit() {
