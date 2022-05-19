@@ -112,7 +112,7 @@ public class CommandProcessor {
         setCurrentLocation(newRoom);
         sb.append(currentLocation.toString() + "\n\n");
         if (currentLocation.isPuzzle()) {
-            ChallengeRoom.getInstance(game, Game.getSolved(), Game.getPuzzles());
+            ChallengeRoom.getInstance(game, Game.getSolved(), Game.getPuzzles(), inventory);
             try {
                 sb.append(ChallengeRoom.runPuzzle(getCurrentLocation().getName()));
             } catch (NullPointerException e) {}
