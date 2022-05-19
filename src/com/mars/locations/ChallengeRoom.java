@@ -229,7 +229,6 @@ public class ChallengeRoom extends Room {
         if (getInventory().contains(getPuzzleItemMap().get(option).get("a1"))
                 && inventory.contains(getPuzzleItemMap().get(option).get("a2"))
                 && !getSolved().get(option).get("a")) {
-
             Puzzle puzzle = playScreen.getQuestions();
             playScreen.getCorrect(puzzle, option, 0);
         }
@@ -247,7 +246,7 @@ public class ChallengeRoom extends Room {
             e.printStackTrace();
         }
         Puzzle puzzle = playScreen.getQuestions();
-        playScreen.getCorrect(puzzle, option, 1);
+        playScreen.getCorrect(puzzle, option, result + 1);
     }
 
     private static void askQuestionA2(String option) {
@@ -267,7 +266,7 @@ public class ChallengeRoom extends Room {
             playScreen.getCorrect(puzzle, option, 2);
         }
     }
-  
+
     public static void answerResponse(Puzzle puzzle, String answer, String option, int result) {
         System.out.println(answer);
         if (puzzle.checkAnswer(answer) && result == 0) {
