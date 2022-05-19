@@ -71,6 +71,8 @@
                         <item value="Instructions"/>
                         <item value="Restart"/>
                         <item value="Save"/>
+                        <item value="Save/Quit"/>
+                        <item value="Retrieve Game"/>
                         <item value="Quit"/>
                       </model>
                     </properties>
@@ -331,15 +333,6 @@
                     </constraints>
                     <properties/>
                   </component>
-                  <component id="c5dfc" class="javax.swing.JButton" binding="submitPuzzleButton">
-                    <constraints>
-                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <font name="Krungthep" size="12" style="3"/>
-                      <text value="SUBMIT"/>
-                    </properties>
-                  </component>
                   <component id="35c4" class="javax.swing.JTextArea" binding="textArea1" default-binding="true">
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -347,6 +340,14 @@
                       </grid>
                     </constraints>
                     <properties/>
+                  </component>
+                  <component id="1eb24" class="javax.swing.JButton" binding="submitPuzzleButton">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Submit"/>
+                    </properties>
                   </component>
                 </children>
               </grid>

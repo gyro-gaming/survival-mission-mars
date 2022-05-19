@@ -88,16 +88,6 @@ public class CommandProcessor {
         return input;
     }
 
-    public Game forSave(){
-
-        Game.getInstance().getPlayer().setLocation(currentLocation);
-        Game.getInstance().getPlayer().setName(player.getName());
-        Game.getInstance().getPlayer().setInventory(player.getInventory());
-        Game.getInstance().getPlayer();
-        Player.setStats(Player.getStats());
-
-        return Game.getInstance();
-    }
     public String forGo(List<String> command) {
         StringBuilder sb = new StringBuilder();
         try {
@@ -118,6 +108,7 @@ public class CommandProcessor {
                 newRoom = r;
             }
         }
+        player.setLocation(newRoom);
         setCurrentLocation(newRoom);
         sb.append(currentLocation.toString() + "\n\n");
         if (currentLocation.isPuzzle()) {
