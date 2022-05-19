@@ -12,7 +12,10 @@ import com.mars.players.NPC;
 import com.mars.locations.Room;
 import com.mars.players.Player;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -122,6 +125,16 @@ public class Game {
 
     // TODO method logic
     public static Player retrieveSave() {
+        PlayScreen playScreen = null;
+        try {
+            playScreen = new PlayScreen();
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Room newRoom = null;
         int counter;
         Map<String,Object> savedMap = JsonParser.parseJson("data/savedGames/savedGame.json");
@@ -138,7 +151,7 @@ public class Game {
         }
         player.setLocation(instance.getPlayer().getLocation());
         player.setInventory(instance.getPlayer().getInventory());
-        player.setDuration(PlayScreen.getDuration());
+        player.setDuration(playScreen.getDuration());
         return player;
     }
 

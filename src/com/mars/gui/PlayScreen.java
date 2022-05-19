@@ -2,9 +2,7 @@ package com.mars.gui;
 
 import com.mars.client.*;
 import com.mars.locations.ChallengeRoom;
-import com.mars.locations.Location;
 import com.mars.locations.Room;
-import com.mars.players.Player;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
@@ -13,7 +11,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -184,10 +181,11 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         }
 
         try {
-            if (radioButtonGet.isSelected() && !itemsBox.getSelectedItem().equals(" ")){
+            if (radioButtonGet.isSelected() && !itemsBox.getSelectedItem().equals(" ")) {
                 getItem("get " + itemsBox.getSelectedItem().toString());
             }
-        } catch (NullPointerException ex) {}
+        } catch (NullPointerException ex) {
+        }
 
         if (menuDropDownBox.getSelectedItem().equals("Instructions")) {
             textField2.setText(Display.showTextFile("Help"));
@@ -236,39 +234,39 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         audioSlider();
     }
 
-    private void audioSlider(){
+    private void audioSlider() {
         radioButtonMute.setSelected(false);
-        if (volumeSlider.getValue() == 0){
+        if (volumeSlider.getValue() == 0) {
             clip.stop();
         }
-        if(volumeSlider.getValue() == 10) {
+        if (volumeSlider.getValue() == 10) {
             Audio.volumeDown3(clip);
         }
-        if(volumeSlider.getValue() == 20) {
+        if (volumeSlider.getValue() == 20) {
             Audio.volumeDown2(clip);
         }
-        if(volumeSlider.getValue() == 30) {
+        if (volumeSlider.getValue() == 30) {
             Audio.volumeDown1(clip);
         }
-        if(volumeSlider.getValue() == 40) {
+        if (volumeSlider.getValue() == 40) {
             Audio.volumeDown(clip);
         }
-        if(volumeSlider.getValue() == 50) {
+        if (volumeSlider.getValue() == 50) {
             Audio.volumeUp(clip);
         }
-        if(volumeSlider.getValue() == 60) {
+        if (volumeSlider.getValue() == 60) {
             Audio.volumeUp1(clip);
         }
-        if(volumeSlider.getValue() == 70) {
+        if (volumeSlider.getValue() == 70) {
             Audio.volumeUp2(clip);
         }
-        if(volumeSlider.getValue() == 80) {
+        if (volumeSlider.getValue() == 80) {
             Audio.volumeUp3(clip);
         }
-        if(volumeSlider.getValue() == 90) {
+        if (volumeSlider.getValue() == 90) {
             Audio.volumeUp4(clip);
         }
-        if(volumeSlider.getValue() == 100) {
+        if (volumeSlider.getValue() == 100) {
             Audio.volumeUp5(clip);
         }
 
@@ -287,7 +285,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         textField2.setText(result);
     }
 
-    private void showMap(String room){
+    private void showMap(String room) {
         Room room1 = new Room(room);
         int index = Game.getRooms().indexOf(room1);
         try {
@@ -295,15 +293,15 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             ImageIcon icon = new ImageIcon(img);
             mapLabel.setIcon(icon);
             mapLabel.repaint();
-        }catch (IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
 
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    private void showRoomImage(String room){
+    private void showRoomImage(String room) {
         Room room1 = new Room(room);
         int index = Game.getRooms().indexOf(room1);
         try {
@@ -331,7 +329,8 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
                 lookItem("inspect " + itemsBox.getSelectedItem().toString());
             }
 
-        } catch (NullPointerException ex) {}
+        } catch (NullPointerException ex) {
+        }
     }
 
     private void lookItem(String e1) {
@@ -359,7 +358,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         }
     }
 
-    private void useItem(){
+    private void useItem() {
         String useItem = inventoryList.getSelectedValue().toString();
         List<String> nextCommand = processor.getCommand("use " + useItem);
         String text = processor.forUse(nextCommand);
@@ -386,7 +385,8 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             inventoryList.setModel(demoList);
             textField2.setText(drop);
 
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
 
     @Override
@@ -395,13 +395,13 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         if (dropButton.isSelected()) {
             dropItem();
         }
-        if (useButton.isSelected()){
+        if (useButton.isSelected()) {
             useItem();
         }
-        if(radioButtonMute.isSelected()) {
+        if (radioButtonMute.isSelected()) {
             clip.stop();
         }
-        if(!radioButtonMute.isSelected()) {
+        if (!radioButtonMute.isSelected()) {
             clip.start();
         }
     }
@@ -427,15 +427,18 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         try {
             SwingUtilities.invokeLater(() -> progressO2Bar.setValue(Game.getStats().get("Oxygen")));
             java.lang.Thread.sleep(100);
-        } catch (InterruptedException event) {}
+        } catch (InterruptedException event) {
+        }
         try {
             SwingUtilities.invokeLater(() -> progressStaminaBar.setValue(Game.getStats().get("Stamina")));
             java.lang.Thread.sleep(100);
-        } catch (InterruptedException event) {}
+        } catch (InterruptedException event) {
+        }
         try {
             SwingUtilities.invokeLater(() -> progressHungerBar.setValue(Game.getStats().get("Hunger")));
             java.lang.Thread.sleep(100);
-        } catch (InterruptedException event) {}
+        } catch (InterruptedException event) {
+        }
     }
 
     private static int getRandomPuzzle(int num) {
@@ -499,10 +502,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         });
     }
 
-    public void checkAnswer(Puzzle puzzle, String answer) {
-
-    }
-
     public Puzzle getQuestions() {
         Puzzle puzzle = PlayScreen.getPuzzle(Game.getPuzzles());
         askQuestion(puzzle);
@@ -549,17 +548,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         return question;
     }
 
-    // TODO method logic
-    public static boolean checkPuzzleQuestion() {
-        // y or n to continue to puzzle questions
-        return true;
-    }
-
     public Duration getDuration() {
         return duration;
-    }
-
-    public String getUserAnswer() {
-        return textField2.getText();
     }
 }
