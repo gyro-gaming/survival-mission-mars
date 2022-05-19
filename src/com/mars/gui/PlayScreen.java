@@ -1,8 +1,10 @@
 package com.mars.gui;
 
 import com.mars.client.*;
+import com.mars.items.Item;
 import com.mars.locations.ChallengeRoom;
 import com.mars.locations.Room;
+import com.mars.players.Player;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
@@ -64,7 +66,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     private JLabel countDown;
     private JLabel imageLabel;
     private JPanel topRowPanel;
-    private Duration duration;
+    private static Duration duration;
     private String userAnswer;
 
     public PlayScreen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
@@ -204,31 +206,51 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         }
 
         if (menuDropDownBox.getSelectedItem().equals("Save")) {
-//            // parent component of the dialog
-//            JFrame parentFrame = new JFrame();
-//
-//            JFileChooser fileChooser = new JFileChooser();
-//            fileChooser.setDialogTitle("Specify a file to save");
-//
-//            int userSelection = fileChooser.showSaveDialog(parentFrame);
-//
-//            if (userSelection == JFileChooser.APPROVE_OPTION) {
-//                File fileToSave = fileChooser.getSelectedFile();
-//                System.out.println("Save as file: " + fileToSave.getAbsolutePath());
-//            }
-
             Game.save();
+        }
 
+        if (menuDropDownBox.getSelectedItem().equals("Save/Quit")) {
+            Game.save();
+            Game.quit();
         }
 
         if (menuDropDownBox.getSelectedItem().equals("Retrieve Game")) {
-
+            Player player = Game.retrieveSave();
+            showLastScreen(player);
         }
 
         showMap(roomLabel.getText());
         showRoomImage(roomLabel.getText());
     }
 
+
+    private void showLastScreen(Player player) {
+        String remainTime = "Remaining Time: ";
+        setVisible(false);
+        try {
+            PlayScreen p = new PlayScreen();
+            p.processor.setCurrentLocation(player.getLocation());
+            p.roomLabel.setText(processor.getCurrentLocation().getName());
+            for (Item name : player.getInventory().getInventory()) {
+                demoList.addElement(name.getName());
+            }
+            p.inventoryList.setModel(demoList);
+            p.inventoryList.repaint();
+            p.inventoryList.revalidate();
+            p.showMap(processor.getCurrentLocation().getName());
+            p.showRoomImage(processor.getCurrentLocation().getName());
+            p.textField2.setText("This is a past game that belongs to:  " + player.getName() + " user");
+            String formatted = String.format("%02d:%02d:%02d", player.getDuration().toHours(), player.getDuration().toMinutesPart(), player.getDuration().toSecondsPart());
+            p.countDown.setText(remainTime + formatted);
+
+        } catch (UnsupportedAudioFileException ex) {
+            ex.printStackTrace();
+        } catch (LineUnavailableException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
     @Override
     public void stateChanged(ChangeEvent e) {
         audioSlider();

@@ -105,7 +105,6 @@ public class Game {
 
     // end getters and setters
 
-    // TODO method logic
     public static void save() {
 
         try{
@@ -123,7 +122,7 @@ public class Game {
 
     }
 
-    // TODO method logic
+
     public static Player retrieveSave() {
         PlayScreen playScreen = null;
         try {
