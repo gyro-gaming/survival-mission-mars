@@ -78,11 +78,7 @@ public class Puzzle {
     public boolean checkAnswer(String inputAnswer) {
         boolean isCorrect = false;
         if (this.getCorrectAnswer().equals(inputAnswer)) {
-            System.out.println("\n------------");
-            System.out.println(inputAnswer + " is Correct!");
             isCorrect = true;
-        } else if(!(this.getCorrectAnswer().equals(inputAnswer))) {
-            System.out.println("\n Wrong answer!");
         }
         return isCorrect;
     }
