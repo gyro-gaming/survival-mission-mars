@@ -250,6 +250,24 @@ public class ChallengeRoom extends Room {
         playScreen.getCorrect(puzzle, option, 1);
     }
 
+    private static void askQuestionA2(String option) {
+        PlayScreen playScreen = null;
+        try {
+            playScreen = new PlayScreen();
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (getInventory().contains(getPuzzleItemMap().get(option).get("a3"))
+                && !getSolved().get(option).get("b")) {
+            Puzzle puzzle = playScreen.getQuestions();
+            playScreen.getCorrect(puzzle, option, 2);
+        }
+    }
+  
     public static void answerResponse(Puzzle puzzle, String answer, String option, int result) {
         System.out.println(answer);
         if (puzzle.checkAnswer(answer) && result == 0) {
@@ -266,25 +284,6 @@ public class ChallengeRoom extends Room {
             temp.put("b", true);
             tempSolved.put(option, temp);
             setSolved(tempSolved);
-        }
-        System.out.println(getSolved());
-    }
-
-    private static void askQuestionA2(String option) {
-        PlayScreen playScreen = null;
-        try {
-            playScreen = new PlayScreen();
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (getInventory().contains(getPuzzleItemMap().get(option).get("a3"))
-                && !getSolved().get(option).get("b")) {
-            Puzzle puzzle = playScreen.getQuestions();
-            playScreen.getCorrect(puzzle, option, 2);
         }
     }
 }
