@@ -1,9 +1,7 @@
 package com.mars.gui;
 
-import com.mars.client.Audio;
-import com.mars.client.CommandProcessor;
-import com.mars.client.Display;
-import com.mars.client.Game;
+import com.mars.client.*;
+import com.mars.locations.ChallengeRoom;
 import com.mars.locations.Location;
 import com.mars.locations.Room;
 import com.mars.players.Player;
@@ -59,9 +57,10 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     private JLabel mapLabel;
     private JLabel l;
     private Vector<String> items;
-    private Font normalFont = new Font("Times New Roman", Font.ITALIC, 30);
-    private CommandProcessor processor = new CommandProcessor();
-    private DefaultListModel demoList = new DefaultListModel();
+    private Font normalFont;
+    private CommandProcessor processor;
+    private DefaultListModel demoList;
+    private DefaultListModel answerList;
     private Clip clip;
     private Instant futureTime;
     private Timer timer;
@@ -69,8 +68,13 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     private JLabel imageLabel;
     private JPanel topRowPanel;
     private Duration duration;
+    private String userAnswer;
 
     public PlayScreen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        normalFont = new Font("Times New Roman", Font.ITALIC, 30);
+        processor = new CommandProcessor();
+        demoList = new DefaultListModel();
+        answerList = new DefaultListModel();
         setContentPane(mainPanel);
         setTitle("Survival Mission Mars");
         setSize(1800, 1000);
@@ -83,23 +87,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         // this is the timer
         showTimer();
 
-        northButton.addActionListener(this);
-        southButton.addActionListener(this);
-        westButton.addActionListener(this);
-        eastButton.addActionListener(this);
-
-        radioButtonGo.addActionListener(this);
-        radioButtonLook.addActionListener(this);
-
-        radioButtonGet.addActionListener(this);
-        radioButtonInspect.addActionListener(this);
-
-        itemsBox.addItemListener(this);
-
-        dropButton.addMouseListener(this);
-        useButton.addMouseListener(this);
-
-        radioButtonMute.addMouseListener(this);
         roomLabel.setText(processor.getCurrentLocation().getName());
         showMap(processor.getCurrentLocation().getName());
         showRoomImage(processor.getCurrentLocation().getName());
@@ -108,12 +95,35 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             itemsBox.addItem(items.get(i));
         }
         textField2.setText(Display.showTextFile("Intro"));
+
+        northButton.addActionListener(this);
+        southButton.addActionListener(this);
+        westButton.addActionListener(this);
+        eastButton.addActionListener(this);
+        submitPuzzleButton.addActionListener(this);
+        submitPuzzleButton.setEnabled(false);
+
+        radioButtonGo.addActionListener(this);
+        radioButtonLook.addActionListener(this);
+
+        radioButtonGet.addActionListener(this);
+        radioButtonInspect.addActionListener(this);
+
+        itemsBox.addItemListener(this);
+        puzzleChoiceBox.addItemListener(this);
+
+        dropButton.addMouseListener(this);
+        useButton.addMouseListener(this);
+
+        radioButtonMute.addMouseListener(this);
+
         volumeSlider.addChangeListener(this);
         volumeSlider.setMajorTickSpacing(20);
         volumeSlider.setMinorTickSpacing(10);
         volumeSlider.setPaintLabels(true);
         volumeSlider.setPaintTicks(true);
         volumeSlider.setPaintTrack(true);
+
         progressO2Bar.addPropertyChangeListener(this);
         progressStaminaBar.addPropertyChangeListener(this);
         progressHungerBar.addPropertyChangeListener(this);
@@ -176,19 +186,28 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             lookButton("look south");
         }
 
+        try {
+            if (radioButtonGet.isSelected() && !itemsBox.getSelectedItem().equals(" ")){
+                getItem("get " + itemsBox.getSelectedItem().toString());
+            }
+        } catch (NullPointerException ex) {}
+
         if (menuDropDownBox.getSelectedItem().equals("Instructions")) {
             textField2.setText(Display.showTextFile("Help"));
             menuDropDownBox.setSelectedIndex(0);
         }
+
         if (menuDropDownBox.getSelectedItem().equals("Quit")) {
             System.exit(0);
         }
+
         if (menuDropDownBox.getSelectedItem().equals("Restart")) {
             clip.stop();
             clip.close();
             setVisible(false);
             new SplashScreen();
         }
+
         if (menuDropDownBox.getSelectedItem().equals("Save")) {
 //            // parent component of the dialog
 //            JFrame parentFrame = new JFrame();
@@ -206,15 +225,10 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             Game.save();
 
         }
-        if (menuDropDownBox.getSelectedItem().equals("Retrieve Game")){
+
+        if (menuDropDownBox.getSelectedItem().equals("Retrieve Game")) {
 
         }
-
-        try {
-            if (radioButtonGet.isSelected() && !itemsBox.getSelectedItem().equals(" ")){
-                getItem("get " + itemsBox.getSelectedItem().toString());
-            }
-        } catch (NullPointerException ex) {}
 
         showMap(roomLabel.getText());
         showRoomImage(roomLabel.getText());
@@ -426,6 +440,98 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             SwingUtilities.invokeLater(() -> progressHungerBar.setValue(Game.getStats().get("Hunger")));
             java.lang.Thread.sleep(100);
         } catch (InterruptedException event) {}
+    }
+
+    private static int getRandomPuzzle(int num) {
+        return (int) (Math.random() * num);
+    }
+
+    public static Puzzle getPuzzle(List<Puzzle> puzzleList) {
+        System.out.println(puzzleList);
+        int index = getRandomPuzzle(puzzleList.size());
+        Puzzle puzzle = puzzleList.get(index);
+        puzzleList.remove(index);
+        Game.setPuzzles(puzzleList);
+        return puzzle;
+    }
+
+    public void askQuestion(Puzzle puzzle) {
+        textArea1.setText(puzzle.askQuestion());
+    }
+
+    public void getAnswers(Puzzle puzzle) {
+        items = puzzle.getAnswers();
+        for (String item : items) {
+            puzzleChoiceBox.addItem(item);
+        }
+        submitPuzzleButton.setEnabled(true);
+
+    }
+
+    public boolean getCorrect(Puzzle puzzle) {
+        submitPuzzleButton.addActionListener(e -> {
+            if (submitPuzzleButton.isSelected() && !puzzleChoiceBox.getSelectedItem().equals(" ")) {
+                userAnswer = puzzleChoiceBox.getSelectedItem().toString();
+            }
+        });
+        return puzzle.checkAnswer(userAnswer);
+    }
+
+    public static int getQuestions() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        PlayScreen playScreen = new PlayScreen();
+        Puzzle puzzle = PlayScreen.getPuzzle(Game.getPuzzles());
+        playScreen.askQuestion(puzzle);
+        playScreen.getAnswers(puzzle);
+        if (playScreen.getCorrect(puzzle)) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public static String getPuzzleQuestion(String option) {
+        String question = "";
+        switch (option) {
+            case "Solar Array-a":
+                question = "Would you like to attempt to bring the solar array online?";
+                break;
+            case "Solar Array-b":
+                question = "Would you like to closely inspect the solar array";
+                break;
+            case "Reactor-a":
+                question = "Would you like to attempt to bring the reactor online?";
+                break;
+            case "Reactor-b":
+                question = "Would you like to closely inspect the reactor?";
+                break;
+            case "Environmental Control Room-a":
+                question = "Would you like to attempt to bring the environmental controls online?";
+                break;
+            case "Environmental Control Room-b":
+                question = "Would you like to closely inspect the environmental controls?";
+                break;
+            case "Hydro Control Room-a":
+                question = "Would you like to attempt to bring the water controls online?";
+                break;
+            case "Hydro Control Room-b":
+                question = "Would you like to closely inspect the water controls?";
+                break;
+            case "Green House-a":
+                question = "Would you like to attempt to bring the green house online?";
+                break;
+            case "GreenHouse-b":
+                question = "Would you like to closely inspect the soil?";
+                break;
+            default:
+                break;
+        }
+        return question;
+    }
+
+    // TODO method logic
+    public static boolean checkPuzzleQuestion() {
+        // y or n to continue to puzzle questions
+        return true;
     }
 
     public Duration getDuration() {

@@ -65,8 +65,8 @@ public class Game {
         return items;
     }
 
-    public void setPuzzles(List<Puzzle> puzzles) {
-        this.puzzles = puzzles;
+    public static void setPuzzles(List<Puzzle> puzzles) {
+        Game.puzzles = puzzles;
     }
 
     public static List<Puzzle> getPuzzles() {

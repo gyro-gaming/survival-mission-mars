@@ -3,8 +3,12 @@ package com.mars.locations;
 import com.mars.client.Display;
 import com.mars.client.Game;
 import com.mars.client.Puzzle;
+import com.mars.gui.PlayScreen;
 import com.mars.items.Item;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 import java.util.*;
 
 public class ChallengeRoom extends Room {
@@ -209,13 +213,27 @@ public class ChallengeRoom extends Room {
         if (inventory.contains(getPuzzleItemMap().get(option).get("a1"))
                 && inventory.contains(getPuzzleItemMap().get(option).get("a2"))
                 && !getSolved().get(option).get("a")) {
-            System.out.print(getPuzzleQuestion(option + "-a"));
-            System.out.print(" [y/n]? ");
-            String userInput = input.nextLine();
+            PlayScreen.getPuzzleQuestion(option + "-a");
             int result = 0;
-            if (userInput.equalsIgnoreCase("y")) {
-                result += getQuestions();
-                result += getQuestions();
+            if (PlayScreen.checkPuzzleQuestion()) {
+                try {
+                    result += PlayScreen.getQuestions();
+                } catch (UnsupportedAudioFileException e) {
+                    e.printStackTrace();
+                } catch (LineUnavailableException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    result += PlayScreen.getQuestions();
+                } catch (UnsupportedAudioFileException e) {
+                    e.printStackTrace();
+                } catch (LineUnavailableException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
                 sb.append("you chose not to fix the problem.");
             }
@@ -237,89 +255,30 @@ public class ChallengeRoom extends Room {
         List<Item> inventory = game.getPlayer().getInventory().getInventory();
         if (inventory.contains(getPuzzleItemMap().get(option).get("a3"))
                 && !getSolved().get(option).get("b")) {
-            sb.append(getPuzzleQuestion(option + "-b"));
-            sb.append(Display.displayText("[y/n]?"));
+            PlayScreen.getPuzzleQuestion(option + "-b");
             int result = 0;
-            result += getQuestions();
-            if (result == 1) {
-                Map<String, Map<String, Boolean>> tempSolved = getSolved();
-                Map<String, Boolean> temp = new HashMap<>();
-                tempSolved.put(option, temp);
-                setSolved(tempSolved);
-                sb.append("you solved the second part");
-            } else {
-                sb.append("you did not solve this one either");
+            if (PlayScreen.checkPuzzleQuestion()) {
+                try {
+                    result += PlayScreen.getQuestions();
+                } catch (UnsupportedAudioFileException e) {
+                    e.printStackTrace();
+                } catch (LineUnavailableException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (result == 1) {
+                    Map<String, Map<String, Boolean>> tempSolved = getSolved();
+                    Map<String, Boolean> temp = new HashMap<>();
+                    tempSolved.put(option, temp);
+                    setSolved(tempSolved);
+                    sb.append("you solved the second part");
+                } else {
+                    sb.append("you did not solve this one either");
+                }
             }
+            return sb.toString();
         }
         return sb.toString();
-    }
-
-    private static String getPuzzleQuestion(String option) {
-        String question = "";
-        switch (option) {
-            case "Solar Array-a":
-                question = "Would you like to attempt to bring the solar array online?";
-                break;
-            case "Solar Array-b":
-                question = "Would you like to closely inspect the solar array";
-                break;
-            case "Reactor-a":
-                question = "Would you like to attempt to bring the reactor online?";
-                break;
-            case "Reactor-b":
-                question = "Would you like to closely inspect the reactor?";
-                break;
-            case "Environmental Control Room-a":
-                question = "Would you like to attempt to bring the environmental controls online?";
-                break;
-            case "Environmental Control Room-b":
-                question = "Would you like to closely inspect the environmental controls?";
-                break;
-            case "Hydro Control Room-a":
-                question = "Would you like to attempt to bring the water controls online?";
-                break;
-            case "Hydro Control Room-b":
-                question = "Would you like to closely inspect the water controls?";
-                break;
-            case "Green House-a":
-                question = "Would you like to attempt to bring the green house online?";
-                break;
-            case "GreenHouse-b":
-                question = "Would you like to closely inspect the soil?";
-                break;
-            default:
-                break;
-        }
-        return question;
-    }
-
-    private static int getQuestions() {
-        System.out.println(Puzzle.getPuzzleList());
-        if (getPuzzle(Game.getPuzzles())) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-
-    private static int getRandomPuzzle(int num) {
-        return (int) (Math.random() * num);
-    }
-
-    private static boolean getPuzzle(List<Puzzle> puzzleList) {
-        System.out.println("getPuzzle()");
-        System.out.println(puzzleList);
-        int index = getRandomPuzzle(puzzleList.size());
-        puzzleList.get(index).askQuestion();
-
-        String option = input.nextLine();
-        boolean correct;
-        correct = puzzleList.get(index).checkAnswer(option);
-        if (correct) {
-            return true;
-        }
-        puzzleList.remove(index);
-        game.setPuzzles(puzzleList);
-        return false;
     }
 }
