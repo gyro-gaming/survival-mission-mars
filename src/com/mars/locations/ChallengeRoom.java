@@ -16,17 +16,17 @@ public class ChallengeRoom extends Room {
     private static Map<String, Map<String, Boolean>> solved;
     private static List<Puzzle> puzzleList;
     private static Map<String, Map<String, Item>> puzzleItemMap;
+    private static List<Item> inventory;
     private static ChallengeRoom instance = new ChallengeRoom();
-
-    private static Scanner input = new Scanner(System.in);
 
     private ChallengeRoom() {
     }
 
-    public static ChallengeRoom getInstance(Game game, Map<String, Boolean> solved, List<Puzzle> puzzle) {
+    public static ChallengeRoom getInstance(Game game, Map<String, Boolean> solved, List<Puzzle> puzzles, List<Item> inventory) {
         instance.setGame(game);
         instance.convertToLocalSolved(solved);
-        instance.setPuzzleList(puzzle);
+        instance.setPuzzleList(puzzles);
+        instance.setInventory(inventory);
         return instance;
     }
 
@@ -111,6 +111,14 @@ public class ChallengeRoom extends Room {
         return puzzleItemMap;
     }
 
+    public static void setInventory(List<Item> inventory) {
+        ChallengeRoom.inventory = inventory;
+    }
+
+    public static List<Item> getInventory() {
+        return inventory;
+    }
+
     public static void convertToLocalSolved(Map<String, Boolean> solved) {
         Map<String, Map<String, Boolean>> newMap = new HashMap<>();
         for (Map.Entry<String, Boolean> solvd : solved.entrySet()) {
@@ -158,27 +166,27 @@ public class ChallengeRoom extends Room {
         }
         if (!Game.getSolved().get(option) && "Solar Array".equals(option)) {
             if (!solved.get(option).get("a")) {
-                sb.append(askQuestionA1(option));
+                askQuestionA1(option);
             } else if (solved.get(option).get("a") && !solved.get(option).get("b")) {
-                sb.append(askQuestionA2(option));
+                askQuestionA2(option);
             }
         } else if ("Reactor".equals(option) && !Game.getSolved().get(option)
                 && Game.getSolved().get("Solar Array")) {
             if (!solved.get("Reactor").get("a")) {
-                sb.append(askQuestionA1(option));
+                askQuestionA1(option);
             } else if (solved.get("Reactor").get("a")
                     && !solved.get("Reactor").get("b")) {
-                sb.append(askQuestionA2(option));
+               askQuestionA2(option);
             }
         } else if (!Game.getSolved().get(option)
                 && Game.getSolved().get("Solar Array")
                 && Game.getSolved().get("Reactor")
                 && "Environmental Control Room".equals(option)) {
             if (!solved.get("Environmental Control Room").get("a")) {
-                sb.append(askQuestionA1(option));
+                askQuestionA1(option);
             } else if (solved.get("Environmental Control Room").get("a")
                     && !solved.get("Environmental Control Room").get("b")) {
-                sb.append(askQuestionA2(option));
+                askQuestionA2(option);
             }
         } else if (!Game.getSolved().get(option)
                 && Game.getSolved().get("Solar Array")
@@ -186,10 +194,10 @@ public class ChallengeRoom extends Room {
                 && Game.getSolved().get("Environmental Control Room")
                 && "Hydro Control Room".equals(option)) {
             if (!solved.get("Hydro Control Room").get("a")) {
-                sb.append(askQuestionA1(option));
+                askQuestionA1(option);
             } else if (solved.get("Hydro Control Room").get("a")
                     && !solved.get("Hydro Control Room").get("b")) {
-                sb.append(askQuestionA2(option));
+                askQuestionA2(option);
             }
         } else if (!Game.getSolved().get(option)
                 && Game.getSolved().get("Solar Array")
@@ -198,87 +206,84 @@ public class ChallengeRoom extends Room {
                 && Game.getSolved().get("Hydro Control Room")
                 && "Green House".equals(option)) {
             if (!solved.get("Green House").get("a")) {
-                sb.append(askQuestionA1(option));
+                askQuestionA1(option);
             } else if (solved.get("Green House").get("a")
                     && !solved.get("Green House").get("b")) {
-                sb.append(askQuestionA2(option));
+                askQuestionA2(option);
             }
         }
         return sb.toString();
     }
 
-    private static String askQuestionA1(String option) {
-        StringBuilder sb = new StringBuilder();
-        List<Item> inventory = game.getPlayer().getInventory().getInventory();
-        if (inventory.contains(getPuzzleItemMap().get(option).get("a1"))
+    private static void askQuestionA1(String option) {
+        PlayScreen playScreen = null;
+        try {
+            playScreen = new PlayScreen();
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (getInventory().contains(getPuzzleItemMap().get(option).get("a1"))
                 && inventory.contains(getPuzzleItemMap().get(option).get("a2"))
                 && !getSolved().get(option).get("a")) {
-            PlayScreen.getPuzzleQuestion(option + "-a");
-            int result = 0;
-            if (PlayScreen.checkPuzzleQuestion()) {
-                try {
-                    result += PlayScreen.getQuestions();
-                } catch (UnsupportedAudioFileException e) {
-                    e.printStackTrace();
-                } catch (LineUnavailableException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    result += PlayScreen.getQuestions();
-                } catch (UnsupportedAudioFileException e) {
-                    e.printStackTrace();
-                } catch (LineUnavailableException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                sb.append("you chose not to fix the problem.");
-            }
-            if (result == 2) {
-                Map<String, Map<String, Boolean>> tempSolved = getSolved();
-                Map<String, Boolean> temp = new HashMap<>();
-                tempSolved.put(option, temp);
-                setSolved(tempSolved);
-                sb.append(Display.displayText("you solved this part"));
-            } else {
-                sb.append(Display.displayText("you did not solve this part"));
-            }
+
+            Puzzle puzzle = playScreen.getQuestions();
+            playScreen.getCorrect(puzzle, option, 0);
         }
-        return sb.toString();
     }
 
-    private static String askQuestionA2(String option) {
-        StringBuilder sb = new StringBuilder();
-        List<Item> inventory = game.getPlayer().getInventory().getInventory();
-        if (inventory.contains(getPuzzleItemMap().get(option).get("a3"))
-                && !getSolved().get(option).get("b")) {
-            PlayScreen.getPuzzleQuestion(option + "-b");
-            int result = 0;
-            if (PlayScreen.checkPuzzleQuestion()) {
-                try {
-                    result += PlayScreen.getQuestions();
-                } catch (UnsupportedAudioFileException e) {
-                    e.printStackTrace();
-                } catch (LineUnavailableException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (result == 1) {
-                    Map<String, Map<String, Boolean>> tempSolved = getSolved();
-                    Map<String, Boolean> temp = new HashMap<>();
-                    tempSolved.put(option, temp);
-                    setSolved(tempSolved);
-                    sb.append("you solved the second part");
-                } else {
-                    sb.append("you did not solve this one either");
-                }
-            }
-            return sb.toString();
+    private static void askQuestionA1(String option, int result) {
+        PlayScreen playScreen = null;
+        try {
+            playScreen = new PlayScreen();
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return sb.toString();
+        Puzzle puzzle = playScreen.getQuestions();
+        playScreen.getCorrect(puzzle, option, 1);
+    }
+
+    public static void answerResponse(Puzzle puzzle, String answer, String option, int result) {
+        System.out.println(answer);
+        if (puzzle.checkAnswer(answer) && result == 0) {
+            askQuestionA1(option, result);
+        } else if (puzzle.checkAnswer(answer) && result == 1) {
+            Map<String, Map<String, Boolean>> tempSolved = getSolved();
+            Map<String, Boolean> temp = new HashMap<>();
+            temp.put("a", true);
+            tempSolved.put(option, temp);
+            setSolved(tempSolved);
+        } else if (puzzle.checkAnswer(answer) && result == 2) {
+            Map<String, Map<String, Boolean>> tempSolved = getSolved();
+            Map<String, Boolean> temp = tempSolved.get(option);
+            temp.put("b", true);
+            tempSolved.put(option, temp);
+            setSolved(tempSolved);
+        }
+    }
+
+    private static void askQuestionA2(String option) {
+        PlayScreen playScreen = null;
+        try {
+            playScreen = new PlayScreen();
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (getInventory().contains(getPuzzleItemMap().get(option).get("a3"))
+                && !getSolved().get(option).get("b")) {
+            Puzzle puzzle = playScreen.getQuestions();
+            playScreen.getCorrect(puzzle, option, 2);
+        }
     }
 }

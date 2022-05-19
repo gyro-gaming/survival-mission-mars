@@ -100,8 +100,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         southButton.addActionListener(this);
         westButton.addActionListener(this);
         eastButton.addActionListener(this);
-        submitPuzzleButton.addActionListener(this);
-        submitPuzzleButton.setEnabled(false);
 
         radioButtonGo.addActionListener(this);
         radioButtonLook.addActionListener(this);
@@ -110,7 +108,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         radioButtonInspect.addActionListener(this);
 
         itemsBox.addItemListener(this);
-        puzzleChoiceBox.addItemListener(this);
+        menuDropDownBox.addActionListener(this);
 
         dropButton.addMouseListener(this);
         useButton.addMouseListener(this);
@@ -127,7 +125,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         progressO2Bar.addPropertyChangeListener(this);
         progressStaminaBar.addPropertyChangeListener(this);
         progressHungerBar.addPropertyChangeListener(this);
-        menuDropDownBox.addActionListener(this);
     }
 
     // show countdown time
@@ -198,7 +195,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         }
 
         if (menuDropDownBox.getSelectedItem().equals("Quit")) {
-            System.exit(0);
+            Game.quit();
         }
 
         if (menuDropDownBox.getSelectedItem().equals("Restart")) {
@@ -347,7 +344,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         try {
             List<String> nextCommand = processor.getCommand(e1);
             String get = processor.forGet(nextCommand);
-            System.out.println(get);
             if (get.equalsIgnoreCase("Your bag is full.")) {
                 textField2.setText(get);
                 return;
@@ -447,7 +443,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     }
 
     public static Puzzle getPuzzle(List<Puzzle> puzzleList) {
-        System.out.println(puzzleList);
         int index = getRandomPuzzle(puzzleList.size());
         Puzzle puzzle = puzzleList.get(index);
         puzzleList.remove(index);
@@ -466,26 +461,53 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         }
     }
 
-    public boolean getCorrect(Puzzle puzzle) {
+    public void getCorrect(Puzzle puzzle, String option, int result) {
+        textField2.setText(null);
         submitPuzzleButton.setEnabled(true);
-        submitPuzzleButton.addActionListener(e -> {
-            if (submitPuzzleButton.isSelected() && !puzzleChoiceBox.getSelectedItem().equals(" ")) {
-                userAnswer = puzzleChoiceBox.getSelectedItem().toString();
+        submitPuzzleButton.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (!puzzleChoiceBox.equals("")) {
+                    ChallengeRoom.answerResponse(puzzle, puzzleChoiceBox.getSelectedItem().toString(), option, result);
+                    if (puzzle.checkAnswer(puzzleChoiceBox.getSelectedItem().toString())) {
+                        textField2.setText(puzzleChoiceBox.getSelectedItem().toString() + " was the correct answer!");
+                    } else {
+                        textField2.setText(puzzleChoiceBox.getSelectedItem().toString() + " was incorrect.");
+                    }
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
             }
         });
-        return puzzle.checkAnswer(userAnswer);
     }
 
-    public static int getQuestions() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        PlayScreen playScreen = new PlayScreen();
+    public void checkAnswer(Puzzle puzzle, String answer) {
+
+    }
+
+    public Puzzle getQuestions() {
         Puzzle puzzle = PlayScreen.getPuzzle(Game.getPuzzles());
-        playScreen.askQuestion(puzzle);
-        playScreen.getAnswers(puzzle);
-        if (playScreen.getCorrect(puzzle)) {
-            return 1;
-        } else {
-            return 0;
-        }
+        askQuestion(puzzle);
+        getAnswers(puzzle);
+        return puzzle;
     }
 
     public static String getPuzzleQuestion(String option) {
@@ -535,5 +557,9 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
 
     public Duration getDuration() {
         return duration;
+    }
+
+    public String getUserAnswer() {
+        return textField2.getText();
     }
 }
