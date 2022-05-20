@@ -128,7 +128,9 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
                     timer.stop();
                     timer = null;
                     countDown.setText(remainTime + "00:00:00");
-                    Game.quit();
+                    setVisible(false);
+                    Audio.stopAudio(clip);
+                    new LosingScreen();
                 } else {
                     String formatted = String.format("%02d:%02d:%02d", duration.toHours(), duration.toMinutesPart(), duration.toSecondsPart());
                     countDown.setText(remainTime + formatted);
@@ -575,6 +577,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         submitPuzzleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println(puzzleChoiceBox.getSelectedItem().toString());
                 answerResponse(puzzle, puzzleChoiceBox.getSelectedItem().toString(), option, result);
             }
         });
