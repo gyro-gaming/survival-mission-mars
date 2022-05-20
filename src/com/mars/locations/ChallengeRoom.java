@@ -38,8 +38,8 @@ public class ChallengeRoom extends Room {
         return solved;
     }
 
-    public void setPuzzleList(List<Puzzle> puzzleList) {
-        this.puzzleList = puzzleList;
+    public static void setPuzzleList(List<Puzzle> puzzleList) {
+        ChallengeRoom.puzzleList = puzzleList;
     }
 
     public void setGame(Game game) {
@@ -133,7 +133,6 @@ public class ChallengeRoom extends Room {
                 newMap.put(solvd.getKey(), temp);
             }
         }
-
         ChallengeRoom.solved = newMap;
     }
 
