@@ -1,14 +1,9 @@
 package com.mars.locations;
 
-import com.mars.client.Display;
 import com.mars.client.Game;
 import com.mars.client.Puzzle;
-import com.mars.gui.PlayScreen;
 import com.mars.items.Item;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.IOException;
 import java.util.*;
 
 public class ChallengeRoom extends Room {
