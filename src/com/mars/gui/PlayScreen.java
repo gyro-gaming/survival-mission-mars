@@ -30,46 +30,25 @@ import java.util.Map;
 import java.util.Vector;
 
 public class PlayScreen extends JFrame implements ActionListener, ChangeListener, ItemListener, MouseListener, PropertyChangeListener {
-    private JPanel mainPanel, middleRowPanel, bottomRowPanel, outerWrapperPanel, mapAndInventoryPanel, healthLevelsPanel, descriptionsPanel, directionPanel, utilitiesPanel, goNorthPanel, goSouthPanel, goWestPanel, goEastPanel, mapPanel, inventoryPanel;
-    private JButton northButton, westButton, eastButton, southButton;
+    private JPanel mainPanel, middleRowPanel, bottomRowPanel, outerWrapperPanel, mapAndInventoryPanel, healthLevelsPanel, descriptionsPanel, roomAndClockPanel, clockPanel, roomPanel, directionPanel, utilitiesPanel, goNorthPanel, goSouthPanel, goWestPanel, goEastPanel, mapPanel, inventoryPanel, topRowPanel, imagePanel, puzzlePanel, menuControlPanel;
+    private JButton northButton, westButton, eastButton, southButton, submitPuzzleButton;
     private JComboBox itemsBox, menuDropDownBox;
     private JProgressBar progressO2Bar, progressHungerBar, progressStaminaBar;
-    private JLabel o2LevelLabel, healthLabel, staminaLabel;
-    private JRadioButton radioButtonLook, radioButtonGo, radioButtonInspect, radioButtonGet, radioButtonMute;
+    private JLabel o2LevelLabel, healthLabel, staminaLabel, volumeLabel, menuLabel, muteLabel, roomLabel, mapLabel, l, countDown, imageLabel;
+    private JRadioButton radioButtonLook, radioButtonGo, radioButtonInspect, radioButtonGet, radioButtonMute, dropButton, useButton;
     private JSlider volumeSlider;
-    private JPanel menuControlPanel;
-    private JLabel volumeLabel;
-    private JLabel menuLabel;
-    private JLabel muteLabel;
-    private JPanel roomAndClockPanel;
-    private JPanel clockPanel;
-    private JPanel roomPanel;
     private JList inventoryList;
-    private JRadioButton dropButton;
-    private JRadioButton useButton;
-    private JPanel imagePanel;
-    private JLabel roomLabel;
-    private JTextArea textField2;
+    private JTextArea textArea1, textField2;
     private JComboBox puzzleChoiceBox;
-    private JButton submitPuzzleButton;
-    private JPanel puzzlePanel;
     private JScrollPane textScrollPane;
-    private JTextArea textArea1;
-    private JLabel mapLabel;
-    private JLabel l;
     private Vector<String> items;
     private Font normalFont;
     private CommandProcessor processor;
-    private DefaultListModel demoList;
-    private DefaultListModel answerList;
+    private DefaultListModel demoList, answerList;
     private Clip clip;
     private Instant futureTime;
     private Timer timer;
-    private JLabel countDown;
-    private JLabel imageLabel;
-    private JPanel topRowPanel;
     private static Duration duration;
-    private String userAnswer;
 
     public PlayScreen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         normalFont = new Font("Times New Roman", Font.ITALIC, 30);
@@ -489,6 +468,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     }
 
     public void getAnswers(Puzzle puzzle) {
+        puzzleChoiceBox.removeAllItems();
         items = puzzle.getAnswers();
         for (String item : items) {
             puzzleChoiceBox.addItem(item);
@@ -505,6 +485,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
                     answerResponse(puzzle, puzzleChoiceBox.getSelectedItem().toString(), option, result);
                     if (puzzle.checkAnswer(puzzleChoiceBox.getSelectedItem().toString())) {
                         textField2.setText(puzzleChoiceBox.getSelectedItem().toString() + " was the correct answer!");
+
                     } else {
                         textField2.setText(puzzleChoiceBox.getSelectedItem().toString() + " was incorrect.");
                     }
@@ -581,8 +562,12 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
 
     public void runPuzzle(String option) {
         ChallengeRoom.setPuzzleItemMap();
+        textField2.setText(null);
         textField2.setText(Display.showTextFile(option));
-        eligiblePuzzle(option);
+        try {
+            eligiblePuzzle(option);
+        } catch (NullPointerException e) {
+        }
         ChallengeRoom.getGame().setSolved(ChallengeRoom.convertToSuperSolved(ChallengeRoom.getSolved()));
     }
 
@@ -670,11 +655,18 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     }
 
     public void answerResponse(Puzzle puzzle, String answer, String option, int result) {
-        System.out.println(answer);
         if (puzzle.checkAnswer(answer) && result == 0) {
             askQuestionA1(option, result);
         } else if (puzzle.checkAnswer(answer) && result == 1) {
             Map<String, Map<String, Boolean>> tempSolved = ChallengeRoom.getSolved();
+            tempSolved.get(option).put("a", true);
+            ChallengeRoom.setSolved(tempSolved);
+        } else if (puzzle.checkAnswer(answer) && result == 2) {
+            Map<String, Map<String, Boolean>> tempSolved = ChallengeRoom.getSolved();
+            tempSolved.get(option).put("b", true);
+            ChallengeRoom.setSolved(tempSolved);
+        } else {
+            askQuestionA1(option);
             Map<String, Boolean> temp = new HashMap<>();
             temp.put("a", true);
             tempSolved.put(option, temp);
@@ -686,15 +678,8 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             tempSolved.put(option, temp);
             ChallengeRoom.setSolved(tempSolved);
         }
-        System.out.println(ChallengeRoom.getSolved());
     }
-
-
-
-
-
-
-
+  
     public static Duration getDuration() {
         return duration;
     }
