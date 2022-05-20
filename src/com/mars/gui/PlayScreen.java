@@ -24,50 +24,31 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 public class PlayScreen extends JFrame implements ActionListener, ChangeListener, ItemListener, MouseListener, PropertyChangeListener {
-    private JPanel mainPanel, middleRowPanel, bottomRowPanel, outerWrapperPanel, mapAndInventoryPanel, healthLevelsPanel, descriptionsPanel, directionPanel, utilitiesPanel, goNorthPanel, goSouthPanel, goWestPanel, goEastPanel, mapPanel, inventoryPanel;
-    private JButton northButton, westButton, eastButton, southButton;
+    private JPanel mainPanel, middleRowPanel, bottomRowPanel, outerWrapperPanel, mapAndInventoryPanel, healthLevelsPanel, descriptionsPanel, roomAndClockPanel, clockPanel, roomPanel, directionPanel, utilitiesPanel, goNorthPanel, goSouthPanel, goWestPanel, goEastPanel, mapPanel, inventoryPanel, topRowPanel, imagePanel, puzzlePanel, menuControlPanel;
+    private JButton northButton, westButton, eastButton, southButton, submitPuzzleButton;
     private JComboBox itemsBox, menuDropDownBox;
     private JProgressBar progressO2Bar, progressHungerBar, progressStaminaBar;
-    private JLabel o2LevelLabel, healthLabel, staminaLabel;
-    private JRadioButton radioButtonLook, radioButtonGo, radioButtonInspect, radioButtonGet, radioButtonMute;
+    private JLabel o2LevelLabel, healthLabel, staminaLabel, volumeLabel, menuLabel, muteLabel, roomLabel, mapLabel, l, countDown, imageLabel;
+    private JRadioButton radioButtonLook, radioButtonGo, radioButtonInspect, radioButtonGet, radioButtonMute, dropButton, useButton;
     private JSlider volumeSlider;
-    private JPanel menuControlPanel;
-    private JLabel volumeLabel;
-    private JLabel menuLabel;
-    private JLabel muteLabel;
-    private JPanel roomAndClockPanel;
-    private JPanel clockPanel;
-    private JPanel roomPanel;
     private JList inventoryList;
-    private JRadioButton dropButton;
-    private JRadioButton useButton;
-    private JPanel imagePanel;
-    private JLabel roomLabel;
-    private JTextArea textField2;
+    private JTextArea textArea1, textField2;
     private JComboBox puzzleChoiceBox;
-    private JButton submitPuzzleButton;
-    private JPanel puzzlePanel;
     private JScrollPane textScrollPane;
-    private JTextArea textArea1;
-    private JLabel mapLabel;
-    private JLabel l;
     private Vector<String> items;
     private Font normalFont;
     private CommandProcessor processor;
-    private DefaultListModel demoList;
-    private DefaultListModel answerList;
+    private DefaultListModel demoList, answerList;
     private Clip clip;
     private Instant futureTime;
     private Timer timer;
-    private JLabel countDown;
-    private JLabel imageLabel;
-    private JPanel topRowPanel;
     private static Duration duration;
-    private String userAnswer;
 
     public PlayScreen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         normalFont = new Font("Times New Roman", Font.ITALIC, 30);
@@ -305,6 +286,13 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         }
         radioButtonGo.setSelected(false);
         textField2.setText(result);
+        for (Room room : Game.getRooms()) {
+            if (room.getName().equalsIgnoreCase(processor.getCurrentLocation().getName())) {
+                if (room.isPuzzle()) {
+                    runPuzzle(room.getName());
+                }
+            }
+        }
     }
 
     private void showMap(String room) {
@@ -480,6 +468,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     }
 
     public void getAnswers(Puzzle puzzle) {
+        puzzleChoiceBox.removeAllItems();
         items = puzzle.getAnswers();
         for (String item : items) {
             puzzleChoiceBox.addItem(item);
@@ -493,9 +482,10 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (!puzzleChoiceBox.equals("")) {
-                    ChallengeRoom.answerResponse(puzzle, puzzleChoiceBox.getSelectedItem().toString(), option, result);
+                    answerResponse(puzzle, puzzleChoiceBox.getSelectedItem().toString(), option, result);
                     if (puzzle.checkAnswer(puzzleChoiceBox.getSelectedItem().toString())) {
                         textField2.setText(puzzleChoiceBox.getSelectedItem().toString() + " was the correct answer!");
+
                     } else {
                         textField2.setText(puzzleChoiceBox.getSelectedItem().toString() + " was incorrect.");
                     }
@@ -568,6 +558,119 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
                 break;
         }
         return question;
+    }
+
+    public void runPuzzle(String option) {
+        ChallengeRoom.setPuzzleItemMap();
+        textField2.setText(null);
+        textField2.setText(Display.showTextFile(option));
+        try {
+            eligiblePuzzle(option);
+        } catch (NullPointerException e) {
+        }
+        ChallengeRoom.getGame().setSolved(ChallengeRoom.convertToSuperSolved(ChallengeRoom.getSolved()));
+    }
+
+    private void eligiblePuzzle(String option) {
+        ChallengeRoom.convertToLocalSolved(Game.getSolved());
+        if (!ChallengeRoom.getSolved().containsKey(option)) {
+            Map<String, Boolean> temp = new HashMap<>();
+            temp.put("a", false);
+            temp.put("b", false);
+            ChallengeRoom.getSolved().put(option, temp);
+            Map<String, Boolean> temp2 = new HashMap<>();
+            temp2.put(option, false);
+            ChallengeRoom.getGame().setSolved(temp2);
+        }
+        if (!Game.getSolved().get(option) && "Solar Array".equals(option)) {
+            if (!ChallengeRoom.getSolved().get(option).get("a")) {
+                askQuestionA1(option);
+            } else if (ChallengeRoom.getSolved().get(option).get("a") && !ChallengeRoom.getSolved().get(option).get("b")) {
+                askQuestionA2(option);
+            }
+        } else if ("Reactor".equals(option) && !Game.getSolved().get(option)
+                && Game.getSolved().get("Solar Array")) {
+            if (!ChallengeRoom.getSolved().get("Reactor").get("a")) {
+                askQuestionA1(option);
+            } else if (ChallengeRoom.getSolved().get("Reactor").get("a")
+                    && !ChallengeRoom.getSolved().get("Reactor").get("b")) {
+                askQuestionA2(option);
+            }
+        } else if (!Game.getSolved().get(option)
+                && Game.getSolved().get("Solar Array")
+                && Game.getSolved().get("Reactor")
+                && "Environmental Control Room".equals(option)) {
+            if (!ChallengeRoom.getSolved().get("Environmental Control Room").get("a")) {
+                askQuestionA1(option);
+            } else if (ChallengeRoom.getSolved().get("Environmental Control Room").get("a")
+                    && !ChallengeRoom.getSolved().get("Environmental Control Room").get("b")) {
+                askQuestionA2(option);
+            }
+        } else if (!Game.getSolved().get(option)
+                && Game.getSolved().get("Solar Array")
+                && Game.getSolved().get("Reactor")
+                && Game.getSolved().get("Environmental Control Room")
+                && "Hydro Control Room".equals(option)) {
+            if (!ChallengeRoom.getSolved().get("Hydro Control Room").get("a")) {
+                askQuestionA1(option);
+            } else if (ChallengeRoom.getSolved().get("Hydro Control Room").get("a")
+                    && !ChallengeRoom.getSolved().get("Hydro Control Room").get("b")) {
+                askQuestionA2(option);
+            }
+        } else if (!Game.getSolved().get(option)
+                && Game.getSolved().get("Solar Array")
+                && Game.getSolved().get("Reactor")
+                && Game.getSolved().get("Environmental Control Room")
+                && Game.getSolved().get("Hydro Control Room")
+                && "Green House".equals(option)) {
+            if (!ChallengeRoom.getSolved().get("Green House").get("a")) {
+                askQuestionA1(option);
+            } else if (ChallengeRoom.getSolved().get("Green House").get("a")
+                    && !ChallengeRoom.getSolved().get("Green House").get("b")) {
+                askQuestionA2(option);
+            }
+        }
+    }
+
+    private void askQuestionA1(String option) {
+        if (ChallengeRoom.getInventory().contains(ChallengeRoom.getPuzzleItemMap().get(option).get("a1"))
+                && ChallengeRoom.getInventory().contains(ChallengeRoom.getPuzzleItemMap().get(option).get("a2"))
+                && !ChallengeRoom.getSolved().get(option).get("a")) {
+            Puzzle puzzle = getQuestions();
+            getCorrect(puzzle, option, 0);
+        }
+    }
+
+    private void askQuestionA1(String option, int result) {
+        Puzzle puzzle = getQuestions();
+        getCorrect(puzzle, option, result + 1);
+    }
+
+    private void askQuestionA2(String option) {
+        if (ChallengeRoom.getInventory().contains(ChallengeRoom.getPuzzleItemMap().get(option).get("a3"))
+                && !ChallengeRoom.getSolved().get(option).get("b")) {
+            Puzzle puzzle = getQuestions();
+            getCorrect(puzzle, option, 2);
+        }
+    }
+
+    public void answerResponse(Puzzle puzzle, String answer, String option, int result) {
+        System.out.println(result);
+        System.out.println(puzzle.checkAnswer(answer));
+        if (puzzle.checkAnswer(answer) && result == 0) {
+            askQuestionA1(option, result);
+        } else if (puzzle.checkAnswer(answer) && result == 1) {
+            Map<String, Map<String, Boolean>> tempSolved = ChallengeRoom.getSolved();
+            tempSolved.get(option).put("a", true);
+            ChallengeRoom.setSolved(tempSolved);
+        } else if (puzzle.checkAnswer(answer) && result == 2) {
+            Map<String, Map<String, Boolean>> tempSolved = ChallengeRoom.getSolved();
+            tempSolved.get(option).put("b", true);
+            ChallengeRoom.setSolved(tempSolved);
+        } else {
+            askQuestionA1(option);
+        }
+        System.out.println(ChallengeRoom.getSolved());
     }
 
     public static Duration getDuration() {
