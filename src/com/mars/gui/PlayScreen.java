@@ -570,7 +570,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         return question;
     }
 
-    public Duration getDuration() {
+    public static Duration getDuration() {
         return duration;
     }
 }

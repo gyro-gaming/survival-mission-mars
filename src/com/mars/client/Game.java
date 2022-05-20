@@ -140,7 +140,7 @@ public class Game {
         }
         player.setLocation(instance.getPlayer().getLocation());
         player.setInventory(instance.getPlayer().getInventory());
-        player.setDuration(instance.getPlayer().getDuration());
+        player.setDuration(PlayScreen.getDuration());
         return player;
     }
 
