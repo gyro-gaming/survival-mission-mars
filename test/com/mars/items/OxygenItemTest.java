@@ -13,12 +13,12 @@ public class OxygenItemTest {
     @Test
     public void testEquals() {
         for (Item i : Game.getItems()){
-            if (i.getName().equals("Bread")){
+            if (i.getName().equals("oxygen canister")){
                 item = i;
             }
         }
         for (Item i : Game.getItems()){
-            if (i.getName().equals("Bread")){
+            if (i.getName().equals("oxygen canister")){
                 assertTrue(i.equals(item));
             }
         }
