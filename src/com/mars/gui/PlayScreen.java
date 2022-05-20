@@ -48,6 +48,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     private Instant futureTime;
     private Timer timer;
     private Map<String, Map<String, Boolean>> solved;
+    private ChallengeRoom challengeRoom;
     private static Duration duration;
 
     public PlayScreen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
@@ -293,6 +294,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         for (Room room : Game.getRooms()) {
             if (room.getName().equalsIgnoreCase(processor.getCurrentLocation().getName())) {
                 if (room.isPuzzle()) {
+                    this.challengeRoom = processor.getChallengeRoom();
                     runPuzzle(room.getName());
                 }
             }
@@ -456,7 +458,8 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     }
 
     public void runPuzzle(String option) {
-        ChallengeRoom.setPuzzleItemMap();
+        challengeRoom = ChallengeRoom.getInstance(ChallengeRoom.getGame(), Game.getSolved(), Game.getPuzzles(), Game.getInventory());
+        challengeRoom.setPuzzleItemMap();
         try {
             boolean eligible = eligiblePuzzle(option);
             if (eligible) {
@@ -476,7 +479,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             temp.put("a", false);
             temp.put("b", false);
             solved.put(option, temp);
-            ChallengeRoom.setSolved(solved);
+            challengeRoom.setSolved(solved);
 
             if (Game.getSolved() == null) {
                 Game.setSolved(new HashMap<>());
@@ -486,35 +489,37 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             Game.setSolved(gameSolved);
         }
 
-        solved = ChallengeRoom.getSolved();
+        solved = challengeRoom.getSolved();
         Map<String, Boolean> gameSolved = Game.getSolved();
 
         if (!gameSolved.get(option) && "Solar Array".equals(option)) {
             if (!solved.get(option).get("a")) {
-                askQuestionA1(option);
+                askQuestionA1(option, 0);
             } else if (solved.get(option).get("a") && !solved.get(option).get("b")) {
                 System.out.println("eligiblePuzzle() to askQuestionA2");
-                askQuestionA2(option);
+                askQuestionA2(option, 2);
             }
             return true;
         } else if ("Reactor".equals(option) && !gameSolved.get(option)
                 && gameSolved.get("Solar Array")) {
+            challengeRoom.getInstance(challengeRoom.getGame(), Game.getSolved(), Game.getPuzzles(), Game.getInventory());
             if (!solved.get("Reactor").get("a")) {
-                askQuestionA1(option);
+                askQuestionA1(option, 0);
             } else if (solved.get("Reactor").get("a")
                     && !solved.get("Reactor").get("b")) {
-                askQuestionA2(option);
+                askQuestionA2(option, 2);
             }
             return true;
         } else if (!gameSolved.get(option)
                 && gameSolved.get("Solar Array")
                 && gameSolved.get("Reactor")
                 && "Environmental Control Room".equals(option)) {
+            challengeRoom.getInstance(challengeRoom.getGame(), Game.getSolved(), Game.getPuzzles(), Game.getInventory());
             if (!solved.get("Environmental Control Room").get("a")) {
-                askQuestionA1(option);
+                askQuestionA1(option, 0);
             } else if (solved.get("Environmental Control Room").get("a")
                     && !solved.get("Environmental Control Room").get("b")) {
-                askQuestionA2(option);
+                askQuestionA2(option, 2);
             }
             return true;
         } else if (!gameSolved.get(option)
@@ -522,11 +527,12 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
                 && gameSolved.get("Reactor")
                 && gameSolved.get("Environmental Control Room")
                 && "Hydro Control Room".equals(option)) {
+            challengeRoom.getInstance(challengeRoom.getGame(), Game.getSolved(), Game.getPuzzles(), Game.getInventory());
             if (!solved.get("Hydro Control Room").get("a")) {
-                askQuestionA1(option);
+                askQuestionA1(option, 0);
             } else if (solved.get("Hydro Control Room").get("a")
                     && !solved.get("Hydro Control Room").get("b")) {
-                askQuestionA2(option);
+                askQuestionA2(option, 2);
             }
             return true;
         } else if (!gameSolved.get(option)
@@ -535,11 +541,12 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
                 && gameSolved.get("Environmental Control Room")
                 && gameSolved.get("Hydro Control Room")
                 && "Green House".equals(option)) {
+            challengeRoom.getInstance(challengeRoom.getGame(), Game.getSolved(), Game.getPuzzles(), Game.getInventory());
             if (!solved.get("Green House").get("a")) {
-                askQuestionA1(option);
+                askQuestionA1(option, 0);
             } else if (solved.get("Green House").get("a")
                     && !solved.get("Green House").get("b")) {
-                askQuestionA2(option);
+                askQuestionA2(option, 2);
             }
             return true;
         }
@@ -572,13 +579,24 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     }
 
     public void getCorrect(Puzzle puzzle, String option, int result) {
+        final int round = result;
         submitPuzzleButton.setMultiClickThreshhold(3000l);
         submitPuzzleButton.setEnabled(true);
         submitPuzzleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println(puzzleChoiceBox.getSelectedItem().toString());
-                answerResponse(puzzle, puzzleChoiceBox.getSelectedItem().toString(), option, result);
+                if (!puzzleChoiceBox.getSelectedItem().toString().equals("") || puzzleChoiceBox.getSelectedItem().toString() != null) {
+                    if (puzzle.checkAnswer(puzzleChoiceBox.getSelectedItem().toString()) && round == 0) {
+                        answerResponse(puzzle, puzzleChoiceBox.getSelectedItem().toString(), option, 1);
+                    } else if (puzzle.checkAnswer(puzzleChoiceBox.getSelectedItem().toString()) && round == 1) {
+                        answerResponse(puzzle, puzzleChoiceBox.getSelectedItem().toString(), option, 2);
+                    } else if (puzzle.checkAnswer(puzzleChoiceBox.getSelectedItem().toString()) && round == 2) {
+                        answerResponse(puzzle, puzzleChoiceBox.getSelectedItem().toString(), option, 3);
+                    } else {
+                        answerResponse(puzzle, puzzleChoiceBox.getSelectedItem().toString(), option, result);
+                    }
+                }
             }
         });
     }
@@ -629,36 +647,34 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         return question;
     }
 
-    private void askQuestionA1(String option) {
-        System.out.println("askQuestionA1 - option");
-        if (ChallengeRoom.getInventory().contains(ChallengeRoom.getPuzzleItemMap().get(option).get("a1"))
-                && ChallengeRoom.getInventory().contains(ChallengeRoom.getPuzzleItemMap().get(option).get("a2"))
+    private void askQuestionA1(String option, int round) {
+        if (challengeRoom.getInventory().contains(challengeRoom.getPuzzleItemMap().get(option).get("a1"))
+                && challengeRoom.getInventory().contains(challengeRoom.getPuzzleItemMap().get(option).get("a2"))
                 && !solved.get(option).get("a")) {
             Puzzle puzzle = getQuestions();
-            getCorrect(puzzle, option, 0);
+            getCorrect(puzzle, option, round);
         }
     }
 
-    private void askQuestionA1(String option, int result) {
-        System.out.println("askQuestionA1 - option, result");
-        Puzzle puzzle = getQuestions();
-        getCorrect(puzzle, option, result + 1);
-    }
-
-    private void askQuestionA2(String option) {
+    private void askQuestionA2(String option, int round) {
         System.out.println("askQuestionA2");
-        if (ChallengeRoom.getInventory().contains(ChallengeRoom.getPuzzleItemMap().get(option).get("a3"))
+        if (challengeRoom.getInventory().contains(challengeRoom.getPuzzleItemMap().get(option).get("a3"))
                 && !solved.get(option).get("b")) {
             Puzzle puzzle = getQuestions();
-            getCorrect(puzzle, option, 2);
+            getCorrect(puzzle, option, round);
         }
     }
 
-    public void answerResponse(Puzzle puzzle, String answer, String option, int result) {
-
-        System.out.println(answer);
-
-
+    public void answerResponse(Puzzle puzzle, String answer, String option, int round) {
+        if (!puzzle.askQuestion().equalsIgnoreCase(textArea1.getText())) {
+            for (Puzzle puz : Game.getPuzzles()) {
+                if (puz.askQuestion().equalsIgnoreCase(textArea1.getText())) {
+                    textField2.setText(null);
+                    textField2.setText(answer + " was the correct answer!");
+                    solved.get(option).put("a", true);
+                }
+            }
+        }
         submitPuzzleButton.setEnabled(false);
         textField2.setText(null);
         if (puzzle.checkAnswer(answer)) {
@@ -666,15 +682,19 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         } else {
             textField2.setText(answer + " was incorrect.");
         }
-        if (puzzle.checkAnswer(answer) && result == 0 && !solved.get(option).get("a")) {
-            askQuestionA1(option, result);
-        } else if (puzzle.checkAnswer(answer) && result == 1) {
+        if (puzzle.checkAnswer(answer) && round == 1 && !solved.get(option).get("a")) {
+            askQuestionA1(option, 1);
+        } else if (puzzle.checkAnswer(answer) && round == 2) {
             solved.get(option).put("a", true);
-        } else if (puzzle.checkAnswer(answer) && result == 2) {
+        } else if (puzzle.checkAnswer(answer) && round == 3) {
             solved.get(option).put("b", true);
-        } else {
-            askQuestionA1(option);
+            challengeRoom.setSolved(solved);
+            Game.setSolved(challengeRoom.convertToSuperSolved(solved));
+            textField2.setText(null);
+            textField2.setText("You have completed the " + option + " challenge!");
         }
+        System.out.println(solved);
+        System.out.println(Game.getSolved());
     }
 
     public static Duration getDuration() {
