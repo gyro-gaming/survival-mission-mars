@@ -50,14 +50,12 @@ public class Inventory {
 
     public static void use(Item item){
         try {
-            for (Item i : inventory) {
-                if (i.equals(item)) {
+            for (int i = 0; i < inventory.size(); i++) {
+                if (inventory.get(i).equals(item)) {
                     inventory.remove(i);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {}
     }
 
     public String toString() {

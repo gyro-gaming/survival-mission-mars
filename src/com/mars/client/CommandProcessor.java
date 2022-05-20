@@ -21,6 +21,7 @@ public class CommandProcessor {
     private List<Item> inventory;
     private Vector<String> items;
     private Room currentLocation;
+    private ChallengeRoom challengeRoom;
 
     public CommandProcessor() {
         this.game = Game.getInstance();
@@ -72,6 +73,14 @@ public class CommandProcessor {
         return currentLocation;
     }
 
+    public void setChallengeRoom(ChallengeRoom challengeRoom) {
+        this.challengeRoom = challengeRoom;
+    }
+
+    public ChallengeRoom getChallengeRoom() {
+        return challengeRoom;
+    }
+
     public Vector<String> getItems() {
         try {
             items = new Vector<>();
@@ -115,7 +124,7 @@ public class CommandProcessor {
         setCurrentLocation(newRoom);
         sb.append(currentLocation.toString() + "\n\n");
         if (currentLocation.isPuzzle()) {
-            ChallengeRoom.getInstance(game, Game.getSolved(), Game.getPuzzles(), inventory);
+            setChallengeRoom(ChallengeRoom.getInstance(ChallengeRoom.getGame(), Game.getSolved(), Game.getPuzzles(), Game.getInventory()));
         }
         return sb.toString();
     }
