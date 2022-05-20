@@ -79,8 +79,8 @@ public class Game {
         return puzzles;
     }
 
-    public void setSolved(Map<String, Boolean> solved) {
-        this.solved = solved;
+    public static void setSolved(Map<String, Boolean> solved) {
+        Game.solved = solved;
     }
 
     public static Map<String, Boolean> getSolved() {
