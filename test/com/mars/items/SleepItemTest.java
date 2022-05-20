@@ -13,12 +13,12 @@ public class SleepItemTest {
     @Test
     public void testEquals() {
         for (Item i : Game.getItems()){
-            if (i.getName().equals("Bread")){
+            if (i.getName().equals("blanket")){
                 item = i;
             }
         }
         for (Item i : Game.getItems()){
-            if (i.getName().equals("Bread")){
+            if (i.getName().equals("blanket")){
                 assertTrue(i.equals(item));
             }
         }
