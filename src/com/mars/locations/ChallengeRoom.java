@@ -38,12 +38,16 @@ public class ChallengeRoom extends Room {
         return solved;
     }
 
-    public void setPuzzleList(List<Puzzle> puzzleList) {
-        this.puzzleList = puzzleList;
+    public static void setPuzzleList(List<Puzzle> puzzleList) {
+        ChallengeRoom.puzzleList = puzzleList;
     }
 
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    public static Game getGame() {
+        return game;
     }
 
     public static void setPuzzleItemMap() {
@@ -129,7 +133,6 @@ public class ChallengeRoom extends Room {
                 newMap.put(solvd.getKey(), temp);
             }
         }
-
         ChallengeRoom.solved = newMap;
     }
 
@@ -142,7 +145,7 @@ public class ChallengeRoom extends Room {
         }
         return newMap;
     }
-
+/*
     public static String runPuzzle(String option) {
         StringBuilder sb = new StringBuilder();
         setPuzzleItemMap();
@@ -284,5 +287,7 @@ public class ChallengeRoom extends Room {
             tempSolved.put(option, temp);
             setSolved(tempSolved);
         }
+        System.out.println(getSolved());
     }
+    */
 }
