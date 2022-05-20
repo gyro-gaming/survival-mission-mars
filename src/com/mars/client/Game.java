@@ -122,25 +122,33 @@ public class Game {
 
     }
 
-
     public static Player retrieveSave() {
         Room newRoom = null;
-        int counter;
+        Inventory inventory = null;
+        int counter = 0;
         Map<String,Object> savedMap = JsonParser.parseJson("data/savedGames/savedGame.json");
         Map<String,Object> playerMap = (Map<String, Object>) savedMap.get("player");
         Map<String,Object> locMap = (Map<String, Object>) playerMap.get("location");
         Map<String,Object> inventoryMap = (Map<String, Object>) playerMap.get("inventory");
         ArrayList inventoryItem = (ArrayList) inventoryMap.get("inventory");
         Map<String,Object> inv;
+        for (Item i : Game.getItems()) {
+            for (counter = 0; counter < inventoryItem.size();counter++) {
+                inv = (Map<String, Object>) inventoryItem.get(counter);
+                if (i.getName().equals(inv.get("name"))) {
+                    player.getInventory().add(i);
+                    inv = (Map<String, Object>) inventoryItem.get(counter);
+                }
+            }
+        }
         player.setName(playerMap.get("name").toString());
         for (Room r : Game.getRooms()){
             if(r.getName().equals(locMap.get("name"))){
                 newRoom = r;
             }
         }
-        player.setLocation(instance.getPlayer().getLocation());
-        player.setInventory(instance.getPlayer().getInventory());
-        player.setDuration(PlayScreen.getDuration());
+        player.setLocation(newRoom);
+        player.setDuration(player.getDuration());
         return player;
     }
 

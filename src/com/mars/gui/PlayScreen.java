@@ -229,18 +229,18 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     private void showLastScreen(Player player) {
         String remainTime = "Remaining Time: ";
         setVisible(false);
+        for (int i = 0; i < player.getInventory().getInventory().size(); i++){
+            demoList.addElement(player.getInventory().getInventory().get(i).getName());
+        }
         try {
             PlayScreen p = new PlayScreen();
             p.processor.setCurrentLocation(player.getLocation());
-            p.roomLabel.setText(processor.getCurrentLocation().getName());
-            for (Item name : player.getInventory().getInventory()) {
-                demoList.addElement(name.getName());
-            }
+            p.roomLabel.setText(p.processor.getCurrentLocation().getName());
             p.inventoryList.setModel(demoList);
             p.inventoryList.repaint();
             p.inventoryList.revalidate();
-            p.showMap(processor.getCurrentLocation().getName());
-            p.showRoomImage(processor.getCurrentLocation().getName());
+            p.showMap(p.processor.getCurrentLocation().getName());
+            p.showRoomImage(p.processor.getCurrentLocation().getName());
             p.textField2.setText("This is a past game that belongs to:  " + player.getName() + " user");
             String formatted = String.format("%02d:%02d:%02d", duration.toHours(), duration.toMinutesPart(), duration.toSecondsPart());
             p.countDown.setText(remainTime + formatted);
