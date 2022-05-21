@@ -28,18 +28,28 @@ import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
-public class PlayScreen extends JFrame implements ActionListener, ChangeListener, ItemListener, MouseListener, PropertyChangeListener {
-    private JPanel mainPanel, middleRowPanel, bottomRowPanel, outerWrapperPanel, mapAndInventoryPanel, healthLevelsPanel, descriptionsPanel, roomAndClockPanel, clockPanel, roomPanel, directionPanel, utilitiesPanel, goNorthPanel, goSouthPanel, goWestPanel, goEastPanel, mapPanel, inventoryPanel, topRowPanel, imagePanel, puzzlePanel, menuControlPanel;
-    private JButton northButton, westButton, eastButton, southButton, submitPuzzleButton;
-    private JComboBox itemsBox, menuDropDownBox;
+public class PlayScreen extends JFrame implements ActionListener, ChangeListener,
+        ItemListener, MouseListener, Runnable {
+    private JPanel mainPanel, middleRowPanel, bottomRowPanel, outerWrapperPanel,
+            mapAndInventoryPanel, healthLevelsPanel, descriptionsPanel,
+            roomAndClockPanel, clockPanel, roomPanel, directionPanel, utilitiesPanel,
+            goNorthPanel, goSouthPanel, goWestPanel, goEastPanel, mapPanel,
+            inventoryPanel, topRowPanel, imagePanel, puzzlePanel, menuControlPanel;
+    private JButton northButton, westButton, eastButton, southButton, puzzle1Submit,
+            puzzle2Submit, puzzle3Submit;
+    private JComboBox itemsBox, menuDropDownBox, puzzleChoice1, puzzleChoice2,
+            puzzleChoice3;
     private JProgressBar progressO2Bar, progressHungerBar, progressStaminaBar;
-    private JLabel o2LevelLabel, healthLabel, staminaLabel, volumeLabel, menuLabel, muteLabel, roomLabel, mapLabel, l, countDown, imageLabel;
-    private JRadioButton radioButtonLook, radioButtonGo, radioButtonInspect, radioButtonGet, radioButtonMute, dropButton, useButton;
+    private JLabel o2LevelLabel, healthLabel, staminaLabel, volumeLabel, menuLabel,
+            muteLabel, roomLabel, mapLabel, l, countDown, imageLabel;
+    private JRadioButton radioButtonLook, radioButtonGo, radioButtonInspect,
+            radioButtonGet, radioButtonMute, dropButton, useButton;
     private JSlider volumeSlider;
     private JList inventoryList;
-    private JTextArea textArea1, textField2;
-    private JComboBox puzzleChoiceBox;
+    private JTextArea puzzleText1, puzzleText2, puzzleText3, textField2;
     private JScrollPane textScrollPane;
+    private JTabbedPane puzzleQuestions;
+
     private Vector<String> items;
     private Font normalFont;
     private CommandProcessor processor;
@@ -50,8 +60,35 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     private Map<String, Map<String, Boolean>> solved;
     private ChallengeRoom challengeRoom;
     private static Duration duration;
+    private PlayScreen _this;
 
-    public PlayScreen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+
+    public PlayScreen() {
+        _this = this;
+        EventQueue.invokeLater(this);
+
+        textField2.setText(Display.showTextFile("Intro"));
+        textField2.setBackground(Color.white);
+        try {
+            clip = Audio.playAudio();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // this is the timer
+        showTimer();
+    }
+
+
+    @Override
+    public void run() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        }
         normalFont = new Font("Times New Roman", Font.ITALIC, 30);
         processor = new CommandProcessor();
         demoList = new DefaultListModel();
@@ -62,11 +99,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         mainPanel.setBackground(Color.gray);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
-        textField2.setText(Display.showTextFile("Intro"));
-        textField2.setBackground(Color.white);
-        clip = Audio.playAudio();
-        // this is the timer
-        showTimer();
 
         roomLabel.setText(processor.getCurrentLocation().getName());
         showMap(processor.getCurrentLocation().getName());
@@ -103,9 +135,9 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         volumeSlider.setPaintTicks(true);
         volumeSlider.setPaintTrack(true);
 
-        progressO2Bar.addPropertyChangeListener(this);
-        progressStaminaBar.addPropertyChangeListener(this);
-        progressHungerBar.addPropertyChangeListener(this);
+        progressO2Bar.setValue(Game.getStats().get("Oxygen"));
+        progressStaminaBar.setValue(Game.getStats().get("Stamina"));
+        progressHungerBar.setValue(Game.getStats().get("Hunger"));
     }
 
     // show countdown time
@@ -133,7 +165,8 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
                     Audio.stopAudio(clip);
                     new LosingScreen();
                 } else {
-                    String formatted = String.format("%02d:%02d:%02d", duration.toHours(), duration.toMinutesPart(), duration.toSecondsPart());
+                    String formatted = String.format("%02d:%02d:%02d", duration.toHours(),
+                            duration.toMinutesPart(), duration.toSecondsPart());
                     countDown.setText(remainTime + formatted);
                 }
             }
@@ -164,6 +197,18 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             lookButton("look north");
         } else if (southButton.equals(e.getSource()) && radioButtonLook.isSelected()) {
             lookButton("look south");
+        }
+        if (Game.getStats().get("Oxygen") < 100) {
+            progressO2Bar.setValue(Game.getStats().get("Oxygen"));
+            repaint();
+        }
+        if (Game.getStats().get("Stamina") < 100) {
+            progressStaminaBar.setValue(Game.getStats().get("Stamina"));
+            repaint();
+        }
+        if (Game.getStats().get("Hunger") < 100) {
+        progressHungerBar.setValue(Game.getStats().get("Hunger"));
+            repaint();
         }
 
         try {
@@ -210,29 +255,25 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     private void showLastScreen(Player player) {
         String remainTime = "Remaining Time: ";
         setVisible(false);
-        try {
-            PlayScreen p = new PlayScreen();
-            p.processor.setCurrentLocation(player.getLocation());
-            p.roomLabel.setText(processor.getCurrentLocation().getName());
-            for (Item name : player.getInventory().getInventory()) {
-                demoList.addElement(name.getName());
-            }
-            p.inventoryList.setModel(demoList);
-            p.inventoryList.repaint();
-            p.inventoryList.revalidate();
-            p.showMap(processor.getCurrentLocation().getName());
-            p.showRoomImage(processor.getCurrentLocation().getName());
-            p.textField2.setText("This is a past game that belongs to:  " + player.getName() + " user");
-            String formatted = String.format("%02d:%02d:%02d", duration.toHours(), duration.toMinutesPart(), duration.toSecondsPart());
-            p.countDown.setText(remainTime + formatted);
 
-        } catch (UnsupportedAudioFileException ex) {
-            ex.printStackTrace();
-        } catch (LineUnavailableException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        PlayScreen p = new PlayScreen();
+        p.processor.setCurrentLocation(player.getLocation());
+        p.roomLabel.setText(processor.getCurrentLocation().getName());
+        for (Item name : player.getInventory().getInventory()) {
+            demoList.addElement(name.getName());
         }
+        p.inventoryList.setModel(demoList);
+        p.inventoryList.repaint();
+        p.progressO2Bar.repaint();
+        p.progressStaminaBar.repaint();
+        p.progressHungerBar.repaint();
+        p.inventoryList.revalidate();
+        p.showMap(processor.getCurrentLocation().getName());
+        p.showRoomImage(processor.getCurrentLocation().getName());
+        p.textField2.setText("This is a past game that belongs to:  " + player.getName() + " user");
+        String formatted = String.format("%02d:%02d:%02d", duration.toHours(), duration.toMinutesPart(),
+                duration.toSecondsPart());
+        p.countDown.setText(remainTime + formatted);
     }
 
     @Override
@@ -280,8 +321,8 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
 
     private void directionButton(String e1) {
         itemsBox.removeAllItems();
-        textArea1.setText(null);
-        puzzleChoiceBox.removeAllItems();
+        puzzleText1.setText(null);
+        puzzleChoice1.removeAllItems();
         List<String> nextCommand = processor.getCommand(e1);            // calling upon Parser to begin parse process
         String result = processor.forGo(nextCommand);
         roomLabel.setText(processor.getCurrentLocation().getName());
@@ -438,27 +479,9 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     public void mouseExited(MouseEvent e) {
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        try {
-            SwingUtilities.invokeLater(() -> progressO2Bar.setValue(Game.getStats().get("Oxygen")));
-            java.lang.Thread.sleep(100);
-        } catch (InterruptedException event) {
-        }
-        try {
-            SwingUtilities.invokeLater(() -> progressStaminaBar.setValue(Game.getStats().get("Stamina")));
-            java.lang.Thread.sleep(100);
-        } catch (InterruptedException event) {
-        }
-        try {
-            SwingUtilities.invokeLater(() -> progressHungerBar.setValue(Game.getStats().get("Hunger")));
-            java.lang.Thread.sleep(100);
-        } catch (InterruptedException event) {
-        }
-    }
-
     public void runPuzzle(String option) {
-        challengeRoom = ChallengeRoom.getInstance(ChallengeRoom.getGame(), Game.getSolved(), Game.getPuzzles(), Game.getInventory());
+        challengeRoom = ChallengeRoom.getInstance(ChallengeRoom.getGame(), Game.getSolved(), Game.getPuzzles(),
+                Game.getInventory());
         challengeRoom.setPuzzleItemMap();
         try {
             boolean eligible = eligiblePuzzle(option);
@@ -470,6 +493,35 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         }
     }
 
+    private void postQuestion (Puzzle puzzle, String option, int round) {
+        puzzle1Submit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!puzzleChoice1.getSelectedItem().equals("")) {
+                    answerResponse(puzzle, puzzleChoice1.getSelectedItem().toString(), option, round);
+                }
+            }
+        });
+        puzzle2Submit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!puzzleChoice2.getSelectedItem().equals("")) {
+                    answerResponse(puzzle, puzzleChoice2.getSelectedItem().toString(), option, round);
+                }
+            }
+        });
+        puzzle3Submit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (!puzzleChoice3.getSelectedItem().equals("")) {
+                        answerResponse(puzzle, puzzleChoice3.getSelectedItem().toString(), option, round);
+                    }
+                } catch (NullPointerException ex) {}
+            }
+        });
+    }
+
     private boolean eligiblePuzzle(String option) {
         if (solved == null) {
             solved = new HashMap<>();
@@ -478,6 +530,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             Map<String, Boolean> temp = new HashMap<>();
             temp.put("a", false);
             temp.put("b", false);
+            temp.put("c", false);
             solved.put(option, temp);
             challengeRoom.setSolved(solved);
 
@@ -493,47 +546,24 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         Map<String, Boolean> gameSolved = Game.getSolved();
 
         if (!gameSolved.get(option) && "Solar Array".equals(option)) {
-            if (!solved.get(option).get("a")) {
-                askQuestionA1(option, 0);
-            } else if (solved.get(option).get("a") && !solved.get(option).get("b")) {
-                System.out.println("eligiblePuzzle() to askQuestionA2");
-                askQuestionA2(option, 2);
-            }
+            getQuestionBank(option);
             return true;
         } else if ("Reactor".equals(option) && !gameSolved.get(option)
                 && gameSolved.get("Solar Array")) {
-            challengeRoom.getInstance(challengeRoom.getGame(), Game.getSolved(), Game.getPuzzles(), Game.getInventory());
-            if (!solved.get("Reactor").get("a")) {
-                askQuestionA1(option, 0);
-            } else if (solved.get("Reactor").get("a")
-                    && !solved.get("Reactor").get("b")) {
-                askQuestionA2(option, 2);
-            }
+            getQuestionBank(option);
             return true;
         } else if (!gameSolved.get(option)
                 && gameSolved.get("Solar Array")
                 && gameSolved.get("Reactor")
                 && "Environmental Control Room".equals(option)) {
-            challengeRoom.getInstance(challengeRoom.getGame(), Game.getSolved(), Game.getPuzzles(), Game.getInventory());
-            if (!solved.get("Environmental Control Room").get("a")) {
-                askQuestionA1(option, 0);
-            } else if (solved.get("Environmental Control Room").get("a")
-                    && !solved.get("Environmental Control Room").get("b")) {
-                askQuestionA2(option, 2);
-            }
+            getQuestionBank(option);
             return true;
         } else if (!gameSolved.get(option)
                 && gameSolved.get("Solar Array")
                 && gameSolved.get("Reactor")
                 && gameSolved.get("Environmental Control Room")
                 && "Hydro Control Room".equals(option)) {
-            challengeRoom.getInstance(challengeRoom.getGame(), Game.getSolved(), Game.getPuzzles(), Game.getInventory());
-            if (!solved.get("Hydro Control Room").get("a")) {
-                askQuestionA1(option, 0);
-            } else if (solved.get("Hydro Control Room").get("a")
-                    && !solved.get("Hydro Control Room").get("b")) {
-                askQuestionA2(option, 2);
-            }
+            getQuestionBank(option);
             return true;
         } else if (!gameSolved.get(option)
                 && gameSolved.get("Solar Array")
@@ -541,23 +571,43 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
                 && gameSolved.get("Environmental Control Room")
                 && gameSolved.get("Hydro Control Room")
                 && "Green House".equals(option)) {
-            challengeRoom.getInstance(challengeRoom.getGame(), Game.getSolved(), Game.getPuzzles(), Game.getInventory());
-            if (!solved.get("Green House").get("a")) {
-                askQuestionA1(option, 0);
-            } else if (solved.get("Green House").get("a")
-                    && !solved.get("Green House").get("b")) {
-                askQuestionA2(option, 2);
-            }
+            getQuestionBank(option);
             return true;
         }
         return false;
     }
 
-    private static int getRandomPuzzle(int num) {
+    public void getQuestionBank(String option) {
+        if (challengeRoom.getInventory().contains(challengeRoom.getPuzzleItemMap().get(option).get("a1"))
+                && challengeRoom.getInventory().contains(challengeRoom.getPuzzleItemMap().get(option).get("a1"))
+                && !solved.get(option).get("a")) {
+            Puzzle puzzle = getQuestions(1);
+            postQuestion(puzzle, option, 1);
+        } else if (challengeRoom.getInventory().contains(challengeRoom.getPuzzleItemMap().get(option).get("a1"))
+                && challengeRoom.getInventory().contains(challengeRoom.getPuzzleItemMap().get(option).get("a1"))
+                && solved.get(option).get("a") && !solved.get(option).get("b")) {
+            Puzzle puzzle = getQuestions(2);
+            postQuestion(puzzle, option, 2);
+        } else if (challengeRoom.getInventory().contains(challengeRoom.getPuzzleItemMap().get(option).get("a1"))
+                && challengeRoom.getInventory().contains(challengeRoom.getPuzzleItemMap().get(option).get("a1"))
+                && solved.get(option).get("a") && solved.get(option).get("b") && !solved.get(option).get("c")) {
+            Puzzle puzzle = getQuestions(3);
+            postQuestion(puzzle, option, 3);
+        }
+    }
+
+    public Puzzle getQuestions(int round) {
+        Puzzle puzzle = getPuzzle(Game.getPuzzles());
+        askQuestion(puzzle, round);
+        getAnswers(puzzle, round);
+        return puzzle;
+    }
+
+    private int getRandomPuzzle(int num) {
         return (int) (Math.random() * num);
     }
 
-    public static Puzzle getPuzzle(List<Puzzle> puzzleList) {
+    public Puzzle getPuzzle(List<Puzzle> puzzleList) {
         int index = getRandomPuzzle(puzzleList.size());
         Puzzle puzzle = puzzleList.get(index);
         puzzleList.remove(index);
@@ -565,50 +615,49 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         return puzzle;
     }
 
-    public void askQuestion(Puzzle puzzle) {
-        textArea1.setText(puzzle.askQuestion());
-    }
-
-    public void getAnswers(Puzzle puzzle) {
-        puzzleChoiceBox.removeAllItems();
-        items = puzzle.getAnswers();
-        Collections.shuffle(items);
-        for (String item : items) {
-            puzzleChoiceBox.addItem(item);
+    public void askQuestion(Puzzle puzzle, int round) {
+        puzzleText1.setText(null);
+        puzzleText2.setText(null);
+        puzzleText3.setText(null);
+        switch (round) {
+            case 1:
+                puzzleText1.setText(puzzle.askQuestion());
+                break;
+            case 2:
+                puzzleText2.setText(puzzle.askQuestion());
+                break;
+            case 3:
+                puzzleText3.setText(puzzle.askQuestion());
+                break;
+            default:
+                break;
         }
     }
 
-    public void getCorrect(Puzzle puzzle, String option, int result) {
-        final int round = result;
-        submitPuzzleButton.setMultiClickThreshhold(3000l);
-        submitPuzzleButton.setEnabled(true);
-        submitPuzzleButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println(puzzleChoiceBox.getSelectedItem().toString());
-                if (!puzzleChoiceBox.getSelectedItem().toString().equals("") || puzzleChoiceBox.getSelectedItem().toString() != null) {
-                    if (puzzle.checkAnswer(puzzleChoiceBox.getSelectedItem().toString()) && round == 0) {
-                        answerResponse(puzzle, puzzleChoiceBox.getSelectedItem().toString(), option, 1);
-                    } else if (puzzle.checkAnswer(puzzleChoiceBox.getSelectedItem().toString()) && round == 1) {
-                        answerResponse(puzzle, puzzleChoiceBox.getSelectedItem().toString(), option, 2);
-                    } else if (puzzle.checkAnswer(puzzleChoiceBox.getSelectedItem().toString()) && round == 2) {
-                        answerResponse(puzzle, puzzleChoiceBox.getSelectedItem().toString(), option, 3);
-                    } else {
-                        answerResponse(puzzle, puzzleChoiceBox.getSelectedItem().toString(), option, result);
-                    }
-                }
+    public void getAnswers(Puzzle puzzle, int round) {
+        puzzleChoice1.removeAllItems();
+        puzzleChoice2.removeAllItems();
+        puzzleChoice2.removeAllItems();
+        items = puzzle.getAnswers();
+        Collections.shuffle(items);
+        for (String item : items) {
+            switch (round) {
+                case 1:
+                    puzzleChoice1.addItem(item);
+                    break;
+                case 2:
+                    puzzleChoice2.addItem(item);
+                    break;
+                case 3:
+                    puzzleChoice3.addItem(item);
+                    break;
+                default:
+                    break;
             }
-        });
+        }
     }
 
-    public Puzzle getQuestions() {
-        Puzzle puzzle = PlayScreen.getPuzzle(Game.getPuzzles());
-        askQuestion(puzzle);
-        getAnswers(puzzle);
-        return puzzle;
-    }
-
-    public static String getPuzzleQuestion(String option) {
+    public static String getPuzzlePreQuestions(String option) {
         String question = "";
         switch (option) {
             case "Solar Array-a":
@@ -647,51 +696,41 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         return question;
     }
 
-    private void askQuestionA1(String option, int round) {
-        if (challengeRoom.getInventory().contains(challengeRoom.getPuzzleItemMap().get(option).get("a1"))
-                && challengeRoom.getInventory().contains(challengeRoom.getPuzzleItemMap().get(option).get("a2"))
-                && !solved.get(option).get("a")) {
-            Puzzle puzzle = getQuestions();
-            getCorrect(puzzle, option, round);
-        }
-    }
-
-    private void askQuestionA2(String option, int round) {
-        System.out.println("askQuestionA2");
-        if (challengeRoom.getInventory().contains(challengeRoom.getPuzzleItemMap().get(option).get("a3"))
-                && !solved.get(option).get("b")) {
-            Puzzle puzzle = getQuestions();
-            getCorrect(puzzle, option, round);
-        }
-    }
-
     public void answerResponse(Puzzle puzzle, String answer, String option, int round) {
-        if (!puzzle.askQuestion().equalsIgnoreCase(textArea1.getText())) {
-            for (Puzzle puz : Game.getPuzzles()) {
-                if (puz.askQuestion().equalsIgnoreCase(textArea1.getText())) {
-                    textField2.setText(null);
-                    textField2.setText(answer + " was the correct answer!");
-                    solved.get(option).put("a", true);
-                }
-            }
-        }
-        submitPuzzleButton.setEnabled(false);
-        textField2.setText(null);
-        if (puzzle.checkAnswer(answer)) {
-            textField2.setText(answer + " was the correct answer!");
-        } else {
-            textField2.setText(answer + " was incorrect.");
-        }
-        if (puzzle.checkAnswer(answer) && round == 1 && !solved.get(option).get("a")) {
-            askQuestionA1(option, 1);
-        } else if (puzzle.checkAnswer(answer) && round == 2) {
+        if (puzzle.checkAnswer(answer) && round == 1) {
             solved.get(option).put("a", true);
-        } else if (puzzle.checkAnswer(answer) && round == 3) {
-            solved.get(option).put("b", true);
-            challengeRoom.setSolved(solved);
-            Game.setSolved(challengeRoom.convertToSuperSolved(solved));
             textField2.setText(null);
-            textField2.setText("You have completed the " + option + " challenge!");
+            textField2.setText(answer + " is correct!" );
+            puzzleText1.setText(null);
+            puzzleChoice1.removeAllItems();
+            getQuestionBank(option);
+        } else if (puzzle.checkAnswer(answer) && round == 2) {
+            solved.get(option).put("b", true);
+            textField2.setText(null);
+            textField2.setText(answer + " is correct!" );
+            puzzleText2.setText(null);
+            puzzleChoice2.removeAllItems();
+            getQuestionBank(option);
+        } if (puzzle.checkAnswer(answer) && round == 3) {
+            solved.get(option).put("c", true);
+            textField2.setText(null);
+            textField2.setText(answer + " is correct!" );
+            puzzleText3.setText(null);
+            puzzleChoice3.removeAllItems();
+        }
+        ChallengeRoom.setSolved(solved);
+        Game.setSolved(ChallengeRoom.convertToSuperSolved(solved));
+        if (Game.getSolved().get(option)) {
+            textField2.setText(null);
+            textField2.setText("You solved the " + option + " challenge, great job!" );
+        } else {
+            boolean win = false;
+            for (Map.Entry<String, Boolean> map : Game.getSolved().entrySet()) {
+                win = map.getValue();
+            }
+            if (win) {
+                textField2.setText(Display.showTextFile("Win"));
+            }
         }
         System.out.println(solved);
         System.out.println(Game.getSolved());

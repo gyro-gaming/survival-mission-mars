@@ -125,6 +125,7 @@ public class ChallengeRoom extends Room {
                 Map<String, Boolean> temp = new HashMap<>();
                 temp.put("a", true);
                 temp.put("b", true);
+                temp.put("c", true);
                 newMap.put(solvd.getKey(), temp);
             }
         }
@@ -134,7 +135,7 @@ public class ChallengeRoom extends Room {
     public static Map<String, Boolean> convertToSuperSolved(Map<String, Map<String, Boolean>> solved) {
         Map<String, Boolean> newMap = Game.getSolved();
         for (Map.Entry<String, Map<String, Boolean>> solvd : solved.entrySet()) {
-            if (solvd.getValue().get("a") && solvd.getValue().get("a")) {
+            if (solvd.getValue().get("a") && solvd.getValue().get("b") && solvd.getValue().get("c")) {
                 newMap.put(solvd.getKey(), true);
             }
         }

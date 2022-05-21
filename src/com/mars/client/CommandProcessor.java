@@ -1,6 +1,9 @@
 package com.mars.client;
 
+import com.mars.items.FoodItem;
 import com.mars.items.Item;
+import com.mars.items.OxygenItem;
+import com.mars.items.SleepItem;
 import com.mars.locations.ChallengeRoom;
 import com.mars.locations.Room;
 import com.mars.players.Player;
@@ -190,17 +193,24 @@ public class CommandProcessor {
 
     public String forUse(List<String> command) {
         String noun = command.get(1).replace("_", " ").toLowerCase();
+        String result = "";
         try {
-
-            // TODO: what about consumable items? (mealkit) ...or Items that actuate something else? (key -> reactor)
-                for(Item item: inventory){
-                    if(noun.equals(item.getName())) {
-                       return Player.addOxygen(item);
+            for(Item item: inventory){
+                if(noun.equals(item.getName())) {
+                    if (item instanceof OxygenItem) {
+                        return Player.addOxygen(item);
+                    } else if (item instanceof FoodItem) {
+                        return Player.addFood(item);
+                    } else if (item instanceof SleepItem) {
+                        return Player.addStamina(item);
+                    } else {
+                        result = item.getName() + " is not a consumable item.";
                     }
                 }
+            }
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Use what?");
         }
-        return "";
+        return result;
     }
 }
