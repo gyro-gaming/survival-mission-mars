@@ -51,7 +51,7 @@ public class Game {
         this.player = player;
     }
 
-    public Player getPlayer() {
+    public static Player getPlayer() {
         return player;
     }
 
@@ -124,7 +124,6 @@ public class Game {
 
     public static Player retrieveSave() {
         Room newRoom = null;
-        Inventory inventory = null;
         int counter = 0;
         Map<String,Object> savedMap = JsonParser.parseJson("data/savedGames/savedGame.json");
         Map<String,Object> playerMap = (Map<String, Object>) savedMap.get("player");

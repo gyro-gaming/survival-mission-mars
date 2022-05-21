@@ -183,7 +183,6 @@ public class Player {
         timer = new Timer();
         hunger = (int)(new FoodTimer(5 * 60).getDelay());
         timer.scheduleAtFixedRate(new TimerTask() {
-
             public void run() {
                 Map<String, Integer> statsMap = getStats().getStats();
                 statsMap.put("Hunger", setHungerInterval() / 3);
