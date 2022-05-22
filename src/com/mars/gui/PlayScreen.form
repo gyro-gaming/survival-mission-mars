@@ -333,7 +333,10 @@
                         <preferred-size width="200" height="200"/>
                       </grid>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <tabLayoutPolicy value="1"/>
+                      <tabPlacement value="1"/>
+                    </properties>
                     <border type="none"/>
                     <children>
                       <grid id="b9c87" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
