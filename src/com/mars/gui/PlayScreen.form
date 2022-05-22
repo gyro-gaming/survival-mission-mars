@@ -333,7 +333,10 @@
                         <preferred-size width="200" height="200"/>
                       </grid>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <tabLayoutPolicy value="1"/>
+                      <tabPlacement value="1"/>
+                    </properties>
                     <border type="none"/>
                     <children>
                       <grid id="b9c87" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -346,11 +349,15 @@
                         <children>
                           <component id="ec8da" class="javax.swing.JTextArea" binding="puzzleText1">
                             <constraints>
-                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
                                 <preferred-size width="150" height="50"/>
                               </grid>
                             </constraints>
-                            <properties/>
+                            <properties>
+                              <lineWrap value="true"/>
+                              <text value=""/>
+                              <wrapStyleWord value="true"/>
+                            </properties>
                           </component>
                           <component id="27d47" class="javax.swing.JComboBox" binding="puzzleChoice1">
                             <constraints>
@@ -378,11 +385,15 @@
                         <children>
                           <component id="b575b" class="javax.swing.JTextArea" binding="puzzleText2">
                             <constraints>
-                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
                                 <preferred-size width="150" height="50"/>
                               </grid>
                             </constraints>
-                            <properties/>
+                            <properties>
+                              <font/>
+                              <lineWrap value="true"/>
+                              <wrapStyleWord value="true"/>
+                            </properties>
                           </component>
                           <component id="a5d65" class="javax.swing.JComboBox" binding="puzzleChoice2">
                             <constraints>
@@ -418,11 +429,14 @@
                           </component>
                           <component id="1ebc8" class="javax.swing.JTextArea" binding="puzzleText3">
                             <constraints>
-                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
                                 <preferred-size width="150" height="50"/>
                               </grid>
                             </constraints>
-                            <properties/>
+                            <properties>
+                              <lineWrap value="true"/>
+                              <wrapStyleWord value="true"/>
+                            </properties>
                           </component>
                           <component id="cd921" class="javax.swing.JComboBox" binding="puzzleChoice3">
                             <constraints>
