@@ -17,8 +17,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.time.Duration;
 import java.time.Instant;
@@ -62,7 +60,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     private static Duration duration;
     private PlayScreen _this;
 
-
     public PlayScreen() {
         _this = this;
         EventQueue.invokeLater(this);
@@ -81,7 +78,6 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         // this is the timer
         showTimer();
     }
-
 
     @Override
     public void run() {
@@ -141,7 +137,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     }
 
     // show countdown time
-    public void showTimer() {
+    private void showTimer() {
         futureTime = LocalDateTime.now()
                 .plusHours(1)
                 .plusMinutes(0)
@@ -201,6 +197,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         if (Game.getStats().get("Oxygen") < 100) {
             progressO2Bar.setValue(Game.getStats().get("Oxygen"));
             repaint();
+
         }
         if (Game.getStats().get("Stamina") < 100) {
             progressStaminaBar.setValue(Game.getStats().get("Stamina"));
@@ -209,6 +206,10 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         if (Game.getStats().get("Hunger") < 100) {
         progressHungerBar.setValue(Game.getStats().get("Hunger"));
             repaint();
+        }
+        if (Game.getStats().get("Oxygen") <= 0 || Game.getStats().get("Stamina") <= 0 || Game.getStats().get("Hunger") <= 0 ) {
+            setVisible(false);
+            new LosingScreen();
         }
 
         try {
@@ -251,6 +252,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         showMap(roomLabel.getText());
         showRoomImage(roomLabel.getText());
     }
+
 
     private void showLastScreen(Player player) {
         String remainTime = "Remaining Time: ";
@@ -479,7 +481,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
     public void mouseExited(MouseEvent e) {
     }
 
-    public void runPuzzle(String option) {
+    private void runPuzzle(String option) {
         challengeRoom = ChallengeRoom.getInstance(ChallengeRoom.getGame(), Game.getSolved(), Game.getPuzzles(),
                 Game.getInventory());
         challengeRoom.setPuzzleItemMap();
@@ -577,7 +579,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         return false;
     }
 
-    public void getQuestionBank(String option) {
+    private void getQuestionBank(String option) {
         if (challengeRoom.getInventory().contains(challengeRoom.getPuzzleItemMap().get(option).get("a1"))
                 && challengeRoom.getInventory().contains(challengeRoom.getPuzzleItemMap().get(option).get("a1"))
                 && !solved.get(option).get("a")) {
@@ -596,7 +598,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         }
     }
 
-    public Puzzle getQuestions(int round) {
+    private Puzzle getQuestions(int round) {
         Puzzle puzzle = getPuzzle(Game.getPuzzles());
         askQuestion(puzzle, round);
         getAnswers(puzzle, round);
@@ -607,7 +609,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         return (int) (Math.random() * num);
     }
 
-    public Puzzle getPuzzle(List<Puzzle> puzzleList) {
+    private Puzzle getPuzzle(List<Puzzle> puzzleList) {
         int index = getRandomPuzzle(puzzleList.size());
         Puzzle puzzle = puzzleList.get(index);
         puzzleList.remove(index);
@@ -615,7 +617,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         return puzzle;
     }
 
-    public void askQuestion(Puzzle puzzle, int round) {
+    private void askQuestion(Puzzle puzzle, int round) {
         puzzleText1.setText(null);
         puzzleText2.setText(null);
         puzzleText3.setText(null);
@@ -634,7 +636,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         }
     }
 
-    public void getAnswers(Puzzle puzzle, int round) {
+    private void getAnswers(Puzzle puzzle, int round) {
         puzzleChoice1.removeAllItems();
         puzzleChoice2.removeAllItems();
         puzzleChoice2.removeAllItems();
@@ -696,7 +698,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         return question;
     }
 
-    public void answerResponse(Puzzle puzzle, String answer, String option, int round) {
+    private void answerResponse(Puzzle puzzle, String answer, String option, int round) {
         if (puzzle.checkAnswer(answer) && round == 1) {
             solved.get(option).put("a", true);
             textField2.setText(null);
@@ -724,19 +726,11 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
             textField2.setText(null);
             textField2.setText("You solved the " + option + " challenge, great job!" );
         } else {
-            boolean win = false;
-            for (Map.Entry<String, Boolean> map : Game.getSolved().entrySet()) {
-                win = map.getValue();
-            }
-            if (win) {
+            if (Game.getSolved().get("Green House")) {
                 textField2.setText(Display.showTextFile("Win"));
+                setVisible(false);
+                new WinningScreen();
             }
         }
-        System.out.println(solved);
-        System.out.println(Game.getSolved());
-    }
-
-    public static Duration getDuration() {
-        return duration;
     }
 }

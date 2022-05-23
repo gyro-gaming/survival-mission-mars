@@ -18,14 +18,20 @@ public class Display {
     }
     // end getters and setters
 
-    public static String displayText(String str)  {
-        return str;
-    }
-
+    /**
+     * method to pass String of text file contents
+     * @param name
+     * @return String
+     */
     public static String showTextFile(String name) {
         return findFile(name);
     }
 
+    /**
+     * helper method to retrieve correct file
+     * @param name
+     * @return String
+     */
     private static String findFile(String name) {
         switch (name) {
             case "Help":
@@ -61,6 +67,7 @@ public class Display {
     /**
      * helper method to retrieve Files
      * @param path
+     * @return String
      */
     private static String getPathReturn(String path) {
         StringBuilder sb = new StringBuilder();
