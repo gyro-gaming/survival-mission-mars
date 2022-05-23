@@ -197,26 +197,19 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         if (Game.getStats().get("Oxygen") < 100) {
             progressO2Bar.setValue(Game.getStats().get("Oxygen"));
             repaint();
-            if (Game.getStats().get("Oxygen") <= 0) {
-                setVisible(false);
-                new LosingScreen();
-            }
+
         }
         if (Game.getStats().get("Stamina") < 100) {
             progressStaminaBar.setValue(Game.getStats().get("Stamina"));
             repaint();
-            if (Game.getStats().get("Stamina") <= 0) {
-                setVisible(false);
-                new LosingScreen();
-            }
         }
         if (Game.getStats().get("Hunger") < 100) {
         progressHungerBar.setValue(Game.getStats().get("Hunger"));
             repaint();
-            if (Game.getStats().get("Hunger") <= 0) {
-                setVisible(false);
-                new LosingScreen();
-            }
+        }
+        if (Game.getStats().get("Oxygen") <= 0 || Game.getStats().get("Stamina") <= 0 || Game.getStats().get("Hunger") <= 0 ) {
+            setVisible(false);
+            new LosingScreen();
         }
 
         try {
@@ -259,6 +252,7 @@ public class PlayScreen extends JFrame implements ActionListener, ChangeListener
         showMap(roomLabel.getText());
         showRoomImage(roomLabel.getText());
     }
+
 
     private void showLastScreen(Player player) {
         String remainTime = "Remaining Time: ";
