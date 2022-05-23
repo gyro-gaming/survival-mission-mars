@@ -44,7 +44,7 @@ public class LosingScreen {
         titleNameLabel.setFont(titleFont);
 
         startButtonPanel = new JPanel();
-        startButtonPanel.setBounds(200, 400, 140, 48);
+        startButtonPanel.setBounds(200, 400, 200, 48);
         startButtonPanel.setBackground(Color.red);
 
         startButton = new JButton("PLAY AGAIN");
@@ -59,7 +59,7 @@ public class LosingScreen {
 
 
         quitButtonPanel = new JPanel();
-        quitButtonPanel.setBounds(400, 400, 140, 48);
+        quitButtonPanel.setBounds(400, 400, 200, 48);
         quitButtonPanel.setBackground(Color.red);
 
         quitButton = new JButton("QUIT");
