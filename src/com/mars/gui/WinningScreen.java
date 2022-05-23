@@ -44,7 +44,7 @@ public class WinningScreen {
         titleNameLabel.setFont(titleFont);
 
         startButtonPanel = new JPanel();
-        startButtonPanel.setBounds(200, 400, 140, 48);
+        startButtonPanel.setBounds(200, 400, 240, 48);
         startButtonPanel.setBackground(Color.red);
 
         startButton = new JButton("PLAY AGAIN");
@@ -55,7 +55,7 @@ public class WinningScreen {
         startButton.setFocusPainted(false);
 
         quitButtonPanel = new JPanel();
-        quitButtonPanel.setBounds(400, 400, 140, 48);
+        quitButtonPanel.setBounds(450, 400, 140, 48);
         quitButtonPanel.setBackground(Color.red);
 
         quitButton = new JButton("QUIT");
