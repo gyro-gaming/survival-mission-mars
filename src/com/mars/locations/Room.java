@@ -10,12 +10,17 @@ public class Room extends Base {
     private String name;
     private String image;
     private String description;
+    private boolean puzzle;
     private Map<String, String> directions;
     private NPC npc;
     private List<Item> items;
+    private String picture;
+
 
     public Room() {}
-
+    public Room(String name){
+        setName(name);
+    }
     public Room(String name, String image, String description, Map<String, String> directions, NPC npc, List<Item> items) {
         setName(name);
         setImage(image);
@@ -27,6 +32,15 @@ public class Room extends Base {
     }
 
     // getters and setters
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -55,6 +69,14 @@ public class Room extends Base {
         this.directions = directions;
     }
 
+    public void setPuzzle(boolean puzzle) {
+        this.puzzle = puzzle;
+    }
+
+    public boolean isPuzzle() {
+        return puzzle;
+    }
+
     public Map<String, String> getDirections() {
         return directions;
     }
@@ -81,7 +103,6 @@ public class Room extends Base {
      * @param item
      */
     public boolean removeItem(Item item) {
-        System.out.println(item);
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).equals(item)) {
                 return items.remove(items.get(i));

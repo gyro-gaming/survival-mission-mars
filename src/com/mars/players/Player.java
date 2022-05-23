@@ -10,6 +10,7 @@ import com.mars.timer.FoodTimer;
 import com.mars.timer.OxygenTimer;
 import com.mars.timer.StaminaTimer;
 
+import java.time.Duration;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,6 +19,7 @@ public class Player {
     private String name;
     private Room location;
     private Inventory inventory;
+    private Duration duration;
     private static Stats stats;
     private static Timer timer;
     private static int oxygen;
@@ -35,6 +37,14 @@ public class Player {
     // getters and setters
     public void setLocation(Room location) {
         this.location = location;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
     }
 
     public Room getLocation() {
@@ -173,7 +183,6 @@ public class Player {
         timer = new Timer();
         hunger = (int)(new FoodTimer(5 * 60).getDelay());
         timer.scheduleAtFixedRate(new TimerTask() {
-
             public void run() {
                 Map<String, Integer> statsMap = getStats().getStats();
                 statsMap.put("Hunger", setHungerInterval() / 3);

@@ -1,9 +1,5 @@
 package com.mars.client;
 
-import com.mars.gui.PlayScreen;
-
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -57,7 +53,7 @@ public class Display {
                 setPath("data/text/hydroIntro.txt");
                 break;
             default:
-                return "Cannot find requested file.";
+                break;
         }
         return getPathReturn(getPath());
     }

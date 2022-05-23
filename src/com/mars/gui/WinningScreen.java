@@ -6,25 +6,25 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 
-public class SplashScreen {
-
+public class WinningScreen {
     JFrame window;
     ImageIcon backgroundImage;
     Container container;
-    JPanel titleNamePanel, startButtonPanel, instructionsButtonPanel;
+    JPanel titleNamePanel, startButtonPanel,quitButtonPanel, instructionsButtonPanel;
     JLabel titleNameLabel, myLabel;
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 30);
-    JButton startButton, instructionsButton;
+    JButton startButton,quitButton, instructionsButton;
 
-    TitleScreenHandler tsHandler = new TitleScreenHandler();
+    WinningScreen.TitleScreenHandler tsHandler = new WinningScreen.TitleScreenHandler();
+    WinningScreen.QuitButtonHandler quitButtonHandler = new WinningScreen.QuitButtonHandler();
+    public WinningScreen() {
 
-    public SplashScreen() {
-
-        backgroundImage = new ImageIcon("data/images/mars1.png");
+        backgroundImage = new ImageIcon("data/images/moon.png");
         myLabel = new JLabel(backgroundImage);
         myLabel.setSize(800, 550);
         window = new JFrame("Survival Mission Mars");
@@ -39,32 +39,74 @@ public class SplashScreen {
         titleNamePanel = new JPanel();
         titleNamePanel.setBounds(100, 100, 600, 65);
         titleNamePanel.setBackground(Color.gray);
-        titleNameLabel = new JLabel("Survival Mission Mars");
+        titleNameLabel = new JLabel("YOU WON");
         titleNameLabel.setForeground(Color.red);
         titleNameLabel.setFont(titleFont);
 
         startButtonPanel = new JPanel();
-        startButtonPanel.setBounds(310, 400, 140, 48);
+        startButtonPanel.setBounds(200, 400, 140, 48);
         startButtonPanel.setBackground(Color.red);
 
-        startButton = new JButton("START");
-        startButton.setBackground(Color.black);
+        startButton = new JButton("PLAY AGAIN");
+        startButton.setBackground(Color.red);
         startButton.setForeground(Color.black);
         startButton.setFont(normalFont);
         startButton.addActionListener(tsHandler);
         startButton.setFocusPainted(false);
+
+        quitButtonPanel = new JPanel();
+        quitButtonPanel.setBounds(400, 400, 140, 48);
+        quitButtonPanel.setBackground(Color.red);
+
+        quitButton = new JButton("QUIT");
+        quitButton.setBackground(Color.red);
+        quitButton.setForeground(Color.black);
+        quitButton.setFont(normalFont);
+        quitButton.addMouseListener(quitButtonHandler);
+        quitButton.setFocusPainted(false);
+
+        quitButtonPanel.add(quitButton);
+
 
         titleNamePanel.add(titleNameLabel);
         startButtonPanel.add(startButton);
 
         container.add(titleNamePanel);
         container.add(startButtonPanel);
+        container.add(quitButtonPanel);
         container.add(myLabel);
     }
 
     public void PlayScreen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         new PlayScreen();
         window.setVisible(false);
+    }
+    public class QuitButtonHandler implements MouseListener {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            System.exit(0);
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
     }
 
     public class TitleScreenHandler implements ActionListener {

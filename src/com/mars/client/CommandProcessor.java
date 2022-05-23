@@ -1,15 +1,20 @@
 package com.mars.client;
 
+import com.mars.items.FoodItem;
 import com.mars.items.Item;
+import com.mars.items.OxygenItem;
+import com.mars.items.SleepItem;
 import com.mars.locations.ChallengeRoom;
 import com.mars.locations.Room;
 import com.mars.players.Player;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 import java.util.*;
 
 public class CommandProcessor {
     private String nextLocation = "";
-    private int newStamina = 0;
     private Game game;
     private Player player;
     private List<Room> rooms;
@@ -19,6 +24,7 @@ public class CommandProcessor {
     private List<Item> inventory;
     private Vector<String> items;
     private Room currentLocation;
+    private ChallengeRoom challengeRoom;
 
     public CommandProcessor() {
         this.game = Game.getInstance();
@@ -70,6 +76,14 @@ public class CommandProcessor {
         return currentLocation;
     }
 
+    public void setChallengeRoom(ChallengeRoom challengeRoom) {
+        this.challengeRoom = challengeRoom;
+    }
+
+    public ChallengeRoom getChallengeRoom() {
+        return challengeRoom;
+    }
+
     public Vector<String> getItems() {
         try {
             items = new Vector<>();
@@ -101,7 +115,7 @@ public class CommandProcessor {
         } catch (NullPointerException e) {
             return "Can't go that way";
         } catch (ArrayIndexOutOfBoundsException e) {
-           return "Go where?";
+            return "Go where?";
         }
         Room newRoom = null;
         for (Room r : Game.getRooms()) {
@@ -109,10 +123,12 @@ public class CommandProcessor {
                 newRoom = r;
             }
         }
+        player.setLocation(newRoom);
         setCurrentLocation(newRoom);
         sb.append(currentLocation.toString() + "\n\n");
-        ChallengeRoom.getInstance(game, Game.getSolved(), Game.getPuzzles());
-        sb.append("\n\n" + ChallengeRoom.runPuzzle(getCurrentLocation().getName()));
+        if (currentLocation.isPuzzle()) {
+            setChallengeRoom(ChallengeRoom.getInstance(ChallengeRoom.getGame(), Game.getSolved(), Game.getPuzzles(), Game.getInventory()));
+        }
         return sb.toString();
     }
 
@@ -123,7 +139,7 @@ public class CommandProcessor {
         String noun = command.get(1).replace("_", " ").toLowerCase();
         StringBuilder sb = new StringBuilder();
         for (Item item : locationItems) {
-            if (item.getName().equals(noun) && item.getLocation().getName().equals(currentLocation.getName()) && !(player.getInventory().lookItem().contains(item.getName()))) {
+            if (item.getName().equals(noun) && !inventory.contains(item)) {
                 player.getInventory().add(item);
                 currentLocation.removeItem(item);
                 sb.append(item.getName());
@@ -177,17 +193,24 @@ public class CommandProcessor {
 
     public String forUse(List<String> command) {
         String noun = command.get(1).replace("_", " ").toLowerCase();
+        String result = "";
         try {
-
-            // TODO: what about consumable items? (mealkit) ...or Items that actuate something else? (key -> reactor)
-                for(Item item: inventory){
-                    if(noun.equals(item.getName())) {
-                       return Player.addOxygen(item);
+            for(Item item: inventory){
+                if(noun.equals(item.getName())) {
+                    if (item instanceof OxygenItem) {
+                        return Player.addOxygen(item);
+                    } else if (item instanceof FoodItem) {
+                        return Player.addFood(item);
+                    } else if (item instanceof SleepItem) {
+                        return Player.addStamina(item);
+                    } else {
+                        result = item.getName() + " is not a consumable item.";
                     }
                 }
+            }
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Use what?");
         }
-        return "";
+        return result;
     }
 }

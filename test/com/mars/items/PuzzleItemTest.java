@@ -1,17 +1,17 @@
-package com.mars;
+package com.mars.items;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class EngineTest {
+public class PuzzleItemTest {
 
     @Before
-    public void setUp() throws Exception {
+    public void init() {
     }
 
     @Test
-    public void runApp() {
+    public void testEquals() {
     }
 }

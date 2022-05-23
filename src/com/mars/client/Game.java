@@ -1,10 +1,21 @@
 package com.mars.client;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.mars.gui.PlayScreen;
 import com.mars.items.*;
+import com.mars.players.Inventory;
 import com.mars.players.NPC;
 import com.mars.locations.Room;
 import com.mars.players.Player;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +35,8 @@ public class Game {
 
     public static Game getInstance() {
         player = Player.getInstance();
+        player.setName("Default");
+        Puzzle.getInstance();
         instance.setPlayer(player);
         instance.setRooms();
         instance.setPuzzles(Puzzle.getPuzzleList());
@@ -38,7 +51,7 @@ public class Game {
         this.player = player;
     }
 
-    public Player getPlayer() {
+    public static Player getPlayer() {
         return player;
     }
 
@@ -58,16 +71,16 @@ public class Game {
         return items;
     }
 
-    public void setPuzzles(List<Puzzle> puzzles) {
-        this.puzzles = puzzles;
+    public static void setPuzzles(List<Puzzle> puzzles) {
+        Game.puzzles = puzzles;
     }
 
     public static List<Puzzle> getPuzzles() {
         return puzzles;
     }
 
-    public void setSolved(Map<String, Boolean> solved) {
-        this.solved = solved;
+    public static void setSolved(Map<String, Boolean> solved) {
+        Game.solved = solved;
     }
 
     public static Map<String, Boolean> getSolved() {
@@ -92,13 +105,50 @@ public class Game {
 
     // end getters and setters
 
-    // TODO method logic
     public static void save() {
+
+        try{
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+            ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+            // convert map to JSON file
+            writer.writeValue(new File("data/savedGames/savedGame.json"),instance);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Your game was not saved!!");
+        }
+
     }
 
-    // TODO method logic
-    public Game retrieveSave() {
-        return new Game();
+    public static Player retrieveSave() {
+        Room newRoom = null;
+        int counter = 0;
+        Map<String,Object> savedMap = JsonParser.parseJson("data/savedGames/savedGame.json");
+        Map<String,Object> playerMap = (Map<String, Object>) savedMap.get("player");
+        Map<String,Object> locMap = (Map<String, Object>) playerMap.get("location");
+        Map<String,Object> inventoryMap = (Map<String, Object>) playerMap.get("inventory");
+        ArrayList inventoryItem = (ArrayList) inventoryMap.get("inventory");
+        Map<String,Object> inv;
+        for (Item i : Game.getItems()) {
+            for (counter = 0; counter < inventoryItem.size();counter++) {
+                inv = (Map<String, Object>) inventoryItem.get(counter);
+                if (i.getName().equals(inv.get("name"))) {
+                    player.getInventory().add(i);
+                    inv = (Map<String, Object>) inventoryItem.get(counter);
+                }
+            }
+        }
+        player.setName(playerMap.get("name").toString());
+        for (Room r : Game.getRooms()){
+            if(r.getName().equals(locMap.get("name"))){
+                newRoom = r;
+            }
+        }
+        player.setLocation(newRoom);
+        player.setDuration(player.getDuration());
+        return player;
     }
 
     public static void quit() {
@@ -129,7 +179,14 @@ public class Game {
 
             }
 
+            try {
+                room.setPicture(location.get("picture").toString());
+            } catch (Exception e) {
+
+            }
+
             room.setDescription(location.get("description").toString());
+            room.setPuzzle(Boolean.parseBoolean(location.get("puzzle").toString()));
             room.setDirections(convertJsonDirections((Map<String, Object>) location.get("directions")));
 
             try {

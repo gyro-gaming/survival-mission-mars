@@ -1,7 +1,6 @@
 package com.mars.players;
 
 import com.mars.items.Item;
-import com.mars.items.PuzzleItem;
 
 import java.util.*;
 
@@ -15,6 +14,7 @@ public class Inventory {
         instance.setInventory(new ArrayList<>());
         return instance;
     }
+
     // getters and setters
     public void setInventory(List<Item> inventory) {
         this.inventory = inventory;
@@ -25,22 +25,6 @@ public class Inventory {
     }
     // end getters and setters
 
-    // looking at item and returning description that followed to inventory from location
-    public List<String> lookItem() {
-        List<String> names = new ArrayList<>();
-        for(Item item : inventory) {
-            names.add(item.getName());
-        }
-        return names;
-    }
-
-    // retrieving properties from item in location, adding item & properties to inventory
-    public String getItemDescription(String name){
-        int index = getItemIndex(name);
-        return inventory.get(index).getDescription();
-    }
-
-    // index'ing through Items for K,V to move to inventory
     private int getItemIndex(String itemName){
         int index = 0;
         int counter = 0;
@@ -57,7 +41,6 @@ public class Inventory {
         inventory.add(item);
     }
 
-    // dropping item and acquiring the correct item index to remove from inventory
     public Item drop(String item){
         int dropIndex = getItemIndex(item);
         Item dropItem = inventory.get(dropIndex);
@@ -66,11 +49,13 @@ public class Inventory {
     }
 
     public static void use(Item item){
-        for (Item i : inventory) {
-            if (i.equals(item)) {
-                inventory.remove(i);
+        try {
+            for (int i = 0; i < inventory.size(); i++) {
+                if (inventory.get(i).equals(item)) {
+                    inventory.remove(i);
+                }
             }
-        }
+        } catch (Exception e) {}
     }
 
     public String toString() {

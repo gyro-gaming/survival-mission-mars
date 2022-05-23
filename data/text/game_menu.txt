@@ -1,7 +1,7 @@
-This is a text-based, free-adventure style game (meaning you are free to roam about as you see fit.) You will be
-prompted for input at the cursor '>> ' and your commands should be simple (for example: 'go north', 'take cup', etc...
-The following are the available actions: 'GO', 'GET', 'DROP', 'USE', 'LOOK' -- and of course, there are a variety of synonyms
-available for you to discover as well.  At any time, you can also use the available 'HELP' for assistance and 'QUIT' to quit the game.
+This is a SWING GUI, free-adventure style game (meaning you are free to roam about as you see fit.) You will be allowed to use radio buttons to navigate, grab, look and use items.
+Your commands should be simple (for example: 'go north', 'take cup', etc...
+The following are the available actions: 'GO', 'GET', 'DROP', 'USE', 'LOOK' 'INSPECT' --
+At any time, you can also use the available 'HELP' for assistance, 'SAVE' to save game, 'Retrieve Game' to return to a past session, and 'QUIT' to quit the game.
 The second word of your command following your action can be directional (north, south, east, west), the name of the item you see
 in the location or in your inventory (key, map, etc), the room itself (room), or your full inventory (inventory). You may also examine
-the status of a location's current oxygen levels with the command 'look oxygen'
+the status of a location's current oxygen levels with the command 'inspect oxygen'
