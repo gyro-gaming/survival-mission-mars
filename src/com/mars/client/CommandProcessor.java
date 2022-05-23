@@ -8,9 +8,6 @@ import com.mars.locations.ChallengeRoom;
 import com.mars.locations.Room;
 import com.mars.players.Player;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.IOException;
 import java.util.*;
 
 public class CommandProcessor {

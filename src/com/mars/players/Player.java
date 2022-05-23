@@ -115,7 +115,6 @@ public class Player {
     private static final int setOxygenInterval() {
         if (oxygen == 1) {
             timer.cancel();
-            Game.quit();
         }
         return --oxygen;
     }
@@ -155,7 +154,6 @@ public class Player {
     private static final int setStaminaInterval() {
         if (stamina == 1) {
             timer.cancel();
-            Game.quit();
         }
         return --stamina;
     }
@@ -194,7 +192,6 @@ public class Player {
     private static final int setHungerInterval() {
         if (hunger == 1) {
             timer.cancel();
-            Game.quit();
         }
         return --hunger;
     }

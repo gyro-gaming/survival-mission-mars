@@ -5,17 +5,12 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.mars.gui.PlayScreen;
 import com.mars.items.*;
-import com.mars.players.Inventory;
 import com.mars.players.NPC;
 import com.mars.locations.Room;
 import com.mars.players.Player;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -105,6 +100,9 @@ public class Game {
 
     // end getters and setters
 
+    /**
+     * method to save game objects to json using Jackson library
+     */
     public static void save() {
 
         try{
@@ -122,6 +120,10 @@ public class Game {
 
     }
 
+    /**
+     * method to retrieve game objects from saved json file
+     * @return Player
+     */
     public static Player retrieveSave() {
         Room newRoom = null;
         int counter = 0;
@@ -151,22 +153,38 @@ public class Game {
         return player;
     }
 
+    /**
+     * method to quit game
+     */
     public static void quit() {
         System.exit(0);
     }
 
+    /**
+     * helper method to retrieve list of rooms
+     * @return List<Room>
+     */
     private List<Room> getLocationList() {
         Map<String, Object> jsonMap = JsonParser.parseJson("data/json/rooms.json");
         List<Map<String, Object>> locations = (List) jsonMap.get("locations");
         return getRoomsList(locations);
     }
 
+    /**
+     * method to retrieve list of items
+     * @return List<Item>
+     */
     public List<Item> getThingsList() {
         Map<String, Object> jsonMap = JsonParser.parseJson("data/json/items.json");
         List<Map<String, Object>> items = (List) jsonMap.get("items");
         return getItemsList(items);
     }
 
+    /**
+     * helper method to parse Jackson map object into a list of rooms
+     * @param locations
+     * @return List<Room>
+     */
     private List<Room> getRoomsList(List<Map<String, Object>> locations) {
         rooms = new ArrayList<>();
         for (Map<String, Object> location : locations) {
@@ -211,6 +229,11 @@ public class Game {
         return rooms;
     }
 
+    /**
+     * helper method to parse Jackson map object into a list of items
+     * @param items
+     * @return List<Item>
+     */
     private List<Item> getItemsList(List<Map<String, Object>> items) {
         List<Item> itemsList = new ArrayList<>();
         PuzzleItem puzzleItem;
@@ -263,6 +286,11 @@ public class Game {
         return itemsList;
     }
 
+    /**
+     * helper method to parse Jackson map objects into a map of directions to rooms
+     * @param jsonDirections
+     * @return Map<String, String>
+     */
     private Map<String, String> convertJsonDirections(Map<String, Object> jsonDirections) {
         Map<String, String> directions = new HashMap<>();
         for (Map.Entry<String, Object> entry : jsonDirections.entrySet()) {
@@ -271,11 +299,16 @@ public class Game {
         return directions;
     }
 
-    // TODO method logic
+    // TODO for when NPCs are added to game
     private NPC getNpcHelper(String name) {
         return new NPC(name);
     }
 
+    /**
+     * helper method to return a list of items from a list of String names of items
+     * @param names
+     * @return List<Item>
+     */
     private List<Item> getItemsListForRooms(List<String> names) {
         List<Item> itemList = new ArrayList<>();
         List<Item> jsonItems = getThingsList();
@@ -287,15 +320,5 @@ public class Game {
             }
         }
         return itemList;
-    }
-
-    private Room getLocationHelper(List<Room> locations, String name) {
-        Room room = new Room();
-        for (Room location : locations) {
-            if (location.getName().equalsIgnoreCase(name)) {
-                room.setName(location.getName());
-            }
-        }
-        return room;
     }
 }
