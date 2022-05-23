@@ -5,6 +5,7 @@
 * Unzip the `Survival-Mission-Mars-2.3-dist.zip` file
 * In the terminal or CMD window, open the unzipped folder: `cd Survival-Mission-Mars-2.2` (Mac) or `cd Generation-Alpha` (Windows)
 * Run the game, in terminal: `/bin/zsh ./run.sh` and in CMD: `bash run.sh` (Windows must have WSL installed)
+* [Presentation](https://tlgcohort-my.sharepoint.com/:p:/p/shi-tian_liu/Ec-svH1pPbBLhnsFaRApH94B6BLW8SRq4X4LXkGC-JuQ6A?PreviousSessionID=dca719c4-0ae2-21ad-7e10-5a5039d7ea7e)
 
 ## License
 
